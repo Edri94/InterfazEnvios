@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MNICript;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,18 @@ namespace ModeloNegocio
 {
     public class Usuario
     {
+        static clsEncripta crpt;
+
         public static List<Datos.USUARIO> Get()
         {
+            crpt = new clsEncripta();
+
             try
             {
                 using (Datos.CATALOGOSEntities context = new Datos.CATALOGOSEntities())
                 {
-                    return context.USUARIO.ToList();
+                    List<Datos.USUARIO> usuarios = context.USUARIO.ToList();
+                    return usuarios;
                 }
             }
             catch (Exception ex)

@@ -68,6 +68,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CatalogosBd.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ConexionAS400.cs" />
+    <Compile Include="PARAMETRIZACION.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Parametros.cs" />
     <Compile Include="PERFIL_HEXA.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>
@@ -78,6 +83,21 @@
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TicketBd.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TicketBd.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketBd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketBd.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TicketBd.edmx</DependentUpon>
+    </Compile>
     <Compile Include="USUARIO.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>
@@ -95,6 +115,13 @@
       <DependentUpon>CatalogosBd.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <EntityDeploy Include="TicketBd.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TicketBd.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="TicketBd.edmx.diagram">
+      <DependentUpon>TicketBd.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="CatalogosBd.Context.tt">
@@ -106,6 +133,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CatalogosBd.edmx</DependentUpon>
       <LastGenOutput>CatalogosBd.cs</LastGenOutput>
+    </Content>
+    <Content Include="TicketBd.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TicketBd.edmx</DependentUpon>
+      <LastGenOutput>TicketBd.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="TicketBd.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TicketBd.edmx</DependentUpon>
+      <LastGenOutput>TicketBd.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

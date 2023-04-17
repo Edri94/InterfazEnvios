@@ -146,6 +146,7 @@ namespace InterfazEnvios
             this.lblEncender.Size = new System.Drawing.Size(149, 22);
             this.lblEncender.TabIndex = 1;
             this.lblEncender.Text = "Encender Interfaz";
+            this.lblEncender.Click += new System.EventHandler(this.lblEncender_Click);
             // 
             // panel2
             // 
@@ -544,6 +545,7 @@ namespace InterfazEnvios
             this.switchButton1.Size = new System.Drawing.Size(75, 32);
             this.switchButton1.TabIndex = 0;
             this.switchButton1.UseVisualStyleBackColor = true;
+            this.switchButton1.CheckedChanged += new System.EventHandler(this.switchButton1_CheckedChanged);
             // 
             // Pantalla_Principal
             // 

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TICKETModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PARAMETRIZACION">
+          <Key>
+            <PropertyRef Name="parametro" />
+          </Key>
+          <Property Name="parametro" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="valor" Type="char" MaxLength="30" Nullable="false" />
+          <Property Name="codigo" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="fecha_modificacion" Type="smalldatetime" Nullable="false" />
+          <Property Name="unidad_banca" Type="char" MaxLength="10" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'TICKET.dbo.PARAMETROS' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="PARAMETROS">
+          <Property Name="error_cds_hoy" Type="smallint" />
+          <Property Name="error_ov_hoy" Type="smallint" />
+          <Property Name="error_saldos" Type="smallint" />
+          <Property Name="error_cds_manana" Type="smallint" />
+          <Property Name="fecha_act_cliente_la" Type="smalldatetime" />
+          <Property Name="fecha_act_movtos_la" Type="smalldatetime" />
+          <Property Name="fecha_bcp_saldos" Type="smalldatetime" />
+          <Property Name="fecha_cierre_mis" Type="smalldatetime" />
+          <Property Name="fecha_conciliacion" Type="smalldatetime" />
+          <Property Name="fecha_fin_resumen_unorg" Type="datetime" />
+          <Property Name="fecha_fstk16_mis" Type="smalldatetime" />
+          <Property Name="fecha_ini_saldos" Type="smalldatetime" />
+          <Property Name="fecha_inicio_resumen_unorg" Type="datetime" />
+          <Property Name="fecha_kapiti_mis" Type="smalldatetime" />
+          <Property Name="fecha_mis_kapiti" Type="smalldatetime" />
+          <Property Name="fecha_mis_saldos" Type="smalldatetime" />
+          <Property Name="fecha_opera_feriado" Type="smalldatetime" />
+          <Property Name="fecha_operac_mis" Type="smalldatetime" />
+          <Property Name="fecha_saldo_tdd" Type="smalldatetime" />
+          <Property Name="fecha_sistema" Type="smalldatetime" />
+          <Property Name="fecha_ultima_modifica_unorg" Type="datetime" />
+          <Property Name="fecha_ultimo_posting" Type="smalldatetime" />
+          <Property Name="fecha_valuacion" Type="smalldatetime" />
+          <Property Name="fecha_venc_fic" Type="smalldatetime" />
+          <Property Name="fidinter_fin" Type="char" MaxLength="10" />
+          <Property Name="fidinter_impuesto" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="fidinter_inicio" Type="char" MaxLength="10" />
+          <Property Name="fidinter_interes" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="folio_ficha_cont" Type="smallint" />
+          <Property Name="hora_aviso" Type="varchar" MaxLength="6" />
+          <Property Name="hora_aviso_chase" Type="varchar" MaxLength="6" />
+          <Property Name="hora_aviso_ny" Type="varchar" MaxLength="6" />
+          <Property Name="hora_aviso_tras_trans" Type="varchar" MaxLength="6" />
+          <Property Name="hora_cierre" Type="varchar" MaxLength="6" />
+          <Property Name="hora_cierre_back" Type="smalldatetime" />
+          <Property Name="hora_cierre_chase" Type="varchar" MaxLength="6" />
+          <Property Name="hora_cierre_ny" Type="varchar" MaxLength="6" />
+          <Property Name="hora_cierre_tras_trans" Type="varchar" MaxLength="6" />
+          <Property Name="hora_cierreback" Type="varchar" MaxLength="6" />
+          <Property Name="hora_limite" Type="varchar" MaxLength="6" />
+          <Property Name="hora_limite_tras_trans" Type="varchar" MaxLength="6" />
+          <Property Name="hora_limiteback" Type="varchar" MaxLength="6" />
+          <Property Name="inter" Type="char" MaxLength="1" />
+          <Property Name="maxpto_sobretasa" Type="tinyint" />
+          <Property Name="monto_millonario" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="mt202_anio" Type="char" MaxLength="2" />
+          <Property Name="mt202_año" Type="char" MaxLength="2" />
+          <Property Name="mt202_banco" Type="varchar" MaxLength="40" />
+          <Property Name="mt202_bancodest" Type="varchar" MaxLength="10" />
+          <Property Name="mt202_dia" Type="char" MaxLength="2" />
+          <Property Name="mt202_folio" Type="int" />
+          <Property Name="mt202_info" Type="varchar" MaxLength="25" />
+          <Property Name="mt202_mes" Type="char" MaxLength="2" />
+          <Property Name="mt202_monto" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="mt202_monto2" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="mt202_tipo" Type="char" MaxLength="3" />
+          <Property Name="no_cdsz" Type="smallint" />
+          <Property Name="no_crez" Type="smallint" />
+          <Property Name="no_csez" Type="smallint" />
+          <Property Name="no_ctez" Type="smallint" />
+          <Property Name="no_derz" Type="smallint" />
+          <Property Name="no_ficz" Type="smallint" />
+          <Property Name="no_inter_bcp_saldos" Type="tinyint" />
+          <Property Name="no_inter_cierre_mis" Type="smallint" />
+          <Property Name="no_inter_fstk16_mis" Type="smallint" />
+          <Property Name="no_inter_ini_saldos" Type="smallint" />
+          <Property Name="no_inter_kapiti_mis" Type="smallint" />
+          <Property Name="no_inter_mis_kapiti" Type="smallint" />
+          <Property Name="no_inter_mis_saldos" Type="tinyint" />
+          <Property Name="no_inter_operac_mis" Type="smallint" />
+          <Property Name="no_swag" Type="smallint" />
+          <Property Name="no_tran" Type="smallint" />
+          <Property Name="no_traz" Type="smallint" />
+          <Property Name="path_modelo" Type="varchar" MaxLength="40" />
+          <Property Name="path_work" Type="varchar" MaxLength="40" />
+          <Property Name="reporte_o_p_chemical" Type="int" />
+          <Property Name="reporte_o_p_ny" Type="int" />
+          <Property Name="reporte_sycof" Type="int" />
+          <Property Name="siguiente_cuenta_otros" Type="char" MaxLength="6" />
+          <Property Name="siguiente_cuenta_patrimonial" Type="char" MaxLength="6" />
+          <Property Name="siguiente_cuenta_servicios" Type="char" MaxLength="6" />
+          <Property Name="tipo_cambio" Type="numeric" Precision="11" Scale="6" />
+          <Property Name="ult_fecha_carga" Type="smalldatetime" />
+          <Property Name="ult_fecha_fstk16_mis" Type="smalldatetime" />
+          <Property Name="ult_fecha_kapiti_mis" Type="smalldatetime" />
+          <Property Name="ult_fecha_mis_kapiti" Type="smalldatetime" />
+          <Property Name="ult_fecha_operac_mis" Type="smalldatetime" />
+          <Property Name="venc_tdgc" Type="tinyint" />
+          <Property Name="venc_tdogc" Type="tinyint" />
+          <Property Name="no_mt202" Type="smallint" />
+          <Property Name="status_frmmt198" Type="char" MaxLength="25" />
+          <Property Name="no_hosz" Type="smallint" />
+          <Property Name="error_saldos_diarios" Type="smallint" />
+          <Property Name="backup_saldos_diarios" Type="smallint" />
+          <Property Name="transfer_saldos_ho" Type="tinyint" />
+          <Property Name="transfer_venc_ho" Type="tinyint" />
+          <Property Name="status_frm_rep_aperturas" Type="char" MaxLength="25" />
+          <Property Name="envio_ctas_kyc" Type="tinyint" />
+        </EntityType>-->
+        <EntityContainer Name="TICKETModelStoreContainer">
+          <EntitySet Name="PARAMETRIZACION" EntityType="Self.PARAMETRIZACION" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TICKETModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PARAMETRIZACION">
+          <Key>
+            <PropertyRef Name="parametro" />
+          </Key>
+          <Property Name="parametro" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="valor" Type="String" MaxLength="30" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="codigo" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_modificacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="unidad_banca" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="TICKETEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PARAMETRIZACION" EntityType="Self.PARAMETRIZACION" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TICKETModelStoreContainer" CdmEntityContainer="TICKETEntities">
+          <EntitySetMapping Name="PARAMETRIZACION">
+            <EntityTypeMapping TypeName="TICKETModel.PARAMETRIZACION">
+              <MappingFragment StoreEntitySet="PARAMETRIZACION">
+                <ScalarProperty Name="parametro" ColumnName="parametro" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
+                <ScalarProperty Name="unidad_banca" ColumnName="unidad_banca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
