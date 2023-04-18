@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="fe6270f620dc44948027811b92f80939" Name="Diagram1">
         <EntityTypeShape EntityType="TICKETModel.PARAMETRIZACION" Width="2.625" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TICKETModel.BITACORA_ENVIO_SWIFT_MT202" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="TICKETModel.REPORTE_SWIFT_MT202" Width="1.5" PointX="2.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

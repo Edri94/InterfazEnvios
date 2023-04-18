@@ -50,6 +50,8 @@ namespace InterfazEnvios
             {
                 //*[PRUEBAS] consulta con EF***************************************************
                 List<Datos.USUARIO> usuarios = ModeloNegocio.Usuario.Get();
+
+
                 //***************************************************************************
 
                 //*[PRUEBAS] Funcionamiento ****************************************************************
@@ -92,11 +94,12 @@ namespace InterfazEnvios
             as400 = new ConexionAS400(usuario, password, dsn);
 
             //[PRUEBAS] consulta a AS400***************************************************
-            DataTable dt = as400.EjecutaSelect("SELECT * FROM DATAMART.CEN01F");
+            DataTable dt = as400.EjecutaSelect("SELECT * FROM TKTLIB.DEIB5406");
 
             foreach (DataRow row in dt.Rows)
             {
-                string algo = row[6].ToString();
+                string algo1 = row[0].ToString();
+                string algo2 = row[1].ToString();
             }
             //*****************************************************************************
 

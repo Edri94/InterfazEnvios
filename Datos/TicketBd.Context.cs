@@ -12,6 +12,8 @@ namespace Datos
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class TICKETEntities : DbContext
     {
@@ -26,5 +28,24 @@ namespace Datos
         }
     
         public virtual DbSet<PARAMETRIZACION> PARAMETRIZACION { get; set; }
+        public virtual DbSet<BITACORA_ENVIO_SWIFT_MT202> BITACORA_ENVIO_SWIFT_MT202 { get; set; }
+        public virtual DbSet<REPORTE_SWIFT_MT202> REPORTE_SWIFT_MT202 { get; set; }
+    
+        public virtual int sp_i_InfoMT202(string fechaoperacion1, Nullable<int> agencia1, Nullable<int> agencia3)
+        {
+            var fechaoperacion1Parameter = fechaoperacion1 != null ?
+                new ObjectParameter("fechaoperacion1", fechaoperacion1) :
+                new ObjectParameter("fechaoperacion1", typeof(string));
+    
+            var agencia1Parameter = agencia1.HasValue ?
+                new ObjectParameter("agencia1", agencia1) :
+                new ObjectParameter("agencia1", typeof(int));
+    
+            var agencia3Parameter = agencia3.HasValue ?
+                new ObjectParameter("agencia3", agencia3) :
+                new ObjectParameter("agencia3", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_i_InfoMT202", fechaoperacion1Parameter, agencia1Parameter, agencia3Parameter);
+        }
     }
 }
