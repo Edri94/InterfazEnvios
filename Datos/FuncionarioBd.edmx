@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FUNCIONARIOSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FUNCIONARIO">
+          <Key>
+            <PropertyRef Name="funcionario" />
+          </Key>
+          <Property Name="funcionario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="unidad_organizacional" Type="int" />
+          <Property Name="nombre_funcionario" Type="char" MaxLength="35" Nullable="false" />
+          <Property Name="apellido_paterno" Type="char" MaxLength="20" />
+          <Property Name="apellido_materno" Type="char" MaxLength="20" />
+          <Property Name="numero_funcionario" Type="char" MaxLength="8" />
+          <Property Name="telefono_funcionario" Type="varchar" MaxLength="20" />
+          <Property Name="fax_funcionario" Type="varchar" MaxLength="20" />
+          <Property Name="calle_funcionario" Type="varchar" MaxLength="60" />
+          <Property Name="colonia_funcionario" Type="varchar" MaxLength="60" />
+          <Property Name="ubicacion" Type="smallint" />
+          <Property Name="cp_funcionario" Type="varchar" MaxLength="10" />
+          <Property Name="estrategico" Type="smallint" />
+          <Property Name="activo" Type="tinyint" />
+          <Property Name="numero_registro" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="on_mni" Type="bit" Nullable="false" />
+          <Property Name="on_bsi" Type="bit" Nullable="false" />
+          <Property Name="on_harris" Type="bit" Nullable="false" />
+          <Property Name="cr_opera" Type="int" />
+          <Property Name="bbvab" Type="bit" Nullable="false" />
+          <Property Name="unidad_organizacional_anterior" Type="char" MaxLength="200" />
+          <Property Name="cr_opera_term" Type="int" />
+          <Property Name="fecha_alta" Type="smalldatetime" />
+          <Property Name="fecha_baja" Type="smalldatetime" />
+          <Property Name="fecha_ult_modif" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="LIGAS_CR">
+          <Key>
+            <PropertyRef Name="unidad_organizacional" />
+          </Key>
+          <Property Name="unidad_organizacional" Type="int" Nullable="false" />
+          <Property Name="unidad_org_cr" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="centro_regional" Type="char" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UNIDAD_ORGANIZACIONAL">
+          <Key>
+            <PropertyRef Name="unidad_organizacional" />
+          </Key>
+          <Property Name="unidad_organizacional" Type="int" Nullable="false" />
+          <Property Name="unidad_org_bancomer" Type="char" MaxLength="10" />
+          <Property Name="tipo_unidad_organizacional" Type="tinyint" />
+          <Property Name="descripcion_unidad_organizacio" Type="varchar" MaxLength="75" />
+          <Property Name="unidad_organizacional_padre" Type="int" Nullable="false" />
+          <Property Name="estrategica" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'FUNCIONARIOS.Funcionario.UNIDAD_ORGANIZACIONAL_RESUMEN' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="UNIDAD_ORGANIZACIONAL_RESUMEN">
+          <Key>
+            <PropertyRef Name="funcionario" />
+          </Key>
+          <Property Name="funcionario" Type="int" Nullable="false" />
+          <Property Name="unidad_organizacional_padre" Type="int" />
+          <Property Name="banca" Type="varchar" MaxLength="75" />
+          <Property Name="division" Type="varchar" MaxLength="75" />
+          <Property Name="cr" Type="varchar" MaxLength="75" />
+          <Property Name="plaza" Type="varchar" MaxLength="75" />
+          <Property Name="sucursal" Type="varchar" MaxLength="75" />
+          <Property Name="unidad_org_banca" Type="varchar" MaxLength="10" />
+          <Property Name="unidad_org_division" Type="varchar" MaxLength="10" />
+          <Property Name="unidad_org_creg" Type="varchar" MaxLength="10" />
+          <Property Name="unidad_org_plaza" Type="varchar" MaxLength="10" />
+          <Property Name="unidad_org_sucursal" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityContainer Name="FUNCIONARIOSModelStoreContainer">
+          <EntitySet Name="FUNCIONARIO" EntityType="Self.FUNCIONARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LIGAS_CR" EntityType="Self.LIGAS_CR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UNIDAD_ORGANIZACIONAL" EntityType="Self.UNIDAD_ORGANIZACIONAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UNIDAD_ORGANIZACIONAL_RESUMEN" EntityType="Self.UNIDAD_ORGANIZACIONAL_RESUMEN" store:Type="Tables" store:Schema="Funcionario">
+            <DefiningQuery>SELECT 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[funcionario] AS [funcionario], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[unidad_organizacional_padre] AS [unidad_organizacional_padre], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[banca] AS [banca], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[division] AS [division], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[cr] AS [cr], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[plaza] AS [plaza], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[sucursal] AS [sucursal], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[unidad_org_banca] AS [unidad_org_banca], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[unidad_org_division] AS [unidad_org_division], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[unidad_org_creg] AS [unidad_org_creg], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[unidad_org_plaza] AS [unidad_org_plaza], 
+    [UNIDAD_ORGANIZACIONAL_RESUMEN].[unidad_org_sucursal] AS [unidad_org_sucursal]
+    FROM [Funcionario].[UNIDAD_ORGANIZACIONAL_RESUMEN] AS [UNIDAD_ORGANIZACIONAL_RESUMEN]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FUNCIONARIOSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FUNCIONARIO">
+          <Key>
+            <PropertyRef Name="funcionario1" />
+          </Key>
+          <Property Name="funcionario1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="unidad_organizacional" Type="Int32" />
+          <Property Name="nombre_funcionario" Type="String" MaxLength="35" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="apellido_paterno" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="apellido_materno" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="numero_funcionario" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="telefono_funcionario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fax_funcionario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="calle_funcionario" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="colonia_funcionario" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ubicacion" Type="Int16" />
+          <Property Name="cp_funcionario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="estrategico" Type="Int16" />
+          <Property Name="activo" Type="Byte" />
+          <Property Name="numero_registro" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="on_mni" Type="Boolean" Nullable="false" />
+          <Property Name="on_bsi" Type="Boolean" Nullable="false" />
+          <Property Name="on_harris" Type="Boolean" Nullable="false" />
+          <Property Name="cr_opera" Type="Int32" />
+          <Property Name="bbvab" Type="Boolean" Nullable="false" />
+          <Property Name="unidad_organizacional_anterior" Type="String" MaxLength="200" FixedLength="true" Unicode="false" />
+          <Property Name="cr_opera_term" Type="Int32" />
+          <Property Name="fecha_alta" Type="DateTime" Precision="0" />
+          <Property Name="fecha_baja" Type="DateTime" Precision="0" />
+          <Property Name="fecha_ult_modif" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="LIGAS_CR">
+          <Key>
+            <PropertyRef Name="unidad_organizacional" />
+          </Key>
+          <Property Name="unidad_organizacional" Type="Int32" Nullable="false" />
+          <Property Name="unidad_org_cr" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="centro_regional" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UNIDAD_ORGANIZACIONAL">
+          <Key>
+            <PropertyRef Name="unidad_organizacional1" />
+          </Key>
+          <Property Name="unidad_organizacional1" Type="Int32" Nullable="false" />
+          <Property Name="unidad_org_bancomer" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="tipo_unidad_organizacional" Type="Byte" />
+          <Property Name="descripcion_unidad_organizacio" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="unidad_organizacional_padre" Type="Int32" Nullable="false" />
+          <Property Name="estrategica" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="FUNCIONARIOSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FUNCIONARIO" EntityType="Self.FUNCIONARIO" />
+          <EntitySet Name="LIGAS_CR" EntityType="Self.LIGAS_CR" />
+          <EntitySet Name="UNIDAD_ORGANIZACIONAL" EntityType="Self.UNIDAD_ORGANIZACIONAL" />
+          <EntitySet Name="UNIDAD_ORGANIZACIONAL_RESUMEN" EntityType="FUNCIONARIOSModel.UNIDAD_ORGANIZACIONAL_RESUMEN" />
+        </EntityContainer>
+        <EntityType Name="UNIDAD_ORGANIZACIONAL_RESUMEN">
+          <Key>
+            <PropertyRef Name="funcionario" />
+          </Key>
+          <Property Name="funcionario" Type="Int32" Nullable="false" />
+          <Property Name="unidad_organizacional_padre" Type="Int32" />
+          <Property Name="banca" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="division" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="cr" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="plaza" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="unidad_org_banca" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="unidad_org_division" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="unidad_org_creg" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="unidad_org_plaza" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="unidad_org_sucursal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FUNCIONARIOSModelStoreContainer" CdmEntityContainer="FUNCIONARIOSEntities">
+          <EntitySetMapping Name="FUNCIONARIO">
+            <EntityTypeMapping TypeName="FUNCIONARIOSModel.FUNCIONARIO">
+              <MappingFragment StoreEntitySet="FUNCIONARIO">
+                <ScalarProperty Name="funcionario1" ColumnName="funcionario" />
+                <ScalarProperty Name="unidad_organizacional" ColumnName="unidad_organizacional" />
+                <ScalarProperty Name="nombre_funcionario" ColumnName="nombre_funcionario" />
+                <ScalarProperty Name="apellido_paterno" ColumnName="apellido_paterno" />
+                <ScalarProperty Name="apellido_materno" ColumnName="apellido_materno" />
+                <ScalarProperty Name="numero_funcionario" ColumnName="numero_funcionario" />
+                <ScalarProperty Name="telefono_funcionario" ColumnName="telefono_funcionario" />
+                <ScalarProperty Name="fax_funcionario" ColumnName="fax_funcionario" />
+                <ScalarProperty Name="calle_funcionario" ColumnName="calle_funcionario" />
+                <ScalarProperty Name="colonia_funcionario" ColumnName="colonia_funcionario" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="cp_funcionario" ColumnName="cp_funcionario" />
+                <ScalarProperty Name="estrategico" ColumnName="estrategico" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="numero_registro" ColumnName="numero_registro" />
+                <ScalarProperty Name="on_mni" ColumnName="on_mni" />
+                <ScalarProperty Name="on_bsi" ColumnName="on_bsi" />
+                <ScalarProperty Name="on_harris" ColumnName="on_harris" />
+                <ScalarProperty Name="cr_opera" ColumnName="cr_opera" />
+                <ScalarProperty Name="bbvab" ColumnName="bbvab" />
+                <ScalarProperty Name="unidad_organizacional_anterior" ColumnName="unidad_organizacional_anterior" />
+                <ScalarProperty Name="cr_opera_term" ColumnName="cr_opera_term" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="fecha_baja" ColumnName="fecha_baja" />
+                <ScalarProperty Name="fecha_ult_modif" ColumnName="fecha_ult_modif" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LIGAS_CR">
+            <EntityTypeMapping TypeName="FUNCIONARIOSModel.LIGAS_CR">
+              <MappingFragment StoreEntitySet="LIGAS_CR">
+                <ScalarProperty Name="unidad_organizacional" ColumnName="unidad_organizacional" />
+                <ScalarProperty Name="unidad_org_cr" ColumnName="unidad_org_cr" />
+                <ScalarProperty Name="centro_regional" ColumnName="centro_regional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UNIDAD_ORGANIZACIONAL">
+            <EntityTypeMapping TypeName="FUNCIONARIOSModel.UNIDAD_ORGANIZACIONAL">
+              <MappingFragment StoreEntitySet="UNIDAD_ORGANIZACIONAL">
+                <ScalarProperty Name="unidad_organizacional1" ColumnName="unidad_organizacional" />
+                <ScalarProperty Name="unidad_org_bancomer" ColumnName="unidad_org_bancomer" />
+                <ScalarProperty Name="tipo_unidad_organizacional" ColumnName="tipo_unidad_organizacional" />
+                <ScalarProperty Name="descripcion_unidad_organizacio" ColumnName="descripcion_unidad_organizacio" />
+                <ScalarProperty Name="unidad_organizacional_padre" ColumnName="unidad_organizacional_padre" />
+                <ScalarProperty Name="estrategica" ColumnName="estrategica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UNIDAD_ORGANIZACIONAL_RESUMEN">
+            <EntityTypeMapping TypeName="FUNCIONARIOSModel.UNIDAD_ORGANIZACIONAL_RESUMEN">
+              <MappingFragment StoreEntitySet="UNIDAD_ORGANIZACIONAL_RESUMEN">
+                <ScalarProperty Name="unidad_org_sucursal" ColumnName="unidad_org_sucursal" />
+                <ScalarProperty Name="unidad_org_plaza" ColumnName="unidad_org_plaza" />
+                <ScalarProperty Name="unidad_org_creg" ColumnName="unidad_org_creg" />
+                <ScalarProperty Name="unidad_org_division" ColumnName="unidad_org_division" />
+                <ScalarProperty Name="unidad_org_banca" ColumnName="unidad_org_banca" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="plaza" ColumnName="plaza" />
+                <ScalarProperty Name="cr" ColumnName="cr" />
+                <ScalarProperty Name="division" ColumnName="division" />
+                <ScalarProperty Name="banca" ColumnName="banca" />
+                <ScalarProperty Name="unidad_organizacional_padre" ColumnName="unidad_organizacional_padre" />
+                <ScalarProperty Name="funcionario" ColumnName="funcionario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

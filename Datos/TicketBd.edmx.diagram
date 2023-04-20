@@ -7,7 +7,56 @@
       <Diagram DiagramId="fe6270f620dc44948027811b92f80939" Name="Diagram1">
         <EntityTypeShape EntityType="TICKETModel.PARAMETRIZACION" Width="2.625" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TICKETModel.BITACORA_ENVIO_SWIFT_MT202" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="TICKETModel.REPORTE_SWIFT_MT202" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="TICKETModel.REPORTE_SWIFT_MT202" Width="2.375" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="TICKETModel.BITACORA_APERTURA" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TICKETModel.BITACORA_FECHAS_EJECUCION" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TICKETModel.BITACORA_REPORTE_SWIFT_MT198" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="TICKETModel.COMPRA_CD" Width="1.5" PointX="12.125" PointY="53.375" />
+        <EntityTypeShape EntityType="TICKETModel.COMPRA_TD_OVERNIGHT" Width="1.5" PointX="12.125" PointY="38" />
+        <EntityTypeShape EntityType="TICKETModel.CUENTA_EJE" Width="1.5" PointX="12.875" PointY="28.75" />
+        <EntityTypeShape EntityType="TICKETModel.DEPOSITO" Width="1.5" PointX="15.125" PointY="24" />
+        <EntityTypeShape EntityType="TICKETModel.DEPOSITO_CED" Width="1.5" PointX="12.125" PointY="41.75" />
+        <EntityTypeShape EntityType="TICKETModel.DEPOSITO_PME" Width="1.5" PointX="12.125" PointY="14.125" />
+        <EntityTypeShape EntityType="TICKETModel.HOLD_RETIRO" Width="1.5" PointX="9.875" PointY="61.375" />
+        <EntityTypeShape EntityType="TICKETModel.INTERFACE_KAPITI_CD" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TICKETModel.OPERACION" Width="1.5" PointX="9.875" PointY="26.625" />
+        <EntityTypeShape EntityType="TICKETModel.OPERACION_DEFINIDA" Width="1.5" PointX="7.625" PointY="22.875" />
+        <EntityTypeShape EntityType="TICKETModel.OPERACION_PIU" Width="1.5" PointX="12.125" PointY="18" />
+        <EntityTypeShape EntityType="TICKETModel.OPERACION_SWIFT" Width="1.5" PointX="15.125" PointY="28.625" />
+        <EntityTypeShape EntityType="TICKETModel.PRODUCTO" Width="1.5" PointX="5.375" PointY="28.5" />
+        <EntityTypeShape EntityType="TICKETModel.PRODUCTO_CONTRATADO" Width="1.5" PointX="7.625" PointY="27.875" />
+        <EntityTypeShape EntityType="TICKETModel.REFERENCIAS" Width="1.5" PointX="12.125" PointY="23.5" />
+        <EntityTypeShape EntityType="TICKETModel.REPORTE_SWIFT" Width="1.5" PointX="12.875" PointY="4" />
+        <EntityTypeShape EntityType="TICKETModel.REPORTE_SWIFT_MT103" Width="2.875" PointX="12.125" PointY="44.875" />
+        <EntityTypeShape EntityType="TICKETModel.RETIRO_CED" Width="1.5" PointX="12.125" PointY="31.875" />
+        <EntityTypeShape EntityType="TICKETModel.RETIRO_PME" Width="1.5" PointX="15.125" PointY="31.5" />
+        <EntityTypeShape EntityType="TICKETModel.TIPO_CUENTA_EJE" Width="1.5" PointX="10.625" PointY="20.75" />
+        <EntityTypeShape EntityType="TICKETModel.TIPO_DOCUMENTO" Width="1.5" PointX="12.875" PointY="8.5" />
+        <EntityTypeShape EntityType="TICKETModel.TIPO_MANTENIMIENTO_CUENTA" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TICKETModel.TIPO_REPORTE_SWIFT" Width="1.5" PointX="10.625" PointY="4.375" />
+        <EntityTypeShape EntityType="TICKETModel.HOLD" Width="1.5" PointX="9.875" PointY="64.25" />
+        <AssociationConnector Association="TICKETModel.FK_COMPRA_CD__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_OPERAC__COMP_TD_OVERNIGHT" />
+        <AssociationConnector Association="TICKETModel.FK_CTA_EJE__PROD_CONTR" />
+        <AssociationConnector Association="TICKETModel.FK_TipoCuentaEje" />
+        <AssociationConnector Association="TICKETModel.FK_DEPOSITO__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_DEPOSITO__TIPO_DOCUMENTO" />
+        <AssociationConnector Association="TICKETModel.FK_DEPOSITO_CED__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_DEPOSITO_PME__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_HOLD_RET_PC" />
+        <AssociationConnector Association="TICKETModel.FK_OP__OP_DEF" />
+        <AssociationConnector Association="TICKETModel.FK_OPERAC_SWIFT__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_OPERACION_PIU__OP" />
+        <AssociationConnector Association="TICKETModel.FK_OPERACION_PRODUCTO_CONT1" />
+        <AssociationConnector Association="TICKETModel.FK_REFERENCIAS__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_REP_SWIFT_MT103__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_RETIRO_CED__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_RETIRO_PME__OPERACION" />
+        <AssociationConnector Association="TICKETModel.FK_OPERAC_SWIFT__REP_SWIFT" />
+        <AssociationConnector Association="TICKETModel.FK_PRODUCTO_CONTRATADO__PRD" />
+        <AssociationConnector Association="TICKETModel.FK_HOLD_PC" />
+        <AssociationConnector Association="TICKETModel.FK_REPORTE_SWIFT__TIPO_REP_SWI" />
+        <AssociationConnector Association="TICKETModel.FK_RETIRO__TIPO_DOCUMENTO" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

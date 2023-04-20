@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TICKETModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BITACORA_APERTURA">
+          <Key>
+            <PropertyRef Name="ID_OPERACION" />
+          </Key>
+          <Property Name="ID_OPERACION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CUENTA_CLIENTE" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="FECHA_OPERACION" Type="smalldatetime" Nullable="false" />
+          <Property Name="NOMBRE_CLIENTE" Type="char" MaxLength="75" />
+        </EntityType>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
             <PropertyRef Name="consecutivo" />
@@ -16,6 +25,213 @@
           <Property Name="archivo" Type="varchar" MaxLength="15" />
           <Property Name="status_envio" Type="tinyint" Nullable="false" />
         </EntityType>
+        <EntityType Name="BITACORA_FECHAS_EJECUCION">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo_fecha" Type="tinyint" Nullable="false" />
+          <Property Name="fecha" Type="smalldatetime" Nullable="false" />
+          <Property Name="no_reg_proces" Type="int" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'TICKET.dbo.BITACORA_IE_TRANSACCIONES' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="BITACORA_IE_TRANSACCIONES">
+          <Property Name="ID_TRANSACCION" Type="int" />
+          <Property Name="NOM_TRANSACCION" Type="char" MaxLength="50" />
+          <Property Name="FEC_HOR_ULT_ENVIO" Type="smalldatetime" />
+          <Property Name="FEC_HOR_PROX_ENVIO" Type="smalldatetime" />
+          <Property Name="FECHA_TRAN" Type="smalldatetime" />
+        </EntityType>-->
+        <EntityType Name="BITACORA_REPORTE_SWIFT_MT198">
+          <Key>
+            <PropertyRef Name="no_rep_swift" />
+          </Key>
+          <Property Name="no_rep_swift" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="tipo_operacion" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="agencia" Type="int" Nullable="false" />
+          <Property Name="archivo" Type="varchar" MaxLength="13" />
+          <Property Name="fecha_envio" Type="smalldatetime" Nullable="false" />
+          <Property Name="fecha_validado" Type="smalldatetime" />
+          <Property Name="status_reporte" Type="tinyint" Nullable="false" />
+          <Property Name="status_envio" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COMPRA_CD">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="fecha_vencimiento" Type="smalldatetime" Nullable="false" />
+          <Property Name="tipo_cd" Type="tinyint" Nullable="false" />
+          <Property Name="plazo" Type="smallint" Nullable="false" />
+          <Property Name="tasa" Type="numeric" Precision="7" Scale="4" Nullable="false" />
+          <Property Name="renovacion" Type="tinyint" Nullable="false" />
+          <Property Name="origen" Type="tinyint" Nullable="false" />
+          <Property Name="subtipo_cd" Type="tinyint" />
+          <Property Name="referencia_sujeto" Type="varchar" MaxLength="20" />
+          <Property Name="referencia_detalle" Type="varchar" MaxLength="60" />
+          <Property Name="producto_contratado_a_renovar" Type="int" />
+          <Property Name="plazo_origen" Type="smallint" />
+          <Property Name="tipo_tasa" Type="tinyint" />
+          <Property Name="operacion_venc" Type="int" />
+        </EntityType>
+        <EntityType Name="COMPRA_TD_OVERNIGHT">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="fecha_vencimiento" Type="smalldatetime" Nullable="false" />
+          <Property Name="tasa" Type="numeric" Precision="7" Scale="4" Nullable="false" />
+          <Property Name="origen" Type="tinyint" Nullable="false" />
+          <Property Name="referencia_detalle" Type="varchar" MaxLength="60" />
+          <Property Name="plazo" Type="smallint" />
+          <Property Name="operacion_a_renovar" Type="int" />
+          <Property Name="tipo_tasa" Type="tinyint" />
+          <Property Name="operacion_venc" Type="int" />
+        </EntityType>
+        <EntityType Name="CUENTA_EJE">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+          </Key>
+          <Property Name="producto_contratado" Type="int" Nullable="false" />
+          <Property Name="tipo_cuenta_eje" Type="tinyint" Nullable="false" />
+          <Property Name="tipo_cuenta_anterior" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="DEPOSITO">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="en_firme" Type="tinyint" Nullable="false" />
+          <Property Name="destino" Type="tinyint" Nullable="false" />
+          <Property Name="otros" Type="varchar" MaxLength="40" />
+          <Property Name="tipo_documento" Type="tinyint" />
+          <Property Name="otro_documento" Type="varchar" MaxLength="40" />
+          <Property Name="tipo_moneda" Type="tinyint" />
+          <Property Name="folio_linea_servicio" Type="int" />
+          <Property Name="referencia_ced" Type="int" />
+          <Property Name="causa" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="DEPOSITO_CED">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="codigo_leyenda" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="observaciones" Type="varchar" MaxLength="37" Nullable="false" />
+          <Property Name="referencia" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="tipo_cambio" Type="numeric" Precision="10" Scale="7" />
+          <Property Name="codigo_operacion" Type="char" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="DEPOSITO_PME">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="centro_regional" Type="char" MaxLength="4" />
+          <Property Name="nombre_centro_regional" Type="varchar" MaxLength="40" />
+          <Property Name="plaza" Type="char" MaxLength="4" />
+          <Property Name="nombre_plaza" Type="varchar" MaxLength="40" />
+          <Property Name="sucursal" Type="char" MaxLength="7" />
+          <Property Name="nombre_sucursal" Type="varchar" MaxLength="40" />
+          <Property Name="referencia" Type="int" />
+          <Property Name="fecha_cierre" Type="smalldatetime" />
+          <Property Name="causa" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="HOLD">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+            <PropertyRef Name="fecha_equation" />
+            <PropertyRef Name="hold" />
+            <PropertyRef Name="descripcion1" />
+            <PropertyRef Name="descripcion2" />
+            <PropertyRef Name="descripcion3" />
+            <PropertyRef Name="descripcion4" />
+            <PropertyRef Name="usuario_equation" />
+          </Key>
+          <Property Name="producto_contratado" Type="int" Nullable="false" />
+          <Property Name="fecha_equation" Type="smalldatetime" Nullable="false" />
+          <Property Name="hold" Type="smallint" Nullable="false" />
+          <Property Name="descripcion1" Type="char" MaxLength="35" Nullable="false" />
+          <Property Name="descripcion2" Type="char" MaxLength="35" Nullable="false" />
+          <Property Name="descripcion3" Type="char" MaxLength="35" Nullable="false" />
+          <Property Name="descripcion4" Type="char" MaxLength="35" Nullable="false" />
+          <Property Name="usuario_equation" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="secuencia_hold" Type="int" />
+        </EntityType>
+        <EntityType Name="HOLD_RETIRO">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+          </Key>
+          <Property Name="producto_contratado" Type="int" Nullable="false" />
+          <Property Name="hold" Type="smallint" Nullable="false" />
+          <Property Name="operacion_retiro" Type="int" Nullable="false" />
+          <Property Name="operacion_hold" Type="int" Nullable="false" />
+          <Property Name="tipo" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="INTERFACE_KAPITI_CD">
+          <Key>
+            <PropertyRef Name="subtipo_cd" />
+          </Key>
+          <Property Name="subtipo_cd" Type="tinyint" Nullable="false" />
+          <Property Name="ref_tipo_cd" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OPERACION">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="producto_contratado" Type="int" Nullable="false" />
+          <Property Name="operacion_definida" Type="smallint" Nullable="false" />
+          <Property Name="fecha_captura" Type="smalldatetime" Nullable="false" />
+          <Property Name="status_operacion" Type="tinyint" Nullable="false" />
+          <Property Name="fecha_operacion" Type="smalldatetime" Nullable="false" />
+          <Property Name="monto_operacion" Type="numeric" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="usuario_captura" Type="smallint" Nullable="false" />
+          <Property Name="usuario_valida" Type="smallint" />
+          <Property Name="linea" Type="int" />
+          <Property Name="funcionario" Type="int" />
+          <Property Name="contacto" Type="varchar" MaxLength="35" />
+          <Property Name="grabadora" Type="int" />
+        </EntityType>
+        <EntityType Name="OPERACION_DEFINIDA">
+          <Key>
+            <PropertyRef Name="operacion_definida" />
+          </Key>
+          <Property Name="operacion_definida" Type="smallint" Nullable="false" />
+          <Property Name="descripcion_operacion_definida" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="producto" Type="smallint" Nullable="false" />
+          <Property Name="descripcion_kapiti" Type="varchar" MaxLength="40" />
+          <Property Name="code_kapiti_cliente" Type="char" MaxLength="3" />
+          <Property Name="code_kapiti_banco" Type="char" MaxLength="3" />
+          <Property Name="cuenta_kapiti_banco" Type="char" MaxLength="6" />
+          <Property Name="sufijo_kapiti_banco" Type="char" MaxLength="3" />
+          <Property Name="operacion_definida_global" Type="smallint" />
+          <Property Name="agencia" Type="tinyint" />
+          <Property Name="tipo_operacion" Type="tinyint" />
+          <Property Name="descripcion_interfaz_ced" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="OPERACION_PIU">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="operacion_piu" Type="int" Nullable="false" />
+          <Property Name="fecha_operacion" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OPERACION_SWIFT">
+          <Key>
+            <PropertyRef Name="no_rep_swift" />
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="no_rep_swift" Type="int" Nullable="false" />
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="hora_envio" Type="smalldatetime" />
+          <Property Name="numero_reporte_202" Type="int" />
+        </EntityType>
         <EntityType Name="PARAMETRIZACION">
           <Key>
             <PropertyRef Name="parametro" />
@@ -26,6 +242,91 @@
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
           <Property Name="fecha_modificacion" Type="smalldatetime" Nullable="false" />
           <Property Name="unidad_banca" Type="char" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="producto" />
+          </Key>
+          <Property Name="producto" Type="smallint" Nullable="false" />
+          <Property Name="descripcion_producto" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="sucursal_kapiti" Type="smallint" />
+          <Property Name="sufijo_kapiti" Type="smallint" />
+          <Property Name="producto_global" Type="smallint" />
+          <Property Name="agencia" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="PRODUCTO_CONTRATADO">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+          </Key>
+          <Property Name="producto_contratado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="producto" Type="smallint" Nullable="false" />
+          <Property Name="cuenta_cliente" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="clave_producto_contratado" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="fecha_contratacion" Type="smalldatetime" Nullable="false" />
+          <Property Name="fecha_vencimiento" Type="smalldatetime" />
+          <Property Name="status_producto" Type="smallint" />
+          <Property Name="agencia" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="REFERENCIAS">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="referencia" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="REPORTE_SWIFT">
+          <Key>
+            <PropertyRef Name="no_rep_swift" />
+          </Key>
+          <Property Name="no_rep_swift" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha_reporte" Type="smalldatetime" Nullable="false" />
+          <Property Name="agencia" Type="tinyint" Nullable="false" />
+          <Property Name="no_reporte_dia" Type="smallint" Nullable="false" />
+          <Property Name="tipo_reporte_swift" Type="tinyint" Nullable="false" />
+          <Property Name="no_registros" Type="smallint" Nullable="false" />
+          <Property Name="status_reporte" Type="tinyint" Nullable="false" />
+          <Property Name="reenvio" Type="bit" Nullable="false" />
+          <Property Name="ultimo_reporte" Type="bit" Nullable="false" />
+          <Property Name="usuario" Type="smallint" />
+        </EntityType>
+        <EntityType Name="REPORTE_SWIFT_MT103">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="basic_header" Type="char" MaxLength="12" Nullable="false" />
+          <Property Name="app_header" Type="char" MaxLength="12" Nullable="false" />
+          <Property Name="campo_20" Type="char" MaxLength="16" Nullable="false" />
+          <Property Name="campo_23" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="campo_32_date" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="campo_32_ammount" Type="char" MaxLength="20" />
+          <Property Name="campo_50" Type="varchar" MaxLength="140" />
+          <Property Name="campo_53" Type="varchar" MaxLength="34" />
+          <Property Name="campo_56_aba" Type="char" MaxLength="28" />
+          <Property Name="campo_56_cve" Type="varchar" MaxLength="35" />
+          <Property Name="campo_57_1" Type="varchar" MaxLength="35" />
+          <Property Name="campo_57_2" Type="varchar" MaxLength="35" />
+          <Property Name="campo_57_3" Type="varchar" MaxLength="87" />
+          <Property Name="campo_57_4" Type="varchar" MaxLength="91" />
+          <Property Name="campo_57_5" Type="varchar" MaxLength="105" />
+          <Property Name="campo_59_1" Type="varchar" MaxLength="35" />
+          <Property Name="campo_59_2" Type="varchar" MaxLength="35" />
+          <Property Name="campo_59_3" Type="varchar" MaxLength="35" />
+          <Property Name="campo_59_4" Type="varchar" MaxLength="35" />
+          <Property Name="campo_59_5" Type="varchar" MaxLength="35" />
+          <Property Name="campo_70_1" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="campo_70_2" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="campo_70_3" Type="varchar" MaxLength="35" />
+          <Property Name="campo_70_4" Type="varchar" MaxLength="35" />
+          <Property Name="campo_70_5" Type="varchar" MaxLength="35" />
+          <Property Name="campo_71" Type="char" MaxLength="5" />
+          <Property Name="campo_72_1" Type="char" MaxLength="5" />
+          <Property Name="campo_72_2" Type="char" MaxLength="5" />
+          <Property Name="campo_72_3" Type="varchar" MaxLength="35" />
+          <Property Name="campo_72_4" Type="varchar" MaxLength="35" />
+          <Property Name="status_envio" Type="bit" Nullable="false" />
+          <Property Name="fecha_reporte" Type="smalldatetime" />
+          <Property Name="msg_xml" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="REPORTE_SWIFT_MT202">
           <Key>
@@ -55,15 +356,489 @@
           <Property Name="dep_mayor" Type="bit" Nullable="false" />
           <Property Name="ret_mayor" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="RETIRO_CED">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="codigo_leyenda" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="observaciones" Type="varchar" MaxLength="37" Nullable="false" />
+          <Property Name="referencia" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="tipo_cambio" Type="numeric" Precision="10" Scale="7" Nullable="false" />
+          <Property Name="codigo_operacion" Type="char" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="RETIRO_PME">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="causa" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="centro_regional" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="nombre_centro_regional" Type="varchar" MaxLength="40" />
+          <Property Name="plaza" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="nombre_plaza" Type="varchar" MaxLength="40" />
+          <Property Name="sucursal" Type="char" MaxLength="7" />
+          <Property Name="nombre_sucursal" Type="varchar" MaxLength="40" />
+          <Property Name="cr_patrimonial" Type="int" />
+          <Property Name="referencia" Type="int" />
+          <Property Name="numero_cheque" Type="numeric" Precision="12" Scale="0" />
+          <Property Name="tipo_documento" Type="tinyint" />
+          <Property Name="tipo_moneda" Type="tinyint" />
+          <Property Name="otro_documento" Type="varchar" MaxLength="40" />
+          <Property Name="referencia_ced" Type="int" />
+        </EntityType>
+        <EntityType Name="TIPO_CUENTA_EJE">
+          <Key>
+            <PropertyRef Name="tipo_cuenta_eje" />
+          </Key>
+          <Property Name="tipo_cuenta_eje" Type="tinyint" Nullable="false" />
+          <Property Name="descripcion_tipo" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="sufijo_kapiti" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPO_DOCUMENTO">
+          <Key>
+            <PropertyRef Name="tipo_documento" />
+          </Key>
+          <Property Name="tipo_documento" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion_documento" Type="char" MaxLength="60" Nullable="false" />
+          <Property Name="operacion_definida_global" Type="smallint" Nullable="false" />
+          <Property Name="necesita_especificacion" Type="bit" Nullable="false" />
+          <Property Name="status_folio" Type="bit" Nullable="false" />
+          <Property Name="hora_inicio" Type="smalldatetime" Nullable="false" />
+          <Property Name="hora_fin" Type="smalldatetime" Nullable="false" />
+          <Property Name="tran_code" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="otras_divisas" Type="bit" Nullable="false" />
+          <Property Name="detalle_instrumento" Type="bit" Nullable="false" />
+          <Property Name="orden" Type="tinyint" />
+          <Property Name="titulo1" Type="char" MaxLength="25" />
+          <Property Name="titulo2" Type="char" MaxLength="25" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+          <Property Name="descripcion_detalle" Type="char" MaxLength="200" />
+          <Property Name="hora_ini_password" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="TIPO_MANTENIMIENTO_CUENTA">
+          <Key>
+            <PropertyRef Name="tipo_mantenimiento" />
+          </Key>
+          <Property Name="tipo_mantenimiento" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="75" />
+          <Property Name="requiere_confirmacion_recepcion" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="TIPO_REPORTE_SWIFT">
+          <Key>
+            <PropertyRef Name="tipo_reporte_swift" />
+            <PropertyRef Name="agencia" />
+          </Key>
+          <Property Name="tipo_reporte_swift" Type="tinyint" Nullable="false" />
+          <Property Name="agencia" Type="tinyint" Nullable="false" />
+          <Property Name="desc_tipo_reporte_swift" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="clave_swift" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="operacion_definida_global" Type="smallint" Nullable="false" />
+          <Property Name="descripcion_swift" Type="char" MaxLength="20" />
+          <Property Name="mnemonico_swift" Type="char" MaxLength="3" />
+        </EntityType>
+        <Association Name="FK_COMPRA_CD__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="COMPRA_CD" Type="Self.COMPRA_CD" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="COMPRA_CD">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTA_EJE__PROD_CONTR">
+          <End Role="PRODUCTO_CONTRATADO" Type="Self.PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Role="CUENTA_EJE" Type="Self.CUENTA_EJE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado" />
+            </Principal>
+            <Dependent Role="CUENTA_EJE">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="DEPOSITO" Type="Self.DEPOSITO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="DEPOSITO">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO__TIPO_DOCUMENTO">
+          <End Role="TIPO_DOCUMENTO" Type="Self.TIPO_DOCUMENTO" Multiplicity="0..1" />
+          <End Role="DEPOSITO" Type="Self.DEPOSITO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_DOCUMENTO">
+              <PropertyRef Name="tipo_documento" />
+            </Principal>
+            <Dependent Role="DEPOSITO">
+              <PropertyRef Name="tipo_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO_CED__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="DEPOSITO_CED" Type="Self.DEPOSITO_CED" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="DEPOSITO_CED">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO_PME__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="DEPOSITO_PME" Type="Self.DEPOSITO_PME" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="DEPOSITO_PME">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOLD_PC">
+          <End Role="PRODUCTO_CONTRATADO" Type="Self.PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Role="HOLD" Type="Self.HOLD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado" />
+            </Principal>
+            <Dependent Role="HOLD">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOLD_RET_PC">
+          <End Role="PRODUCTO_CONTRATADO" Type="Self.PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Role="HOLD_RETIRO" Type="Self.HOLD_RETIRO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado" />
+            </Principal>
+            <Dependent Role="HOLD_RETIRO">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OP__OP_DEF">
+          <End Role="OPERACION_DEFINIDA" Type="Self.OPERACION_DEFINIDA" Multiplicity="1" />
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION_DEFINIDA">
+              <PropertyRef Name="operacion_definida" />
+            </Principal>
+            <Dependent Role="OPERACION">
+              <PropertyRef Name="operacion_definida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERAC__COMP_TD_OVERNIGHT">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="COMPRA_TD_OVERNIGHT" Type="Self.COMPRA_TD_OVERNIGHT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="COMPRA_TD_OVERNIGHT">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERAC_SWIFT__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="OPERACION_SWIFT" Type="Self.OPERACION_SWIFT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="OPERACION_SWIFT">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERAC_SWIFT__REP_SWIFT">
+          <End Role="REPORTE_SWIFT" Type="Self.REPORTE_SWIFT" Multiplicity="1" />
+          <End Role="OPERACION_SWIFT" Type="Self.OPERACION_SWIFT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REPORTE_SWIFT">
+              <PropertyRef Name="no_rep_swift" />
+            </Principal>
+            <Dependent Role="OPERACION_SWIFT">
+              <PropertyRef Name="no_rep_swift" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERACION_PIU__OP">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="OPERACION_PIU" Type="Self.OPERACION_PIU" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="OPERACION_PIU">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERACION_PRODUCTO_CONT1">
+          <End Role="PRODUCTO_CONTRATADO" Type="Self.PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado" />
+            </Principal>
+            <Dependent Role="OPERACION">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_CONTRATADO__PRD">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="PRODUCTO_CONTRATADO" Type="Self.PRODUCTO_CONTRATADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="producto" />
+            </Principal>
+            <Dependent Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REFERENCIAS__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="REFERENCIAS" Type="Self.REFERENCIAS" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="REFERENCIAS">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REP_SWIFT_MT103__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="REPORTE_SWIFT_MT103" Type="Self.REPORTE_SWIFT_MT103" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="REPORTE_SWIFT_MT103">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REPORTE_SWIFT__TIPO_REP_SWI">
+          <End Role="TIPO_REPORTE_SWIFT" Type="Self.TIPO_REPORTE_SWIFT" Multiplicity="1" />
+          <End Role="REPORTE_SWIFT" Type="Self.REPORTE_SWIFT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_REPORTE_SWIFT">
+              <PropertyRef Name="tipo_reporte_swift" />
+              <PropertyRef Name="agencia" />
+            </Principal>
+            <Dependent Role="REPORTE_SWIFT">
+              <PropertyRef Name="tipo_reporte_swift" />
+              <PropertyRef Name="agencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RETIRO__TIPO_DOCUMENTO">
+          <End Role="TIPO_DOCUMENTO" Type="Self.TIPO_DOCUMENTO" Multiplicity="0..1" />
+          <End Role="RETIRO_PME" Type="Self.RETIRO_PME" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_DOCUMENTO">
+              <PropertyRef Name="tipo_documento" />
+            </Principal>
+            <Dependent Role="RETIRO_PME">
+              <PropertyRef Name="tipo_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RETIRO_CED__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="RETIRO_CED" Type="Self.RETIRO_CED" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="RETIRO_CED">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RETIRO_PME__OPERACION">
+          <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
+          <End Role="RETIRO_PME" Type="Self.RETIRO_PME" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion" />
+            </Principal>
+            <Dependent Role="RETIRO_PME">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TipoCuentaEje">
+          <End Role="TIPO_CUENTA_EJE" Type="Self.TIPO_CUENTA_EJE" Multiplicity="1" />
+          <End Role="CUENTA_EJE" Type="Self.CUENTA_EJE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_CUENTA_EJE">
+              <PropertyRef Name="tipo_cuenta_eje" />
+            </Principal>
+            <Dependent Role="CUENTA_EJE">
+              <PropertyRef Name="tipo_cuenta_eje" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_i_InfoMT202" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaoperacion1" Type="varchar" Mode="In" />
           <Parameter Name="agencia1" Type="int" Mode="In" />
           <Parameter Name="agencia3" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="TICKETModelStoreContainer">
+          <EntitySet Name="BITACORA_APERTURA" EntityType="Self.BITACORA_APERTURA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="Self.BITACORA_ENVIO_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_FECHAS_EJECUCION" EntityType="Self.BITACORA_FECHAS_EJECUCION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_REPORTE_SWIFT_MT198" EntityType="Self.BITACORA_REPORTE_SWIFT_MT198" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMPRA_CD" EntityType="Self.COMPRA_CD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMPRA_TD_OVERNIGHT" EntityType="Self.COMPRA_TD_OVERNIGHT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CUENTA_EJE" EntityType="Self.CUENTA_EJE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DEPOSITO" EntityType="Self.DEPOSITO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DEPOSITO_CED" EntityType="Self.DEPOSITO_CED" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DEPOSITO_PME" EntityType="Self.DEPOSITO_PME" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HOLD_RETIRO" EntityType="Self.HOLD_RETIRO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INTERFACE_KAPITI_CD" EntityType="Self.INTERFACE_KAPITI_CD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OPERACION" EntityType="Self.OPERACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OPERACION_DEFINIDA" EntityType="Self.OPERACION_DEFINIDA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OPERACION_PIU" EntityType="Self.OPERACION_PIU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OPERACION_SWIFT" EntityType="Self.OPERACION_SWIFT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PARAMETRIZACION" EntityType="Self.PARAMETRIZACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO_CONTRATADO" EntityType="Self.PRODUCTO_CONTRATADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REFERENCIAS" EntityType="Self.REFERENCIAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REPORTE_SWIFT" EntityType="Self.REPORTE_SWIFT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REPORTE_SWIFT_MT103" EntityType="Self.REPORTE_SWIFT_MT103" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORTE_SWIFT_MT202" EntityType="Self.REPORTE_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RETIRO_CED" EntityType="Self.RETIRO_CED" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RETIRO_PME" EntityType="Self.RETIRO_PME" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_CUENTA_EJE" EntityType="Self.TIPO_CUENTA_EJE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_DOCUMENTO" EntityType="Self.TIPO_DOCUMENTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_MANTENIMIENTO_CUENTA" EntityType="Self.TIPO_MANTENIMIENTO_CUENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_REPORTE_SWIFT" EntityType="Self.TIPO_REPORTE_SWIFT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HOLD" EntityType="Self.HOLD" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [HOLD].[producto_contratado] AS [producto_contratado], 
+    [HOLD].[fecha_equation] AS [fecha_equation], 
+    [HOLD].[hold] AS [hold], 
+    [HOLD].[descripcion1] AS [descripcion1], 
+    [HOLD].[descripcion2] AS [descripcion2], 
+    [HOLD].[descripcion3] AS [descripcion3], 
+    [HOLD].[descripcion4] AS [descripcion4], 
+    [HOLD].[usuario_equation] AS [usuario_equation], 
+    [HOLD].[secuencia_hold] AS [secuencia_hold]
+    FROM [dbo].[HOLD] AS [HOLD]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_COMPRA_CD__OPERACION" Association="Self.FK_COMPRA_CD__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="COMPRA_CD" EntitySet="COMPRA_CD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTA_EJE__PROD_CONTR" Association="Self.FK_CTA_EJE__PROD_CONTR">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="CUENTA_EJE" EntitySet="CUENTA_EJE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO__OPERACION" Association="Self.FK_DEPOSITO__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="DEPOSITO" EntitySet="DEPOSITO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO__TIPO_DOCUMENTO" Association="Self.FK_DEPOSITO__TIPO_DOCUMENTO">
+            <End Role="TIPO_DOCUMENTO" EntitySet="TIPO_DOCUMENTO" />
+            <End Role="DEPOSITO" EntitySet="DEPOSITO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO_CED__OPERACION" Association="Self.FK_DEPOSITO_CED__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="DEPOSITO_CED" EntitySet="DEPOSITO_CED" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO_PME__OPERACION" Association="Self.FK_DEPOSITO_PME__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="DEPOSITO_PME" EntitySet="DEPOSITO_PME" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOLD_PC" Association="Self.FK_HOLD_PC">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="HOLD" EntitySet="HOLD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOLD_RET_PC" Association="Self.FK_HOLD_RET_PC">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="HOLD_RETIRO" EntitySet="HOLD_RETIRO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OP__OP_DEF" Association="Self.FK_OP__OP_DEF">
+            <End Role="OPERACION_DEFINIDA" EntitySet="OPERACION_DEFINIDA" />
+            <End Role="OPERACION" EntitySet="OPERACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERAC__COMP_TD_OVERNIGHT" Association="Self.FK_OPERAC__COMP_TD_OVERNIGHT">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="COMPRA_TD_OVERNIGHT" EntitySet="COMPRA_TD_OVERNIGHT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERAC_SWIFT__OPERACION" Association="Self.FK_OPERAC_SWIFT__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="OPERACION_SWIFT" EntitySet="OPERACION_SWIFT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERAC_SWIFT__REP_SWIFT" Association="Self.FK_OPERAC_SWIFT__REP_SWIFT">
+            <End Role="REPORTE_SWIFT" EntitySet="REPORTE_SWIFT" />
+            <End Role="OPERACION_SWIFT" EntitySet="OPERACION_SWIFT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERACION_PIU__OP" Association="Self.FK_OPERACION_PIU__OP">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="OPERACION_PIU" EntitySet="OPERACION_PIU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERACION_PRODUCTO_CONT1" Association="Self.FK_OPERACION_PRODUCTO_CONT1">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="OPERACION" EntitySet="OPERACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_CONTRATADO__PRD" Association="Self.FK_PRODUCTO_CONTRATADO__PRD">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REFERENCIAS__OPERACION" Association="Self.FK_REFERENCIAS__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="REFERENCIAS" EntitySet="REFERENCIAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REP_SWIFT_MT103__OPERACION" Association="Self.FK_REP_SWIFT_MT103__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="REPORTE_SWIFT_MT103" EntitySet="REPORTE_SWIFT_MT103" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REPORTE_SWIFT__TIPO_REP_SWI" Association="Self.FK_REPORTE_SWIFT__TIPO_REP_SWI">
+            <End Role="TIPO_REPORTE_SWIFT" EntitySet="TIPO_REPORTE_SWIFT" />
+            <End Role="REPORTE_SWIFT" EntitySet="REPORTE_SWIFT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RETIRO__TIPO_DOCUMENTO" Association="Self.FK_RETIRO__TIPO_DOCUMENTO">
+            <End Role="TIPO_DOCUMENTO" EntitySet="TIPO_DOCUMENTO" />
+            <End Role="RETIRO_PME" EntitySet="RETIRO_PME" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RETIRO_CED__OPERACION" Association="Self.FK_RETIRO_CED__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="RETIRO_CED" EntitySet="RETIRO_CED" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RETIRO_PME__OPERACION" Association="Self.FK_RETIRO_PME__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="RETIRO_PME" EntitySet="RETIRO_PME" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TipoCuentaEje" Association="Self.FK_TipoCuentaEje">
+            <End Role="TIPO_CUENTA_EJE" EntitySet="TIPO_CUENTA_EJE" />
+            <End Role="CUENTA_EJE" EntitySet="CUENTA_EJE" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -89,6 +864,121 @@
           </FunctionImport>
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="TICKETModel.BITACORA_ENVIO_SWIFT_MT202" />
           <EntitySet Name="REPORTE_SWIFT_MT202" EntityType="TICKETModel.REPORTE_SWIFT_MT202" />
+          <EntitySet Name="BITACORA_APERTURA" EntityType="TICKETModel.BITACORA_APERTURA" />
+          <EntitySet Name="BITACORA_FECHAS_EJECUCION" EntityType="TICKETModel.BITACORA_FECHAS_EJECUCION" />
+          <EntitySet Name="BITACORA_REPORTE_SWIFT_MT198" EntityType="TICKETModel.BITACORA_REPORTE_SWIFT_MT198" />
+          <EntitySet Name="COMPRA_CD" EntityType="TICKETModel.COMPRA_CD" />
+          <EntitySet Name="COMPRA_TD_OVERNIGHT" EntityType="TICKETModel.COMPRA_TD_OVERNIGHT" />
+          <EntitySet Name="CUENTA_EJE" EntityType="TICKETModel.CUENTA_EJE" />
+          <EntitySet Name="DEPOSITO" EntityType="TICKETModel.DEPOSITO" />
+          <EntitySet Name="DEPOSITO_CED" EntityType="TICKETModel.DEPOSITO_CED" />
+          <EntitySet Name="DEPOSITO_PME" EntityType="TICKETModel.DEPOSITO_PME" />
+          <EntitySet Name="HOLD_RETIRO" EntityType="TICKETModel.HOLD_RETIRO" />
+          <EntitySet Name="INTERFACE_KAPITI_CD" EntityType="TICKETModel.INTERFACE_KAPITI_CD" />
+          <EntitySet Name="OPERACION" EntityType="TICKETModel.OPERACION" />
+          <EntitySet Name="OPERACION_DEFINIDA" EntityType="TICKETModel.OPERACION_DEFINIDA" />
+          <EntitySet Name="OPERACION_PIU" EntityType="TICKETModel.OPERACION_PIU" />
+          <EntitySet Name="OPERACION_SWIFT" EntityType="TICKETModel.OPERACION_SWIFT" />
+          <EntitySet Name="PRODUCTO" EntityType="TICKETModel.PRODUCTO" />
+          <EntitySet Name="PRODUCTO_CONTRATADO" EntityType="TICKETModel.PRODUCTO_CONTRATADO" />
+          <EntitySet Name="REFERENCIAS" EntityType="TICKETModel.REFERENCIAS" />
+          <EntitySet Name="REPORTE_SWIFT" EntityType="TICKETModel.REPORTE_SWIFT" />
+          <EntitySet Name="REPORTE_SWIFT_MT103" EntityType="TICKETModel.REPORTE_SWIFT_MT103" />
+          <EntitySet Name="RETIRO_CED" EntityType="TICKETModel.RETIRO_CED" />
+          <EntitySet Name="RETIRO_PME" EntityType="TICKETModel.RETIRO_PME" />
+          <EntitySet Name="TIPO_CUENTA_EJE" EntityType="TICKETModel.TIPO_CUENTA_EJE" />
+          <EntitySet Name="TIPO_DOCUMENTO" EntityType="TICKETModel.TIPO_DOCUMENTO" />
+          <EntitySet Name="TIPO_MANTENIMIENTO_CUENTA" EntityType="TICKETModel.TIPO_MANTENIMIENTO_CUENTA" />
+          <EntitySet Name="TIPO_REPORTE_SWIFT" EntityType="TICKETModel.TIPO_REPORTE_SWIFT" />
+          <EntitySet Name="HOLD" EntityType="TICKETModel.HOLD" />
+          <AssociationSet Name="FK_COMPRA_CD__OPERACION" Association="TICKETModel.FK_COMPRA_CD__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="COMPRA_CD" EntitySet="COMPRA_CD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERAC__COMP_TD_OVERNIGHT" Association="TICKETModel.FK_OPERAC__COMP_TD_OVERNIGHT">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="COMPRA_TD_OVERNIGHT" EntitySet="COMPRA_TD_OVERNIGHT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTA_EJE__PROD_CONTR" Association="TICKETModel.FK_CTA_EJE__PROD_CONTR">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="CUENTA_EJE" EntitySet="CUENTA_EJE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TipoCuentaEje" Association="TICKETModel.FK_TipoCuentaEje">
+            <End Role="TIPO_CUENTA_EJE" EntitySet="TIPO_CUENTA_EJE" />
+            <End Role="CUENTA_EJE" EntitySet="CUENTA_EJE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO__OPERACION" Association="TICKETModel.FK_DEPOSITO__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="DEPOSITO" EntitySet="DEPOSITO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO__TIPO_DOCUMENTO" Association="TICKETModel.FK_DEPOSITO__TIPO_DOCUMENTO">
+            <End Role="TIPO_DOCUMENTO" EntitySet="TIPO_DOCUMENTO" />
+            <End Role="DEPOSITO" EntitySet="DEPOSITO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO_CED__OPERACION" Association="TICKETModel.FK_DEPOSITO_CED__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="DEPOSITO_CED" EntitySet="DEPOSITO_CED" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DEPOSITO_PME__OPERACION" Association="TICKETModel.FK_DEPOSITO_PME__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="DEPOSITO_PME" EntitySet="DEPOSITO_PME" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOLD_RET_PC" Association="TICKETModel.FK_HOLD_RET_PC">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="HOLD_RETIRO" EntitySet="HOLD_RETIRO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OP__OP_DEF" Association="TICKETModel.FK_OP__OP_DEF">
+            <End Role="OPERACION_DEFINIDA" EntitySet="OPERACION_DEFINIDA" />
+            <End Role="OPERACION" EntitySet="OPERACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERAC_SWIFT__OPERACION" Association="TICKETModel.FK_OPERAC_SWIFT__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="OPERACION_SWIFT" EntitySet="OPERACION_SWIFT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERACION_PIU__OP" Association="TICKETModel.FK_OPERACION_PIU__OP">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="OPERACION_PIU" EntitySet="OPERACION_PIU" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERACION_PRODUCTO_CONT1" Association="TICKETModel.FK_OPERACION_PRODUCTO_CONT1">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="OPERACION" EntitySet="OPERACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REFERENCIAS__OPERACION" Association="TICKETModel.FK_REFERENCIAS__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="REFERENCIAS" EntitySet="REFERENCIAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REP_SWIFT_MT103__OPERACION" Association="TICKETModel.FK_REP_SWIFT_MT103__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="REPORTE_SWIFT_MT103" EntitySet="REPORTE_SWIFT_MT103" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RETIRO_CED__OPERACION" Association="TICKETModel.FK_RETIRO_CED__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="RETIRO_CED" EntitySet="RETIRO_CED" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RETIRO_PME__OPERACION" Association="TICKETModel.FK_RETIRO_PME__OPERACION">
+            <End Role="OPERACION" EntitySet="OPERACION" />
+            <End Role="RETIRO_PME" EntitySet="RETIRO_PME" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OPERAC_SWIFT__REP_SWIFT" Association="TICKETModel.FK_OPERAC_SWIFT__REP_SWIFT">
+            <End Role="REPORTE_SWIFT" EntitySet="REPORTE_SWIFT" />
+            <End Role="OPERACION_SWIFT" EntitySet="OPERACION_SWIFT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_CONTRATADO__PRD" Association="TICKETModel.FK_PRODUCTO_CONTRATADO__PRD">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HOLD_PC" Association="TICKETModel.FK_HOLD_PC">
+            <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
+            <End Role="HOLD" EntitySet="HOLD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REPORTE_SWIFT__TIPO_REP_SWI" Association="TICKETModel.FK_REPORTE_SWIFT__TIPO_REP_SWI">
+            <End Role="TIPO_REPORTE_SWIFT" EntitySet="TIPO_REPORTE_SWIFT" />
+            <End Role="REPORTE_SWIFT" EntitySet="REPORTE_SWIFT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RETIRO__TIPO_DOCUMENTO" Association="TICKETModel.FK_RETIRO__TIPO_DOCUMENTO">
+            <End Role="TIPO_DOCUMENTO" EntitySet="TIPO_DOCUMENTO" />
+            <End Role="RETIRO_PME" EntitySet="RETIRO_PME" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -129,6 +1019,687 @@
           <Property Name="dep_mayor" Type="Boolean" Nullable="false" />
           <Property Name="ret_mayor" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="BITACORA_APERTURA">
+          <Key>
+            <PropertyRef Name="ID_OPERACION" />
+          </Key>
+          <Property Name="ID_OPERACION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CUENTA_CLIENTE" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="FECHA_OPERACION" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="75" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BITACORA_FECHAS_EJECUCION">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo_fecha" Type="Byte" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="no_reg_proces" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BITACORA_REPORTE_SWIFT_MT198">
+          <Key>
+            <PropertyRef Name="no_rep_swift" />
+          </Key>
+          <Property Name="no_rep_swift" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="tipo_operacion" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="agencia" Type="Int32" Nullable="false" />
+          <Property Name="archivo" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_envio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_validado" Type="DateTime" Precision="0" />
+          <Property Name="status_reporte" Type="Byte" Nullable="false" />
+          <Property Name="status_envio" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COMPRA_CD">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="fecha_vencimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tipo_cd" Type="Byte" Nullable="false" />
+          <Property Name="plazo" Type="Int16" Nullable="false" />
+          <Property Name="tasa" Type="Decimal" Nullable="false" Precision="7" Scale="4" />
+          <Property Name="renovacion" Type="Byte" Nullable="false" />
+          <Property Name="origen" Type="Byte" Nullable="false" />
+          <Property Name="subtipo_cd" Type="Byte" />
+          <Property Name="referencia_sujeto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="referencia_detalle" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="producto_contratado_a_renovar" Type="Int32" />
+          <Property Name="plazo_origen" Type="Int16" />
+          <Property Name="tipo_tasa" Type="Byte" />
+          <Property Name="operacion_venc" Type="Int32" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_COMPRA_CD__OPERACION" FromRole="COMPRA_CD" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="COMPRA_TD_OVERNIGHT">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="fecha_vencimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tasa" Type="Decimal" Nullable="false" Precision="7" Scale="4" />
+          <Property Name="origen" Type="Byte" Nullable="false" />
+          <Property Name="referencia_detalle" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="plazo" Type="Int16" />
+          <Property Name="operacion_a_renovar" Type="Int32" />
+          <Property Name="tipo_tasa" Type="Byte" />
+          <Property Name="operacion_venc" Type="Int32" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_OPERAC__COMP_TD_OVERNIGHT" FromRole="COMPRA_TD_OVERNIGHT" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="CUENTA_EJE">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+          </Key>
+          <Property Name="producto_contratado" Type="Int32" Nullable="false" />
+          <Property Name="tipo_cuenta_eje" Type="Byte" Nullable="false" />
+          <Property Name="tipo_cuenta_anterior" Type="Byte" />
+          <NavigationProperty Name="PRODUCTO_CONTRATADO1" Relationship="TICKETModel.FK_CTA_EJE__PROD_CONTR" FromRole="CUENTA_EJE" ToRole="PRODUCTO_CONTRATADO" />
+          <NavigationProperty Name="TIPO_CUENTA_EJE1" Relationship="TICKETModel.FK_TipoCuentaEje" FromRole="CUENTA_EJE" ToRole="TIPO_CUENTA_EJE" />
+        </EntityType>
+        <EntityType Name="DEPOSITO">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="en_firme" Type="Byte" Nullable="false" />
+          <Property Name="destino" Type="Byte" Nullable="false" />
+          <Property Name="otros" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_documento" Type="Byte" />
+          <Property Name="otro_documento" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_moneda" Type="Byte" />
+          <Property Name="folio_linea_servicio" Type="Int32" />
+          <Property Name="referencia_ced" Type="Int32" />
+          <Property Name="causa" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_DEPOSITO__OPERACION" FromRole="DEPOSITO" ToRole="OPERACION" />
+          <NavigationProperty Name="TIPO_DOCUMENTO1" Relationship="TICKETModel.FK_DEPOSITO__TIPO_DOCUMENTO" FromRole="DEPOSITO" ToRole="TIPO_DOCUMENTO" />
+        </EntityType>
+        <EntityType Name="DEPOSITO_CED">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="codigo_leyenda" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="observaciones" Type="String" Nullable="false" MaxLength="37" FixedLength="false" Unicode="false" />
+          <Property Name="referencia" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_cambio" Type="Decimal" Precision="10" Scale="7" />
+          <Property Name="codigo_operacion" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_DEPOSITO_CED__OPERACION" FromRole="DEPOSITO_CED" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="DEPOSITO_PME">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="centro_regional" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_centro_regional" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="plaza" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_plaza" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_sucursal" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="referencia" Type="Int32" />
+          <Property Name="fecha_cierre" Type="DateTime" Precision="0" />
+          <Property Name="causa" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_DEPOSITO_PME__OPERACION" FromRole="DEPOSITO_PME" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="HOLD_RETIRO">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+          </Key>
+          <Property Name="producto_contratado" Type="Int32" Nullable="false" />
+          <Property Name="hold" Type="Int16" Nullable="false" />
+          <Property Name="operacion_retiro" Type="Int32" Nullable="false" />
+          <Property Name="operacion_hold" Type="Int32" Nullable="false" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="PRODUCTO_CONTRATADO1" Relationship="TICKETModel.FK_HOLD_RET_PC" FromRole="HOLD_RETIRO" ToRole="PRODUCTO_CONTRATADO" />
+        </EntityType>
+        <EntityType Name="INTERFACE_KAPITI_CD">
+          <Key>
+            <PropertyRef Name="subtipo_cd" />
+          </Key>
+          <Property Name="subtipo_cd" Type="Byte" Nullable="false" />
+          <Property Name="ref_tipo_cd" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OPERACION">
+          <Key>
+            <PropertyRef Name="operacion1" />
+          </Key>
+          <Property Name="operacion1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="producto_contratado" Type="Int32" Nullable="false" />
+          <Property Name="operacion_definida" Type="Int16" Nullable="false" />
+          <Property Name="fecha_captura" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="status_operacion" Type="Byte" Nullable="false" />
+          <Property Name="fecha_operacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="monto_operacion" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="usuario_captura" Type="Int16" Nullable="false" />
+          <Property Name="usuario_valida" Type="Int16" />
+          <Property Name="linea" Type="Int32" />
+          <Property Name="funcionario" Type="Int32" />
+          <Property Name="contacto" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="grabadora" Type="Int32" />
+          <NavigationProperty Name="COMPRA_CD" Relationship="TICKETModel.FK_COMPRA_CD__OPERACION" FromRole="OPERACION" ToRole="COMPRA_CD" />
+          <NavigationProperty Name="COMPRA_TD_OVERNIGHT" Relationship="TICKETModel.FK_OPERAC__COMP_TD_OVERNIGHT" FromRole="OPERACION" ToRole="COMPRA_TD_OVERNIGHT" />
+          <NavigationProperty Name="DEPOSITO" Relationship="TICKETModel.FK_DEPOSITO__OPERACION" FromRole="OPERACION" ToRole="DEPOSITO" />
+          <NavigationProperty Name="DEPOSITO_CED" Relationship="TICKETModel.FK_DEPOSITO_CED__OPERACION" FromRole="OPERACION" ToRole="DEPOSITO_CED" />
+          <NavigationProperty Name="DEPOSITO_PME" Relationship="TICKETModel.FK_DEPOSITO_PME__OPERACION" FromRole="OPERACION" ToRole="DEPOSITO_PME" />
+          <NavigationProperty Name="OPERACION_DEFINIDA1" Relationship="TICKETModel.FK_OP__OP_DEF" FromRole="OPERACION" ToRole="OPERACION_DEFINIDA" />
+          <NavigationProperty Name="OPERACION_SWIFT" Relationship="TICKETModel.FK_OPERAC_SWIFT__OPERACION" FromRole="OPERACION" ToRole="OPERACION_SWIFT" />
+          <NavigationProperty Name="OPERACION_PIU" Relationship="TICKETModel.FK_OPERACION_PIU__OP" FromRole="OPERACION" ToRole="OPERACION_PIU" />
+          <NavigationProperty Name="PRODUCTO_CONTRATADO1" Relationship="TICKETModel.FK_OPERACION_PRODUCTO_CONT1" FromRole="OPERACION" ToRole="PRODUCTO_CONTRATADO" />
+          <NavigationProperty Name="REFERENCIAS" Relationship="TICKETModel.FK_REFERENCIAS__OPERACION" FromRole="OPERACION" ToRole="REFERENCIAS" />
+          <NavigationProperty Name="REPORTE_SWIFT_MT103" Relationship="TICKETModel.FK_REP_SWIFT_MT103__OPERACION" FromRole="OPERACION" ToRole="REPORTE_SWIFT_MT103" />
+          <NavigationProperty Name="RETIRO_CED" Relationship="TICKETModel.FK_RETIRO_CED__OPERACION" FromRole="OPERACION" ToRole="RETIRO_CED" />
+          <NavigationProperty Name="RETIRO_PME" Relationship="TICKETModel.FK_RETIRO_PME__OPERACION" FromRole="OPERACION" ToRole="RETIRO_PME" />
+        </EntityType>
+        <EntityType Name="OPERACION_DEFINIDA">
+          <Key>
+            <PropertyRef Name="operacion_definida1" />
+          </Key>
+          <Property Name="operacion_definida1" Type="Int16" Nullable="false" />
+          <Property Name="descripcion_operacion_definida" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="producto" Type="Int16" Nullable="false" />
+          <Property Name="descripcion_kapiti" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="code_kapiti_cliente" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="code_kapiti_banco" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="cuenta_kapiti_banco" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="sufijo_kapiti_banco" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="operacion_definida_global" Type="Int16" />
+          <Property Name="agencia" Type="Byte" />
+          <Property Name="tipo_operacion" Type="Byte" />
+          <Property Name="descripcion_interfaz_ced" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OPERACION" Relationship="TICKETModel.FK_OP__OP_DEF" FromRole="OPERACION_DEFINIDA" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="OPERACION_PIU">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="operacion_piu1" Type="Int32" Nullable="false" />
+          <Property Name="fecha_operacion" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_OPERACION_PIU__OP" FromRole="OPERACION_PIU" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="OPERACION_SWIFT">
+          <Key>
+            <PropertyRef Name="no_rep_swift" />
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="no_rep_swift" Type="Int32" Nullable="false" />
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="hora_envio" Type="DateTime" Precision="0" />
+          <Property Name="numero_reporte_202" Type="Int32" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_OPERAC_SWIFT__OPERACION" FromRole="OPERACION_SWIFT" ToRole="OPERACION" />
+          <NavigationProperty Name="REPORTE_SWIFT" Relationship="TICKETModel.FK_OPERAC_SWIFT__REP_SWIFT" FromRole="OPERACION_SWIFT" ToRole="REPORTE_SWIFT" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="producto1" />
+          </Key>
+          <Property Name="producto1" Type="Int16" Nullable="false" />
+          <Property Name="descripcion_producto" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="sucursal_kapiti" Type="Int16" />
+          <Property Name="sufijo_kapiti" Type="Int16" />
+          <Property Name="producto_global" Type="Int16" />
+          <Property Name="agencia" Type="Byte" />
+          <NavigationProperty Name="PRODUCTO_CONTRATADO" Relationship="TICKETModel.FK_PRODUCTO_CONTRATADO__PRD" FromRole="PRODUCTO" ToRole="PRODUCTO_CONTRATADO" />
+        </EntityType>
+        <EntityType Name="PRODUCTO_CONTRATADO">
+          <Key>
+            <PropertyRef Name="producto_contratado1" />
+          </Key>
+          <Property Name="producto_contratado1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="producto" Type="Int16" Nullable="false" />
+          <Property Name="cuenta_cliente" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="clave_producto_contratado" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="fecha_contratacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_vencimiento" Type="DateTime" Precision="0" />
+          <Property Name="status_producto" Type="Int16" />
+          <Property Name="agencia" Type="Byte" />
+          <NavigationProperty Name="CUENTA_EJE" Relationship="TICKETModel.FK_CTA_EJE__PROD_CONTR" FromRole="PRODUCTO_CONTRATADO" ToRole="CUENTA_EJE" />
+          <NavigationProperty Name="HOLD_RETIRO" Relationship="TICKETModel.FK_HOLD_RET_PC" FromRole="PRODUCTO_CONTRATADO" ToRole="HOLD_RETIRO" />
+          <NavigationProperty Name="OPERACION" Relationship="TICKETModel.FK_OPERACION_PRODUCTO_CONT1" FromRole="PRODUCTO_CONTRATADO" ToRole="OPERACION" />
+          <NavigationProperty Name="PRODUCTO1" Relationship="TICKETModel.FK_PRODUCTO_CONTRATADO__PRD" FromRole="PRODUCTO_CONTRATADO" ToRole="PRODUCTO" />
+          <NavigationProperty Name="HOLD" Relationship="TICKETModel.FK_HOLD_PC" FromRole="PRODUCTO_CONTRATADO" ToRole="HOLD" />
+        </EntityType>
+        <EntityType Name="REFERENCIAS">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="referencia" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_REFERENCIAS__OPERACION" FromRole="REFERENCIAS" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="REPORTE_SWIFT">
+          <Key>
+            <PropertyRef Name="no_rep_swift" />
+          </Key>
+          <Property Name="no_rep_swift" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha_reporte" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="agencia" Type="Byte" Nullable="false" />
+          <Property Name="no_reporte_dia" Type="Int16" Nullable="false" />
+          <Property Name="tipo_reporte_swift" Type="Byte" Nullable="false" />
+          <Property Name="no_registros" Type="Int16" Nullable="false" />
+          <Property Name="status_reporte" Type="Byte" Nullable="false" />
+          <Property Name="reenvio" Type="Boolean" Nullable="false" />
+          <Property Name="ultimo_reporte" Type="Boolean" Nullable="false" />
+          <Property Name="usuario" Type="Int16" />
+          <NavigationProperty Name="OPERACION_SWIFT" Relationship="TICKETModel.FK_OPERAC_SWIFT__REP_SWIFT" FromRole="REPORTE_SWIFT" ToRole="OPERACION_SWIFT" />
+          <NavigationProperty Name="TIPO_REPORTE_SWIFT1" Relationship="TICKETModel.FK_REPORTE_SWIFT__TIPO_REP_SWI" FromRole="REPORTE_SWIFT" ToRole="TIPO_REPORTE_SWIFT" />
+        </EntityType>
+        <EntityType Name="REPORTE_SWIFT_MT103">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="basic_header" Type="String" Nullable="false" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="app_header" Type="String" Nullable="false" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="campo_20" Type="String" Nullable="false" MaxLength="16" FixedLength="true" Unicode="false" />
+          <Property Name="campo_23" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="campo_32_date" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="campo_32_ammount" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="campo_50" Type="String" MaxLength="140" FixedLength="false" Unicode="false" />
+          <Property Name="campo_53" Type="String" MaxLength="34" FixedLength="false" Unicode="false" />
+          <Property Name="campo_56_aba" Type="String" MaxLength="28" FixedLength="true" Unicode="false" />
+          <Property Name="campo_56_cve" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_57_1" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_57_2" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_57_3" Type="String" MaxLength="87" FixedLength="false" Unicode="false" />
+          <Property Name="campo_57_4" Type="String" MaxLength="91" FixedLength="false" Unicode="false" />
+          <Property Name="campo_57_5" Type="String" MaxLength="105" FixedLength="false" Unicode="false" />
+          <Property Name="campo_59_1" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_59_2" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_59_3" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_59_4" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_59_5" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_70_1" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_70_2" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_70_3" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_70_4" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_70_5" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_71" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="campo_72_1" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="campo_72_2" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="campo_72_3" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="campo_72_4" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="status_envio" Type="Boolean" Nullable="false" />
+          <Property Name="fecha_reporte" Type="DateTime" Precision="0" />
+          <Property Name="msg_xml" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_REP_SWIFT_MT103__OPERACION" FromRole="REPORTE_SWIFT_MT103" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="RETIRO_CED">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="codigo_leyenda" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="observaciones" Type="String" Nullable="false" MaxLength="37" FixedLength="false" Unicode="false" />
+          <Property Name="referencia" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_cambio" Type="Decimal" Nullable="false" Precision="10" Scale="7" />
+          <Property Name="codigo_operacion" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_RETIRO_CED__OPERACION" FromRole="RETIRO_CED" ToRole="OPERACION" />
+        </EntityType>
+        <EntityType Name="RETIRO_PME">
+          <Key>
+            <PropertyRef Name="operacion" />
+          </Key>
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="causa" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="centro_regional" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_centro_regional" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="plaza" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_plaza" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_sucursal" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="cr_patrimonial" Type="Int32" />
+          <Property Name="referencia" Type="Int32" />
+          <Property Name="numero_cheque" Type="Decimal" Precision="12" Scale="0" />
+          <Property Name="tipo_documento" Type="Byte" />
+          <Property Name="tipo_moneda" Type="Byte" />
+          <Property Name="otro_documento" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="referencia_ced" Type="Int32" />
+          <NavigationProperty Name="OPERACION1" Relationship="TICKETModel.FK_RETIRO_PME__OPERACION" FromRole="RETIRO_PME" ToRole="OPERACION" />
+          <NavigationProperty Name="TIPO_DOCUMENTO1" Relationship="TICKETModel.FK_RETIRO__TIPO_DOCUMENTO" FromRole="RETIRO_PME" ToRole="TIPO_DOCUMENTO" />
+        </EntityType>
+        <EntityType Name="TIPO_CUENTA_EJE">
+          <Key>
+            <PropertyRef Name="tipo_cuenta_eje1" />
+          </Key>
+          <Property Name="tipo_cuenta_eje1" Type="Byte" Nullable="false" />
+          <Property Name="descripcion_tipo" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="sufijo_kapiti" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="CUENTA_EJE" Relationship="TICKETModel.FK_TipoCuentaEje" FromRole="TIPO_CUENTA_EJE" ToRole="CUENTA_EJE" />
+        </EntityType>
+        <EntityType Name="TIPO_DOCUMENTO">
+          <Key>
+            <PropertyRef Name="tipo_documento1" />
+          </Key>
+          <Property Name="tipo_documento1" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion_documento" Type="String" Nullable="false" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Name="operacion_definida_global" Type="Int16" Nullable="false" />
+          <Property Name="necesita_especificacion" Type="Boolean" Nullable="false" />
+          <Property Name="status_folio" Type="Boolean" Nullable="false" />
+          <Property Name="hora_inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hora_fin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tran_code" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="otras_divisas" Type="Boolean" Nullable="false" />
+          <Property Name="detalle_instrumento" Type="Boolean" Nullable="false" />
+          <Property Name="orden" Type="Byte" />
+          <Property Name="titulo1" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="titulo2" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <Property Name="descripcion_detalle" Type="String" MaxLength="200" FixedLength="true" Unicode="false" />
+          <Property Name="hora_ini_password" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="DEPOSITO" Relationship="TICKETModel.FK_DEPOSITO__TIPO_DOCUMENTO" FromRole="TIPO_DOCUMENTO" ToRole="DEPOSITO" />
+          <NavigationProperty Name="RETIRO_PME" Relationship="TICKETModel.FK_RETIRO__TIPO_DOCUMENTO" FromRole="TIPO_DOCUMENTO" ToRole="RETIRO_PME" />
+        </EntityType>
+        <EntityType Name="TIPO_MANTENIMIENTO_CUENTA">
+          <Key>
+            <PropertyRef Name="tipo_mantenimiento" />
+          </Key>
+          <Property Name="tipo_mantenimiento" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="requiere_confirmacion_recepcion" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TIPO_REPORTE_SWIFT">
+          <Key>
+            <PropertyRef Name="tipo_reporte_swift1" />
+            <PropertyRef Name="agencia" />
+          </Key>
+          <Property Name="tipo_reporte_swift1" Type="Byte" Nullable="false" />
+          <Property Name="agencia" Type="Byte" Nullable="false" />
+          <Property Name="desc_tipo_reporte_swift" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="clave_swift" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="operacion_definida_global" Type="Int16" Nullable="false" />
+          <Property Name="descripcion_swift" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="mnemonico_swift" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="REPORTE_SWIFT" Relationship="TICKETModel.FK_REPORTE_SWIFT__TIPO_REP_SWI" FromRole="TIPO_REPORTE_SWIFT" ToRole="REPORTE_SWIFT" />
+        </EntityType>
+        <EntityType Name="HOLD">
+          <Key>
+            <PropertyRef Name="producto_contratado" />
+            <PropertyRef Name="fecha_equation" />
+            <PropertyRef Name="hold1" />
+            <PropertyRef Name="descripcion1" />
+            <PropertyRef Name="descripcion2" />
+            <PropertyRef Name="descripcion3" />
+            <PropertyRef Name="descripcion4" />
+            <PropertyRef Name="usuario_equation" />
+          </Key>
+          <Property Name="producto_contratado" Type="Int32" Nullable="false" />
+          <Property Name="fecha_equation" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hold1" Type="Int16" Nullable="false" />
+          <Property Name="descripcion1" Type="String" Nullable="false" MaxLength="35" FixedLength="true" Unicode="false" />
+          <Property Name="descripcion2" Type="String" Nullable="false" MaxLength="35" FixedLength="true" Unicode="false" />
+          <Property Name="descripcion3" Type="String" Nullable="false" MaxLength="35" FixedLength="true" Unicode="false" />
+          <Property Name="descripcion4" Type="String" Nullable="false" MaxLength="35" FixedLength="true" Unicode="false" />
+          <Property Name="usuario_equation" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="secuencia_hold" Type="Int32" />
+          <NavigationProperty Name="PRODUCTO_CONTRATADO1" Relationship="TICKETModel.FK_HOLD_PC" FromRole="HOLD" ToRole="PRODUCTO_CONTRATADO" />
+        </EntityType>
+        <Association Name="FK_COMPRA_CD__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.COMPRA_CD" Role="COMPRA_CD" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="COMPRA_CD">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERAC__COMP_TD_OVERNIGHT">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.COMPRA_TD_OVERNIGHT" Role="COMPRA_TD_OVERNIGHT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="COMPRA_TD_OVERNIGHT">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTA_EJE__PROD_CONTR">
+          <End Type="TICKETModel.PRODUCTO_CONTRATADO" Role="PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Type="TICKETModel.CUENTA_EJE" Role="CUENTA_EJE" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado1" />
+            </Principal>
+            <Dependent Role="CUENTA_EJE">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TipoCuentaEje">
+          <End Type="TICKETModel.TIPO_CUENTA_EJE" Role="TIPO_CUENTA_EJE" Multiplicity="1" />
+          <End Type="TICKETModel.CUENTA_EJE" Role="CUENTA_EJE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_CUENTA_EJE">
+              <PropertyRef Name="tipo_cuenta_eje1" />
+            </Principal>
+            <Dependent Role="CUENTA_EJE">
+              <PropertyRef Name="tipo_cuenta_eje" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.DEPOSITO" Role="DEPOSITO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="DEPOSITO">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO__TIPO_DOCUMENTO">
+          <End Type="TICKETModel.TIPO_DOCUMENTO" Role="TIPO_DOCUMENTO" Multiplicity="0..1" />
+          <End Type="TICKETModel.DEPOSITO" Role="DEPOSITO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_DOCUMENTO">
+              <PropertyRef Name="tipo_documento1" />
+            </Principal>
+            <Dependent Role="DEPOSITO">
+              <PropertyRef Name="tipo_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO_CED__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.DEPOSITO_CED" Role="DEPOSITO_CED" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="DEPOSITO_CED">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DEPOSITO_PME__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.DEPOSITO_PME" Role="DEPOSITO_PME" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="DEPOSITO_PME">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOLD_RET_PC">
+          <End Type="TICKETModel.PRODUCTO_CONTRATADO" Role="PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Type="TICKETModel.HOLD_RETIRO" Role="HOLD_RETIRO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado1" />
+            </Principal>
+            <Dependent Role="HOLD_RETIRO">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OP__OP_DEF">
+          <End Type="TICKETModel.OPERACION_DEFINIDA" Role="OPERACION_DEFINIDA" Multiplicity="1" />
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION_DEFINIDA">
+              <PropertyRef Name="operacion_definida1" />
+            </Principal>
+            <Dependent Role="OPERACION">
+              <PropertyRef Name="operacion_definida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERAC_SWIFT__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.OPERACION_SWIFT" Role="OPERACION_SWIFT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="OPERACION_SWIFT">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERACION_PIU__OP">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.OPERACION_PIU" Role="OPERACION_PIU" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="OPERACION_PIU">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERACION_PRODUCTO_CONT1">
+          <End Type="TICKETModel.PRODUCTO_CONTRATADO" Role="PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado1" />
+            </Principal>
+            <Dependent Role="OPERACION">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REFERENCIAS__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.REFERENCIAS" Role="REFERENCIAS" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="REFERENCIAS">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REP_SWIFT_MT103__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.REPORTE_SWIFT_MT103" Role="REPORTE_SWIFT_MT103" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="REPORTE_SWIFT_MT103">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RETIRO_CED__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.RETIRO_CED" Role="RETIRO_CED" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="RETIRO_CED">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RETIRO_PME__OPERACION">
+          <End Type="TICKETModel.OPERACION" Role="OPERACION" Multiplicity="1" />
+          <End Type="TICKETModel.RETIRO_PME" Role="RETIRO_PME" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OPERACION">
+              <PropertyRef Name="operacion1" />
+            </Principal>
+            <Dependent Role="RETIRO_PME">
+              <PropertyRef Name="operacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPERAC_SWIFT__REP_SWIFT">
+          <End Type="TICKETModel.REPORTE_SWIFT" Role="REPORTE_SWIFT" Multiplicity="1" />
+          <End Type="TICKETModel.OPERACION_SWIFT" Role="OPERACION_SWIFT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REPORTE_SWIFT">
+              <PropertyRef Name="no_rep_swift" />
+            </Principal>
+            <Dependent Role="OPERACION_SWIFT">
+              <PropertyRef Name="no_rep_swift" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_CONTRATADO__PRD">
+          <End Type="TICKETModel.PRODUCTO" Role="PRODUCTO" Multiplicity="1" />
+          <End Type="TICKETModel.PRODUCTO_CONTRATADO" Role="PRODUCTO_CONTRATADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="producto1" />
+            </Principal>
+            <Dependent Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HOLD_PC">
+          <End Type="TICKETModel.PRODUCTO_CONTRATADO" Role="PRODUCTO_CONTRATADO" Multiplicity="1" />
+          <End Type="TICKETModel.HOLD" Role="HOLD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_CONTRATADO">
+              <PropertyRef Name="producto_contratado1" />
+            </Principal>
+            <Dependent Role="HOLD">
+              <PropertyRef Name="producto_contratado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_REPORTE_SWIFT__TIPO_REP_SWI">
+          <End Type="TICKETModel.TIPO_REPORTE_SWIFT" Role="TIPO_REPORTE_SWIFT" Multiplicity="1" />
+          <End Type="TICKETModel.REPORTE_SWIFT" Role="REPORTE_SWIFT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_REPORTE_SWIFT">
+              <PropertyRef Name="tipo_reporte_swift1" />
+              <PropertyRef Name="agencia" />
+            </Principal>
+            <Dependent Role="REPORTE_SWIFT">
+              <PropertyRef Name="tipo_reporte_swift" />
+              <PropertyRef Name="agencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RETIRO__TIPO_DOCUMENTO">
+          <End Type="TICKETModel.TIPO_DOCUMENTO" Role="TIPO_DOCUMENTO" Multiplicity="0..1" />
+          <End Type="TICKETModel.RETIRO_PME" Role="RETIRO_PME" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_DOCUMENTO">
+              <PropertyRef Name="tipo_documento1" />
+            </Principal>
+            <Dependent Role="RETIRO_PME">
+              <PropertyRef Name="tipo_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -186,6 +1757,395 @@
                 <ScalarProperty Name="tipo_202" ColumnName="tipo_202" />
                 <ScalarProperty Name="num_rep_202" ColumnName="num_rep_202" />
                 <ScalarProperty Name="num_rep" ColumnName="num_rep" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_APERTURA">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_APERTURA">
+              <MappingFragment StoreEntitySet="BITACORA_APERTURA">
+                <ScalarProperty Name="NOMBRE_CLIENTE" ColumnName="NOMBRE_CLIENTE" />
+                <ScalarProperty Name="FECHA_OPERACION" ColumnName="FECHA_OPERACION" />
+                <ScalarProperty Name="CUENTA_CLIENTE" ColumnName="CUENTA_CLIENTE" />
+                <ScalarProperty Name="ID_OPERACION" ColumnName="ID_OPERACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_FECHAS_EJECUCION">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_FECHAS_EJECUCION">
+              <MappingFragment StoreEntitySet="BITACORA_FECHAS_EJECUCION">
+                <ScalarProperty Name="no_reg_proces" ColumnName="no_reg_proces" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="tipo_fecha" ColumnName="tipo_fecha" />
+                <ScalarProperty Name="consecutivo" ColumnName="consecutivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_REPORTE_SWIFT_MT198">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_REPORTE_SWIFT_MT198">
+              <MappingFragment StoreEntitySet="BITACORA_REPORTE_SWIFT_MT198">
+                <ScalarProperty Name="status_envio" ColumnName="status_envio" />
+                <ScalarProperty Name="status_reporte" ColumnName="status_reporte" />
+                <ScalarProperty Name="fecha_validado" ColumnName="fecha_validado" />
+                <ScalarProperty Name="fecha_envio" ColumnName="fecha_envio" />
+                <ScalarProperty Name="archivo" ColumnName="archivo" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="tipo_operacion" ColumnName="tipo_operacion" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+                <ScalarProperty Name="no_rep_swift" ColumnName="no_rep_swift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPRA_CD">
+            <EntityTypeMapping TypeName="TICKETModel.COMPRA_CD">
+              <MappingFragment StoreEntitySet="COMPRA_CD">
+                <ScalarProperty Name="operacion_venc" ColumnName="operacion_venc" />
+                <ScalarProperty Name="tipo_tasa" ColumnName="tipo_tasa" />
+                <ScalarProperty Name="plazo_origen" ColumnName="plazo_origen" />
+                <ScalarProperty Name="producto_contratado_a_renovar" ColumnName="producto_contratado_a_renovar" />
+                <ScalarProperty Name="referencia_detalle" ColumnName="referencia_detalle" />
+                <ScalarProperty Name="referencia_sujeto" ColumnName="referencia_sujeto" />
+                <ScalarProperty Name="subtipo_cd" ColumnName="subtipo_cd" />
+                <ScalarProperty Name="origen" ColumnName="origen" />
+                <ScalarProperty Name="renovacion" ColumnName="renovacion" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="plazo" ColumnName="plazo" />
+                <ScalarProperty Name="tipo_cd" ColumnName="tipo_cd" />
+                <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPRA_TD_OVERNIGHT">
+            <EntityTypeMapping TypeName="TICKETModel.COMPRA_TD_OVERNIGHT">
+              <MappingFragment StoreEntitySet="COMPRA_TD_OVERNIGHT">
+                <ScalarProperty Name="operacion_venc" ColumnName="operacion_venc" />
+                <ScalarProperty Name="tipo_tasa" ColumnName="tipo_tasa" />
+                <ScalarProperty Name="operacion_a_renovar" ColumnName="operacion_a_renovar" />
+                <ScalarProperty Name="plazo" ColumnName="plazo" />
+                <ScalarProperty Name="referencia_detalle" ColumnName="referencia_detalle" />
+                <ScalarProperty Name="origen" ColumnName="origen" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CUENTA_EJE">
+            <EntityTypeMapping TypeName="TICKETModel.CUENTA_EJE">
+              <MappingFragment StoreEntitySet="CUENTA_EJE">
+                <ScalarProperty Name="tipo_cuenta_anterior" ColumnName="tipo_cuenta_anterior" />
+                <ScalarProperty Name="tipo_cuenta_eje" ColumnName="tipo_cuenta_eje" />
+                <ScalarProperty Name="producto_contratado" ColumnName="producto_contratado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEPOSITO">
+            <EntityTypeMapping TypeName="TICKETModel.DEPOSITO">
+              <MappingFragment StoreEntitySet="DEPOSITO">
+                <ScalarProperty Name="causa" ColumnName="causa" />
+                <ScalarProperty Name="referencia_ced" ColumnName="referencia_ced" />
+                <ScalarProperty Name="folio_linea_servicio" ColumnName="folio_linea_servicio" />
+                <ScalarProperty Name="tipo_moneda" ColumnName="tipo_moneda" />
+                <ScalarProperty Name="otro_documento" ColumnName="otro_documento" />
+                <ScalarProperty Name="tipo_documento" ColumnName="tipo_documento" />
+                <ScalarProperty Name="otros" ColumnName="otros" />
+                <ScalarProperty Name="destino" ColumnName="destino" />
+                <ScalarProperty Name="en_firme" ColumnName="en_firme" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEPOSITO_CED">
+            <EntityTypeMapping TypeName="TICKETModel.DEPOSITO_CED">
+              <MappingFragment StoreEntitySet="DEPOSITO_CED">
+                <ScalarProperty Name="codigo_operacion" ColumnName="codigo_operacion" />
+                <ScalarProperty Name="tipo_cambio" ColumnName="tipo_cambio" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="codigo_leyenda" ColumnName="codigo_leyenda" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEPOSITO_PME">
+            <EntityTypeMapping TypeName="TICKETModel.DEPOSITO_PME">
+              <MappingFragment StoreEntitySet="DEPOSITO_PME">
+                <ScalarProperty Name="causa" ColumnName="causa" />
+                <ScalarProperty Name="fecha_cierre" ColumnName="fecha_cierre" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="nombre_sucursal" ColumnName="nombre_sucursal" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="nombre_plaza" ColumnName="nombre_plaza" />
+                <ScalarProperty Name="plaza" ColumnName="plaza" />
+                <ScalarProperty Name="nombre_centro_regional" ColumnName="nombre_centro_regional" />
+                <ScalarProperty Name="centro_regional" ColumnName="centro_regional" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOLD_RETIRO">
+            <EntityTypeMapping TypeName="TICKETModel.HOLD_RETIRO">
+              <MappingFragment StoreEntitySet="HOLD_RETIRO">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="operacion_hold" ColumnName="operacion_hold" />
+                <ScalarProperty Name="operacion_retiro" ColumnName="operacion_retiro" />
+                <ScalarProperty Name="hold" ColumnName="hold" />
+                <ScalarProperty Name="producto_contratado" ColumnName="producto_contratado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INTERFACE_KAPITI_CD">
+            <EntityTypeMapping TypeName="TICKETModel.INTERFACE_KAPITI_CD">
+              <MappingFragment StoreEntitySet="INTERFACE_KAPITI_CD">
+                <ScalarProperty Name="ref_tipo_cd" ColumnName="ref_tipo_cd" />
+                <ScalarProperty Name="subtipo_cd" ColumnName="subtipo_cd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPERACION">
+            <EntityTypeMapping TypeName="TICKETModel.OPERACION">
+              <MappingFragment StoreEntitySet="OPERACION">
+                <ScalarProperty Name="grabadora" ColumnName="grabadora" />
+                <ScalarProperty Name="contacto" ColumnName="contacto" />
+                <ScalarProperty Name="funcionario" ColumnName="funcionario" />
+                <ScalarProperty Name="linea" ColumnName="linea" />
+                <ScalarProperty Name="usuario_valida" ColumnName="usuario_valida" />
+                <ScalarProperty Name="usuario_captura" ColumnName="usuario_captura" />
+                <ScalarProperty Name="monto_operacion" ColumnName="monto_operacion" />
+                <ScalarProperty Name="fecha_operacion" ColumnName="fecha_operacion" />
+                <ScalarProperty Name="status_operacion" ColumnName="status_operacion" />
+                <ScalarProperty Name="fecha_captura" ColumnName="fecha_captura" />
+                <ScalarProperty Name="operacion_definida" ColumnName="operacion_definida" />
+                <ScalarProperty Name="producto_contratado" ColumnName="producto_contratado" />
+                <ScalarProperty Name="operacion1" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPERACION_DEFINIDA">
+            <EntityTypeMapping TypeName="TICKETModel.OPERACION_DEFINIDA">
+              <MappingFragment StoreEntitySet="OPERACION_DEFINIDA">
+                <ScalarProperty Name="descripcion_interfaz_ced" ColumnName="descripcion_interfaz_ced" />
+                <ScalarProperty Name="tipo_operacion" ColumnName="tipo_operacion" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="operacion_definida_global" ColumnName="operacion_definida_global" />
+                <ScalarProperty Name="sufijo_kapiti_banco" ColumnName="sufijo_kapiti_banco" />
+                <ScalarProperty Name="cuenta_kapiti_banco" ColumnName="cuenta_kapiti_banco" />
+                <ScalarProperty Name="code_kapiti_banco" ColumnName="code_kapiti_banco" />
+                <ScalarProperty Name="code_kapiti_cliente" ColumnName="code_kapiti_cliente" />
+                <ScalarProperty Name="descripcion_kapiti" ColumnName="descripcion_kapiti" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="descripcion_operacion_definida" ColumnName="descripcion_operacion_definida" />
+                <ScalarProperty Name="operacion_definida1" ColumnName="operacion_definida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPERACION_PIU">
+            <EntityTypeMapping TypeName="TICKETModel.OPERACION_PIU">
+              <MappingFragment StoreEntitySet="OPERACION_PIU">
+                <ScalarProperty Name="fecha_operacion" ColumnName="fecha_operacion" />
+                <ScalarProperty Name="operacion_piu1" ColumnName="operacion_piu" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPERACION_SWIFT">
+            <EntityTypeMapping TypeName="TICKETModel.OPERACION_SWIFT">
+              <MappingFragment StoreEntitySet="OPERACION_SWIFT">
+                <ScalarProperty Name="numero_reporte_202" ColumnName="numero_reporte_202" />
+                <ScalarProperty Name="hora_envio" ColumnName="hora_envio" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+                <ScalarProperty Name="no_rep_swift" ColumnName="no_rep_swift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="TICKETModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="producto_global" ColumnName="producto_global" />
+                <ScalarProperty Name="sufijo_kapiti" ColumnName="sufijo_kapiti" />
+                <ScalarProperty Name="sucursal_kapiti" ColumnName="sucursal_kapiti" />
+                <ScalarProperty Name="descripcion_producto" ColumnName="descripcion_producto" />
+                <ScalarProperty Name="producto1" ColumnName="producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO_CONTRATADO">
+            <EntityTypeMapping TypeName="TICKETModel.PRODUCTO_CONTRATADO">
+              <MappingFragment StoreEntitySet="PRODUCTO_CONTRATADO">
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="status_producto" ColumnName="status_producto" />
+                <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha_vencimiento" />
+                <ScalarProperty Name="fecha_contratacion" ColumnName="fecha_contratacion" />
+                <ScalarProperty Name="clave_producto_contratado" ColumnName="clave_producto_contratado" />
+                <ScalarProperty Name="cuenta_cliente" ColumnName="cuenta_cliente" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="producto_contratado1" ColumnName="producto_contratado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REFERENCIAS">
+            <EntityTypeMapping TypeName="TICKETModel.REFERENCIAS">
+              <MappingFragment StoreEntitySet="REFERENCIAS">
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REPORTE_SWIFT">
+            <EntityTypeMapping TypeName="TICKETModel.REPORTE_SWIFT">
+              <MappingFragment StoreEntitySet="REPORTE_SWIFT">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="ultimo_reporte" ColumnName="ultimo_reporte" />
+                <ScalarProperty Name="reenvio" ColumnName="reenvio" />
+                <ScalarProperty Name="status_reporte" ColumnName="status_reporte" />
+                <ScalarProperty Name="no_registros" ColumnName="no_registros" />
+                <ScalarProperty Name="tipo_reporte_swift" ColumnName="tipo_reporte_swift" />
+                <ScalarProperty Name="no_reporte_dia" ColumnName="no_reporte_dia" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="fecha_reporte" ColumnName="fecha_reporte" />
+                <ScalarProperty Name="no_rep_swift" ColumnName="no_rep_swift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REPORTE_SWIFT_MT103">
+            <EntityTypeMapping TypeName="TICKETModel.REPORTE_SWIFT_MT103">
+              <MappingFragment StoreEntitySet="REPORTE_SWIFT_MT103">
+                <ScalarProperty Name="msg_xml" ColumnName="msg_xml" />
+                <ScalarProperty Name="fecha_reporte" ColumnName="fecha_reporte" />
+                <ScalarProperty Name="status_envio" ColumnName="status_envio" />
+                <ScalarProperty Name="campo_72_4" ColumnName="campo_72_4" />
+                <ScalarProperty Name="campo_72_3" ColumnName="campo_72_3" />
+                <ScalarProperty Name="campo_72_2" ColumnName="campo_72_2" />
+                <ScalarProperty Name="campo_72_1" ColumnName="campo_72_1" />
+                <ScalarProperty Name="campo_71" ColumnName="campo_71" />
+                <ScalarProperty Name="campo_70_5" ColumnName="campo_70_5" />
+                <ScalarProperty Name="campo_70_4" ColumnName="campo_70_4" />
+                <ScalarProperty Name="campo_70_3" ColumnName="campo_70_3" />
+                <ScalarProperty Name="campo_70_2" ColumnName="campo_70_2" />
+                <ScalarProperty Name="campo_70_1" ColumnName="campo_70_1" />
+                <ScalarProperty Name="campo_59_5" ColumnName="campo_59_5" />
+                <ScalarProperty Name="campo_59_4" ColumnName="campo_59_4" />
+                <ScalarProperty Name="campo_59_3" ColumnName="campo_59_3" />
+                <ScalarProperty Name="campo_59_2" ColumnName="campo_59_2" />
+                <ScalarProperty Name="campo_59_1" ColumnName="campo_59_1" />
+                <ScalarProperty Name="campo_57_5" ColumnName="campo_57_5" />
+                <ScalarProperty Name="campo_57_4" ColumnName="campo_57_4" />
+                <ScalarProperty Name="campo_57_3" ColumnName="campo_57_3" />
+                <ScalarProperty Name="campo_57_2" ColumnName="campo_57_2" />
+                <ScalarProperty Name="campo_57_1" ColumnName="campo_57_1" />
+                <ScalarProperty Name="campo_56_cve" ColumnName="campo_56_cve" />
+                <ScalarProperty Name="campo_56_aba" ColumnName="campo_56_aba" />
+                <ScalarProperty Name="campo_53" ColumnName="campo_53" />
+                <ScalarProperty Name="campo_50" ColumnName="campo_50" />
+                <ScalarProperty Name="campo_32_ammount" ColumnName="campo_32_ammount" />
+                <ScalarProperty Name="campo_32_date" ColumnName="campo_32_date" />
+                <ScalarProperty Name="campo_23" ColumnName="campo_23" />
+                <ScalarProperty Name="campo_20" ColumnName="campo_20" />
+                <ScalarProperty Name="app_header" ColumnName="app_header" />
+                <ScalarProperty Name="basic_header" ColumnName="basic_header" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RETIRO_CED">
+            <EntityTypeMapping TypeName="TICKETModel.RETIRO_CED">
+              <MappingFragment StoreEntitySet="RETIRO_CED">
+                <ScalarProperty Name="codigo_operacion" ColumnName="codigo_operacion" />
+                <ScalarProperty Name="tipo_cambio" ColumnName="tipo_cambio" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="codigo_leyenda" ColumnName="codigo_leyenda" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RETIRO_PME">
+            <EntityTypeMapping TypeName="TICKETModel.RETIRO_PME">
+              <MappingFragment StoreEntitySet="RETIRO_PME">
+                <ScalarProperty Name="referencia_ced" ColumnName="referencia_ced" />
+                <ScalarProperty Name="otro_documento" ColumnName="otro_documento" />
+                <ScalarProperty Name="tipo_moneda" ColumnName="tipo_moneda" />
+                <ScalarProperty Name="tipo_documento" ColumnName="tipo_documento" />
+                <ScalarProperty Name="numero_cheque" ColumnName="numero_cheque" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="cr_patrimonial" ColumnName="cr_patrimonial" />
+                <ScalarProperty Name="nombre_sucursal" ColumnName="nombre_sucursal" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="nombre_plaza" ColumnName="nombre_plaza" />
+                <ScalarProperty Name="plaza" ColumnName="plaza" />
+                <ScalarProperty Name="nombre_centro_regional" ColumnName="nombre_centro_regional" />
+                <ScalarProperty Name="centro_regional" ColumnName="centro_regional" />
+                <ScalarProperty Name="causa" ColumnName="causa" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_CUENTA_EJE">
+            <EntityTypeMapping TypeName="TICKETModel.TIPO_CUENTA_EJE">
+              <MappingFragment StoreEntitySet="TIPO_CUENTA_EJE">
+                <ScalarProperty Name="sufijo_kapiti" ColumnName="sufijo_kapiti" />
+                <ScalarProperty Name="descripcion_tipo" ColumnName="descripcion_tipo" />
+                <ScalarProperty Name="tipo_cuenta_eje1" ColumnName="tipo_cuenta_eje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_DOCUMENTO">
+            <EntityTypeMapping TypeName="TICKETModel.TIPO_DOCUMENTO">
+              <MappingFragment StoreEntitySet="TIPO_DOCUMENTO">
+                <ScalarProperty Name="hora_ini_password" ColumnName="hora_ini_password" />
+                <ScalarProperty Name="descripcion_detalle" ColumnName="descripcion_detalle" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="titulo2" ColumnName="titulo2" />
+                <ScalarProperty Name="titulo1" ColumnName="titulo1" />
+                <ScalarProperty Name="orden" ColumnName="orden" />
+                <ScalarProperty Name="detalle_instrumento" ColumnName="detalle_instrumento" />
+                <ScalarProperty Name="otras_divisas" ColumnName="otras_divisas" />
+                <ScalarProperty Name="tran_code" ColumnName="tran_code" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="status_folio" ColumnName="status_folio" />
+                <ScalarProperty Name="necesita_especificacion" ColumnName="necesita_especificacion" />
+                <ScalarProperty Name="operacion_definida_global" ColumnName="operacion_definida_global" />
+                <ScalarProperty Name="descripcion_documento" ColumnName="descripcion_documento" />
+                <ScalarProperty Name="tipo_documento1" ColumnName="tipo_documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_MANTENIMIENTO_CUENTA">
+            <EntityTypeMapping TypeName="TICKETModel.TIPO_MANTENIMIENTO_CUENTA">
+              <MappingFragment StoreEntitySet="TIPO_MANTENIMIENTO_CUENTA">
+                <ScalarProperty Name="requiere_confirmacion_recepcion" ColumnName="requiere_confirmacion_recepcion" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="tipo_mantenimiento" ColumnName="tipo_mantenimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_REPORTE_SWIFT">
+            <EntityTypeMapping TypeName="TICKETModel.TIPO_REPORTE_SWIFT">
+              <MappingFragment StoreEntitySet="TIPO_REPORTE_SWIFT">
+                <ScalarProperty Name="mnemonico_swift" ColumnName="mnemonico_swift" />
+                <ScalarProperty Name="descripcion_swift" ColumnName="descripcion_swift" />
+                <ScalarProperty Name="operacion_definida_global" ColumnName="operacion_definida_global" />
+                <ScalarProperty Name="clave_swift" ColumnName="clave_swift" />
+                <ScalarProperty Name="desc_tipo_reporte_swift" ColumnName="desc_tipo_reporte_swift" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="tipo_reporte_swift1" ColumnName="tipo_reporte_swift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOLD">
+            <EntityTypeMapping TypeName="TICKETModel.HOLD">
+              <MappingFragment StoreEntitySet="HOLD">
+                <ScalarProperty Name="secuencia_hold" ColumnName="secuencia_hold" />
+                <ScalarProperty Name="usuario_equation" ColumnName="usuario_equation" />
+                <ScalarProperty Name="descripcion4" ColumnName="descripcion4" />
+                <ScalarProperty Name="descripcion3" ColumnName="descripcion3" />
+                <ScalarProperty Name="descripcion2" ColumnName="descripcion2" />
+                <ScalarProperty Name="descripcion1" ColumnName="descripcion1" />
+                <ScalarProperty Name="hold1" ColumnName="hold" />
+                <ScalarProperty Name="fecha_equation" ColumnName="fecha_equation" />
+                <ScalarProperty Name="producto_contratado" ColumnName="producto_contratado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

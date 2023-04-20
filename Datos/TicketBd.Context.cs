@@ -30,6 +30,33 @@ namespace Datos
         public virtual DbSet<PARAMETRIZACION> PARAMETRIZACION { get; set; }
         public virtual DbSet<BITACORA_ENVIO_SWIFT_MT202> BITACORA_ENVIO_SWIFT_MT202 { get; set; }
         public virtual DbSet<REPORTE_SWIFT_MT202> REPORTE_SWIFT_MT202 { get; set; }
+        public virtual DbSet<BITACORA_APERTURA> BITACORA_APERTURA { get; set; }
+        public virtual DbSet<BITACORA_FECHAS_EJECUCION> BITACORA_FECHAS_EJECUCION { get; set; }
+        public virtual DbSet<BITACORA_REPORTE_SWIFT_MT198> BITACORA_REPORTE_SWIFT_MT198 { get; set; }
+        public virtual DbSet<COMPRA_CD> COMPRA_CD { get; set; }
+        public virtual DbSet<COMPRA_TD_OVERNIGHT> COMPRA_TD_OVERNIGHT { get; set; }
+        public virtual DbSet<CUENTA_EJE> CUENTA_EJE { get; set; }
+        public virtual DbSet<DEPOSITO> DEPOSITO { get; set; }
+        public virtual DbSet<DEPOSITO_CED> DEPOSITO_CED { get; set; }
+        public virtual DbSet<DEPOSITO_PME> DEPOSITO_PME { get; set; }
+        public virtual DbSet<HOLD_RETIRO> HOLD_RETIRO { get; set; }
+        public virtual DbSet<INTERFACE_KAPITI_CD> INTERFACE_KAPITI_CD { get; set; }
+        public virtual DbSet<OPERACION> OPERACION { get; set; }
+        public virtual DbSet<OPERACION_DEFINIDA> OPERACION_DEFINIDA { get; set; }
+        public virtual DbSet<OPERACION_PIU> OPERACION_PIU { get; set; }
+        public virtual DbSet<OPERACION_SWIFT> OPERACION_SWIFT { get; set; }
+        public virtual DbSet<PRODUCTO> PRODUCTO { get; set; }
+        public virtual DbSet<PRODUCTO_CONTRATADO> PRODUCTO_CONTRATADO { get; set; }
+        public virtual DbSet<REFERENCIAS> REFERENCIAS { get; set; }
+        public virtual DbSet<REPORTE_SWIFT> REPORTE_SWIFT { get; set; }
+        public virtual DbSet<REPORTE_SWIFT_MT103> REPORTE_SWIFT_MT103 { get; set; }
+        public virtual DbSet<RETIRO_CED> RETIRO_CED { get; set; }
+        public virtual DbSet<RETIRO_PME> RETIRO_PME { get; set; }
+        public virtual DbSet<TIPO_CUENTA_EJE> TIPO_CUENTA_EJE { get; set; }
+        public virtual DbSet<TIPO_DOCUMENTO> TIPO_DOCUMENTO { get; set; }
+        public virtual DbSet<TIPO_MANTENIMIENTO_CUENTA> TIPO_MANTENIMIENTO_CUENTA { get; set; }
+        public virtual DbSet<TIPO_REPORTE_SWIFT> TIPO_REPORTE_SWIFT { get; set; }
+        public virtual DbSet<HOLD> HOLD { get; set; }
     
         public virtual int sp_i_InfoMT202(string fechaoperacion1, Nullable<int> agencia1, Nullable<int> agencia3)
         {

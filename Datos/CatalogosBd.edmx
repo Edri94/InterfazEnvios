@@ -4,7 +4,117 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CATALOGOSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CATALOGOSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'CATALOGOS.dbo.AGENCIA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="AGENCIA">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="descripcion_agencia" />
+            <PropertyRef Name="prefijo_agencia" />
+          </Key>
+          <Property Name="agencia" Type="tinyint" Nullable="false" />
+          <Property Name="descripcion_agencia" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="prefijo_agencia" Type="char" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CENTRO_REGIONAL_KAPITI">
+          <Key>
+            <PropertyRef Name="centro_regional" />
+          </Key>
+          <Property Name="centro_regional" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="centro_regional_kap" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="desc_centro_regional_kap" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'CATALOGOS.dbo.CLIENTE' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="cuenta_cliente" />
+            <PropertyRef Name="tratamiento" />
+            <PropertyRef Name="nombre_cliente" />
+            <PropertyRef Name="fecha_alta" />
+            <PropertyRef Name="funcionario" />
+            <PropertyRef Name="persona_moral" />
+          </Key>
+          <Property Name="cuenta_cliente" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="tratamiento" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="nombre_cliente" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="direccion_cliente" Type="varchar" MaxLength="180" />
+          <Property Name="cp_cliente" Type="char" MaxLength="10" />
+          <Property Name="telefono_cliente" Type="varchar" MaxLength="20" />
+          <Property Name="fax_cliente" Type="varchar" MaxLength="20" />
+          <Property Name="tipo_cliente" Type="char" MaxLength="2" />
+          <Property Name="fecha_alta" Type="smalldatetime" Nullable="false" />
+          <Property Name="fecha_baja" Type="smalldatetime" />
+          <Property Name="ubicacion" Type="smallint" />
+          <Property Name="funcionario" Type="int" Nullable="false" />
+          <Property Name="tipo_retencion" Type="tinyint" />
+          <Property Name="rfc" Type="char" MaxLength="15" />
+          <Property Name="apellido_paterno" Type="varchar" MaxLength="20" />
+          <Property Name="apellido_materno" Type="varchar" MaxLength="20" />
+          <Property Name="persona_moral" Type="tinyint" Nullable="false" />
+          <Property Name="UNIDAD_TEMP" Type="char" MaxLength="3" />
+          <Property Name="colonia_cliente" Type="varchar" MaxLength="30" />
+          <Property Name="cuenta_modificada" Type="tinyint" />
+          <Property Name="cuenta_mancomunada" Type="tinyint" />
+          <Property Name="cuenta_eje_pesos" Type="char" MaxLength="12" />
+          <Property Name="mnemonico" Type="char" MaxLength="9" />
+          <Property Name="deposito_inicial" Type="tinyint" />
+          <Property Name="descripcion_deposito_inicial" Type="varchar" MaxLength="50" />
+          <Property Name="cuenta_mercury" Type="char" MaxLength="6" />
+          <Property Name="monto_deposito_inicial" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="documentacion" Type="smallint" />
+          <Property Name="agencia" Type="tinyint" />
+          <Property Name="tiene_chequera" Type="tinyint" />
+          <Property Name="cuenta_houston" Type="char" MaxLength="9" />
+          <Property Name="fecha_banklink" Type="smalldatetime" />
+          <Property Name="fecha_cuenta_pesos" Type="smalldatetime" />
+          <Property Name="funcionario_pesos" Type="int" />
+          <Property Name="deposito_inicial_fed" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="deposito_inicial_suc" Type="numeric" Precision="16" Scale="6" />
+          <Property Name="func_pesos" Type="char" MaxLength="75" />
+          <Property Name="calle" Type="char" MaxLength="35" />
+          <Property Name="no_ext" Type="char" MaxLength="12" />
+          <Property Name="no_int" Type="char" MaxLength="12" />
+          <Property Name="componente" Type="char" MaxLength="25" />
+          <Property Name="del_o_municipio" Type="char" MaxLength="28" />
+          <Property Name="shortname" Type="char" MaxLength="16" />
+          <Property Name="curp" Type="char" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="CODIGO_OPERACION_EQ">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="sufijo_kapiti" />
+            <PropertyRef Name="kapiti_CTP" />
+            <PropertyRef Name="kapiti_C2" />
+          </Key>
+          <Property Name="agencia" Type="tinyint" Nullable="false" />
+          <Property Name="sufijo_kapiti" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="kapiti_CTP" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="kapiti_C2" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="kapiti_C1" Type="char" MaxLength="2" />
+          <Property Name="kapiti_P3" Type="char" MaxLength="3" />
+          <Property Name="kapiti_P5" Type="char" MaxLength="3" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'CATALOGOS.dbo.DIRECCION_ENVIO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="DIRECCION_ENVIO">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="cuenta_cliente" />
+          </Key>
+          <Property Name="agencia" Type="tinyint" Nullable="false" />
+          <Property Name="cuenta_cliente" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="direccion_cliente" Type="varchar" MaxLength="180" />
+          <Property Name="cp_cliente" Type="char" MaxLength="10" />
+          <Property Name="colonia_cliente" Type="varchar" MaxLength="30" />
+          <Property Name="ubicacion" Type="smallint" />
+          <Property Name="calle_envio" Type="char" MaxLength="35" />
+          <Property Name="no_ext_envio" Type="char" MaxLength="12" />
+          <Property Name="no_int_envio" Type="char" MaxLength="12" />
+          <Property Name="componente_envio" Type="char" MaxLength="25" />
+          <Property Name="del_o_municipio_envio" Type="char" MaxLength="28" />
+        </EntityType>
         <EntityType Name="PERFIL_HEXA">
           <Key>
             <PropertyRef Name="perfil" />
@@ -40,6 +150,24 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.PERMISOS_X_USUARIO_HEXA' no ti
           <Property Name="masc_permisos" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="masc_autorizaciones" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="TIPO_CLIENTE">
+          <Key>
+            <PropertyRef Name="tipo_cliente" />
+          </Key>
+          <Property Name="tipo_cliente" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="descripcion_tipo_cliente" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="kapiti_CTP" Type="char" MaxLength="2" />
+          <Property Name="kapiti_C2R" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="UBICACION">
+          <Key>
+            <PropertyRef Name="ubicacion" />
+          </Key>
+          <Property Name="ubicacion" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion_ubicacion" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="tipo_ubicacion" Type="tinyint" Nullable="false" />
+          <Property Name="ubicacion_padre" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="USUARIO">
           <Key>
             <PropertyRef Name="usuario" />
@@ -74,6 +202,18 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.USUARIO_X_APLICACION' no tiene
           <Property Name="fecha_login" Type="smalldatetime" Nullable="false" />
           <Property Name="equipo" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <Association Name="FK__CLIENTE__tipo_cliente1">
+          <End Role="TIPO_CLIENTE" Type="Self.TIPO_CLIENTE" Multiplicity="0..1" />
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_CLIENTE">
+              <PropertyRef Name="tipo_cliente" />
+            </Principal>
+            <Dependent Role="CLIENTE">
+              <PropertyRef Name="tipo_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PER_USR_HEXA__PERFIL_HEXA">
           <End Role="PERFIL_HEXA" Type="Self.PERFIL_HEXA" Multiplicity="1" />
           <End Role="PERMISOS_X_USUARIO_HEXA" Type="Self.PERMISOS_X_USUARIO_HEXA" Multiplicity="*" />
@@ -111,9 +251,83 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.USUARIO_X_APLICACION' no tiene
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CATALOGOSModelStoreContainer">
+          <EntitySet Name="CENTRO_REGIONAL_KAPITI" EntityType="Self.CENTRO_REGIONAL_KAPITI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CODIGO_OPERACION_EQ" EntityType="Self.CODIGO_OPERACION_EQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERFIL_HEXA" EntityType="Self.PERFIL_HEXA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PERMISOS_HEXA" EntityType="Self.PERMISOS_HEXA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_CLIENTE" EntityType="Self.TIPO_CLIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UBICACION" EntityType="Self.UBICACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AGENCIA" EntityType="Self.AGENCIA" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AGENCIA].[agencia] AS [agencia], 
+    [AGENCIA].[descripcion_agencia] AS [descripcion_agencia], 
+    [AGENCIA].[prefijo_agencia] AS [prefijo_agencia]
+    FROM [dbo].[AGENCIA] AS [AGENCIA]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CLIENTE].[cuenta_cliente] AS [cuenta_cliente], 
+    [CLIENTE].[tratamiento] AS [tratamiento], 
+    [CLIENTE].[nombre_cliente] AS [nombre_cliente], 
+    [CLIENTE].[direccion_cliente] AS [direccion_cliente], 
+    [CLIENTE].[cp_cliente] AS [cp_cliente], 
+    [CLIENTE].[telefono_cliente] AS [telefono_cliente], 
+    [CLIENTE].[fax_cliente] AS [fax_cliente], 
+    [CLIENTE].[tipo_cliente] AS [tipo_cliente], 
+    [CLIENTE].[fecha_alta] AS [fecha_alta], 
+    [CLIENTE].[fecha_baja] AS [fecha_baja], 
+    [CLIENTE].[ubicacion] AS [ubicacion], 
+    [CLIENTE].[funcionario] AS [funcionario], 
+    [CLIENTE].[tipo_retencion] AS [tipo_retencion], 
+    [CLIENTE].[rfc] AS [rfc], 
+    [CLIENTE].[apellido_paterno] AS [apellido_paterno], 
+    [CLIENTE].[apellido_materno] AS [apellido_materno], 
+    [CLIENTE].[persona_moral] AS [persona_moral], 
+    [CLIENTE].[UNIDAD_TEMP] AS [UNIDAD_TEMP], 
+    [CLIENTE].[colonia_cliente] AS [colonia_cliente], 
+    [CLIENTE].[cuenta_modificada] AS [cuenta_modificada], 
+    [CLIENTE].[cuenta_mancomunada] AS [cuenta_mancomunada], 
+    [CLIENTE].[cuenta_eje_pesos] AS [cuenta_eje_pesos], 
+    [CLIENTE].[mnemonico] AS [mnemonico], 
+    [CLIENTE].[deposito_inicial] AS [deposito_inicial], 
+    [CLIENTE].[descripcion_deposito_inicial] AS [descripcion_deposito_inicial], 
+    [CLIENTE].[cuenta_mercury] AS [cuenta_mercury], 
+    [CLIENTE].[monto_deposito_inicial] AS [monto_deposito_inicial], 
+    [CLIENTE].[documentacion] AS [documentacion], 
+    [CLIENTE].[agencia] AS [agencia], 
+    [CLIENTE].[tiene_chequera] AS [tiene_chequera], 
+    [CLIENTE].[cuenta_houston] AS [cuenta_houston], 
+    [CLIENTE].[fecha_banklink] AS [fecha_banklink], 
+    [CLIENTE].[fecha_cuenta_pesos] AS [fecha_cuenta_pesos], 
+    [CLIENTE].[funcionario_pesos] AS [funcionario_pesos], 
+    [CLIENTE].[deposito_inicial_fed] AS [deposito_inicial_fed], 
+    [CLIENTE].[deposito_inicial_suc] AS [deposito_inicial_suc], 
+    [CLIENTE].[func_pesos] AS [func_pesos], 
+    [CLIENTE].[calle] AS [calle], 
+    [CLIENTE].[no_ext] AS [no_ext], 
+    [CLIENTE].[no_int] AS [no_int], 
+    [CLIENTE].[componente] AS [componente], 
+    [CLIENTE].[del_o_municipio] AS [del_o_municipio], 
+    [CLIENTE].[shortname] AS [shortname], 
+    [CLIENTE].[curp] AS [curp]
+    FROM [dbo].[CLIENTE] AS [CLIENTE]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DIRECCION_ENVIO" EntityType="Self.DIRECCION_ENVIO" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DIRECCION_ENVIO].[agencia] AS [agencia], 
+    [DIRECCION_ENVIO].[cuenta_cliente] AS [cuenta_cliente], 
+    [DIRECCION_ENVIO].[direccion_cliente] AS [direccion_cliente], 
+    [DIRECCION_ENVIO].[cp_cliente] AS [cp_cliente], 
+    [DIRECCION_ENVIO].[colonia_cliente] AS [colonia_cliente], 
+    [DIRECCION_ENVIO].[ubicacion] AS [ubicacion], 
+    [DIRECCION_ENVIO].[calle_envio] AS [calle_envio], 
+    [DIRECCION_ENVIO].[no_ext_envio] AS [no_ext_envio], 
+    [DIRECCION_ENVIO].[no_int_envio] AS [no_int_envio], 
+    [DIRECCION_ENVIO].[componente_envio] AS [componente_envio], 
+    [DIRECCION_ENVIO].[del_o_municipio_envio] AS [del_o_municipio_envio]
+    FROM [dbo].[DIRECCION_ENVIO] AS [DIRECCION_ENVIO]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="PERMISOS_X_USUARIO_HEXA" EntityType="Self.PERMISOS_X_USUARIO_HEXA" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [PERMISOS_X_USUARIO_HEXA].[perfil] AS [perfil], 
@@ -130,6 +344,10 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.USUARIO_X_APLICACION' no tiene
     [USUARIO_X_APLICACION].[equipo] AS [equipo]
     FROM [dbo].[USUARIO_X_APLICACION] AS [USUARIO_X_APLICACION]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__CLIENTE__tipo_cliente1" Association="Self.FK__CLIENTE__tipo_cliente1">
+            <End Role="TIPO_CLIENTE" EntitySet="TIPO_CLIENTE" />
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+          </AssociationSet>
           <AssociationSet Name="FK_PER_USR_HEXA__PERFIL_HEXA" Association="Self.FK_PER_USR_HEXA__PERFIL_HEXA">
             <End Role="PERFIL_HEXA" EntitySet="PERFIL_HEXA" />
             <End Role="PERMISOS_X_USUARIO_HEXA" EntitySet="PERMISOS_X_USUARIO_HEXA" />
@@ -143,8 +361,7 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.USUARIO_X_APLICACION' no tiene
             <End Role="USUARIO_X_APLICACION" EntitySet="USUARIO_X_APLICACION" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CATALOGOSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -273,7 +490,154 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.USUARIO_X_APLICACION' no tiene
             <End Role="USUARIO" EntitySet="USUARIO" />
             <End Role="USUARIO_X_APLICACION" EntitySet="USUARIO_X_APLICACION" />
           </AssociationSet>
+          <EntitySet Name="CENTRO_REGIONAL_KAPITI" EntityType="CATALOGOSModel.CENTRO_REGIONAL_KAPITI" />
+          <EntitySet Name="CODIGO_OPERACION_EQ" EntityType="CATALOGOSModel.CODIGO_OPERACION_EQ" />
+          <EntitySet Name="TIPO_CLIENTE" EntityType="CATALOGOSModel.TIPO_CLIENTE" />
+          <EntitySet Name="UBICACION" EntityType="CATALOGOSModel.UBICACION" />
+          <EntitySet Name="AGENCIA" EntityType="CATALOGOSModel.AGENCIA" />
+          <EntitySet Name="CLIENTE" EntityType="CATALOGOSModel.CLIENTE" />
+          <EntitySet Name="DIRECCION_ENVIO" EntityType="CATALOGOSModel.DIRECCION_ENVIO" />
+          <AssociationSet Name="FK__CLIENTE__tipo_cliente1" Association="CATALOGOSModel.FK__CLIENTE__tipo_cliente1">
+            <End Role="TIPO_CLIENTE" EntitySet="TIPO_CLIENTE" />
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="CENTRO_REGIONAL_KAPITI">
+          <Key>
+            <PropertyRef Name="centro_regional" />
+          </Key>
+          <Property Name="centro_regional" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="centro_regional_kap" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="desc_centro_regional_kap" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CODIGO_OPERACION_EQ">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="sufijo_kapiti" />
+            <PropertyRef Name="kapiti_CTP" />
+            <PropertyRef Name="kapiti_C2" />
+          </Key>
+          <Property Name="agencia" Type="Byte" Nullable="false" />
+          <Property Name="sufijo_kapiti" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="kapiti_CTP" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="kapiti_C2" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="kapiti_C1" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="kapiti_P3" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="kapiti_P5" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TIPO_CLIENTE">
+          <Key>
+            <PropertyRef Name="tipo_cliente1" />
+          </Key>
+          <Property Name="tipo_cliente1" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="descripcion_tipo_cliente" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="kapiti_CTP" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="kapiti_C2R" Type="Byte" />
+          <NavigationProperty Name="CLIENTE" Relationship="CATALOGOSModel.FK__CLIENTE__tipo_cliente1" FromRole="TIPO_CLIENTE" ToRole="CLIENTE" />
+        </EntityType>
+        <EntityType Name="UBICACION">
+          <Key>
+            <PropertyRef Name="ubicacion1" />
+          </Key>
+          <Property Name="ubicacion1" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion_ubicacion" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="tipo_ubicacion" Type="Byte" Nullable="false" />
+          <Property Name="ubicacion_padre" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AGENCIA">
+          <Key>
+            <PropertyRef Name="agencia1" />
+            <PropertyRef Name="descripcion_agencia" />
+            <PropertyRef Name="prefijo_agencia" />
+          </Key>
+          <Property Name="agencia1" Type="Byte" Nullable="false" />
+          <Property Name="descripcion_agencia" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="prefijo_agencia" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="cuenta_cliente" />
+            <PropertyRef Name="tratamiento" />
+            <PropertyRef Name="nombre_cliente" />
+            <PropertyRef Name="fecha_alta" />
+            <PropertyRef Name="funcionario" />
+            <PropertyRef Name="persona_moral" />
+          </Key>
+          <Property Name="cuenta_cliente" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="tratamiento" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="nombre_cliente" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="direccion_cliente" Type="String" MaxLength="180" FixedLength="false" Unicode="false" />
+          <Property Name="cp_cliente" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="telefono_cliente" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fax_cliente" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_cliente" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_baja" Type="DateTime" Precision="0" />
+          <Property Name="ubicacion" Type="Int16" />
+          <Property Name="funcionario" Type="Int32" Nullable="false" />
+          <Property Name="tipo_retencion" Type="Byte" />
+          <Property Name="rfc" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="apellido_paterno" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="apellido_materno" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="persona_moral" Type="Byte" Nullable="false" />
+          <Property Name="UNIDAD_TEMP" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="colonia_cliente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cuenta_modificada" Type="Byte" />
+          <Property Name="cuenta_mancomunada" Type="Byte" />
+          <Property Name="cuenta_eje_pesos" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="mnemonico" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="deposito_inicial" Type="Byte" />
+          <Property Name="descripcion_deposito_inicial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cuenta_mercury" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="monto_deposito_inicial" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="documentacion" Type="Int16" />
+          <Property Name="agencia" Type="Byte" />
+          <Property Name="tiene_chequera" Type="Byte" />
+          <Property Name="cuenta_houston" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="fecha_banklink" Type="DateTime" Precision="0" />
+          <Property Name="fecha_cuenta_pesos" Type="DateTime" Precision="0" />
+          <Property Name="funcionario_pesos" Type="Int32" />
+          <Property Name="deposito_inicial_fed" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="deposito_inicial_suc" Type="Decimal" Precision="16" Scale="6" />
+          <Property Name="func_pesos" Type="String" MaxLength="75" FixedLength="true" Unicode="false" />
+          <Property Name="calle" Type="String" MaxLength="35" FixedLength="true" Unicode="false" />
+          <Property Name="no_ext" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="no_int" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="componente" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="del_o_municipio" Type="String" MaxLength="28" FixedLength="true" Unicode="false" />
+          <Property Name="shortname" Type="String" MaxLength="16" FixedLength="true" Unicode="false" />
+          <Property Name="curp" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="TIPO_CLIENTE1" Relationship="CATALOGOSModel.FK__CLIENTE__tipo_cliente1" FromRole="CLIENTE" ToRole="TIPO_CLIENTE" />
+        </EntityType>
+        <EntityType Name="DIRECCION_ENVIO">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="cuenta_cliente" />
+          </Key>
+          <Property Name="agencia" Type="Byte" Nullable="false" />
+          <Property Name="cuenta_cliente" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="direccion_cliente" Type="String" MaxLength="180" FixedLength="false" Unicode="false" />
+          <Property Name="cp_cliente" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="colonia_cliente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ubicacion" Type="Int16" />
+          <Property Name="calle_envio" Type="String" MaxLength="35" FixedLength="true" Unicode="false" />
+          <Property Name="no_ext_envio" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="no_int_envio" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="componente_envio" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="del_o_municipio_envio" Type="String" MaxLength="28" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__CLIENTE__tipo_cliente1">
+          <End Type="CATALOGOSModel.TIPO_CLIENTE" Role="TIPO_CLIENTE" Multiplicity="0..1" />
+          <End Type="CATALOGOSModel.CLIENTE" Role="CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_CLIENTE">
+              <PropertyRef Name="tipo_cliente1" />
+            </Principal>
+            <Dependent Role="CLIENTE">
+              <PropertyRef Name="tipo_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -341,6 +705,124 @@ advertencia 6002: La tabla o vista 'CATALOGOS.dbo.USUARIO_X_APLICACION' no tiene
                 <ScalarProperty Name="aplicacion" ColumnName="aplicacion" />
                 <ScalarProperty Name="fecha_login" ColumnName="fecha_login" />
                 <ScalarProperty Name="equipo" ColumnName="equipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CENTRO_REGIONAL_KAPITI">
+            <EntityTypeMapping TypeName="CATALOGOSModel.CENTRO_REGIONAL_KAPITI">
+              <MappingFragment StoreEntitySet="CENTRO_REGIONAL_KAPITI">
+                <ScalarProperty Name="desc_centro_regional_kap" ColumnName="desc_centro_regional_kap" />
+                <ScalarProperty Name="centro_regional_kap" ColumnName="centro_regional_kap" />
+                <ScalarProperty Name="centro_regional" ColumnName="centro_regional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CODIGO_OPERACION_EQ">
+            <EntityTypeMapping TypeName="CATALOGOSModel.CODIGO_OPERACION_EQ">
+              <MappingFragment StoreEntitySet="CODIGO_OPERACION_EQ">
+                <ScalarProperty Name="kapiti_P5" ColumnName="kapiti_P5" />
+                <ScalarProperty Name="kapiti_P3" ColumnName="kapiti_P3" />
+                <ScalarProperty Name="kapiti_C1" ColumnName="kapiti_C1" />
+                <ScalarProperty Name="kapiti_C2" ColumnName="kapiti_C2" />
+                <ScalarProperty Name="kapiti_CTP" ColumnName="kapiti_CTP" />
+                <ScalarProperty Name="sufijo_kapiti" ColumnName="sufijo_kapiti" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_CLIENTE">
+            <EntityTypeMapping TypeName="CATALOGOSModel.TIPO_CLIENTE">
+              <MappingFragment StoreEntitySet="TIPO_CLIENTE">
+                <ScalarProperty Name="kapiti_C2R" ColumnName="kapiti_C2R" />
+                <ScalarProperty Name="kapiti_CTP" ColumnName="kapiti_CTP" />
+                <ScalarProperty Name="descripcion_tipo_cliente" ColumnName="descripcion_tipo_cliente" />
+                <ScalarProperty Name="tipo_cliente1" ColumnName="tipo_cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UBICACION">
+            <EntityTypeMapping TypeName="CATALOGOSModel.UBICACION">
+              <MappingFragment StoreEntitySet="UBICACION">
+                <ScalarProperty Name="ubicacion_padre" ColumnName="ubicacion_padre" />
+                <ScalarProperty Name="tipo_ubicacion" ColumnName="tipo_ubicacion" />
+                <ScalarProperty Name="descripcion_ubicacion" ColumnName="descripcion_ubicacion" />
+                <ScalarProperty Name="ubicacion1" ColumnName="ubicacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGENCIA">
+            <EntityTypeMapping TypeName="CATALOGOSModel.AGENCIA">
+              <MappingFragment StoreEntitySet="AGENCIA">
+                <ScalarProperty Name="prefijo_agencia" ColumnName="prefijo_agencia" />
+                <ScalarProperty Name="descripcion_agencia" ColumnName="descripcion_agencia" />
+                <ScalarProperty Name="agencia1" ColumnName="agencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLIENTE">
+            <EntityTypeMapping TypeName="CATALOGOSModel.CLIENTE">
+              <MappingFragment StoreEntitySet="CLIENTE">
+                <ScalarProperty Name="curp" ColumnName="curp" />
+                <ScalarProperty Name="shortname" ColumnName="shortname" />
+                <ScalarProperty Name="del_o_municipio" ColumnName="del_o_municipio" />
+                <ScalarProperty Name="componente" ColumnName="componente" />
+                <ScalarProperty Name="no_int" ColumnName="no_int" />
+                <ScalarProperty Name="no_ext" ColumnName="no_ext" />
+                <ScalarProperty Name="calle" ColumnName="calle" />
+                <ScalarProperty Name="func_pesos" ColumnName="func_pesos" />
+                <ScalarProperty Name="deposito_inicial_suc" ColumnName="deposito_inicial_suc" />
+                <ScalarProperty Name="deposito_inicial_fed" ColumnName="deposito_inicial_fed" />
+                <ScalarProperty Name="funcionario_pesos" ColumnName="funcionario_pesos" />
+                <ScalarProperty Name="fecha_cuenta_pesos" ColumnName="fecha_cuenta_pesos" />
+                <ScalarProperty Name="fecha_banklink" ColumnName="fecha_banklink" />
+                <ScalarProperty Name="cuenta_houston" ColumnName="cuenta_houston" />
+                <ScalarProperty Name="tiene_chequera" ColumnName="tiene_chequera" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+                <ScalarProperty Name="documentacion" ColumnName="documentacion" />
+                <ScalarProperty Name="monto_deposito_inicial" ColumnName="monto_deposito_inicial" />
+                <ScalarProperty Name="cuenta_mercury" ColumnName="cuenta_mercury" />
+                <ScalarProperty Name="descripcion_deposito_inicial" ColumnName="descripcion_deposito_inicial" />
+                <ScalarProperty Name="deposito_inicial" ColumnName="deposito_inicial" />
+                <ScalarProperty Name="mnemonico" ColumnName="mnemonico" />
+                <ScalarProperty Name="cuenta_eje_pesos" ColumnName="cuenta_eje_pesos" />
+                <ScalarProperty Name="cuenta_mancomunada" ColumnName="cuenta_mancomunada" />
+                <ScalarProperty Name="cuenta_modificada" ColumnName="cuenta_modificada" />
+                <ScalarProperty Name="colonia_cliente" ColumnName="colonia_cliente" />
+                <ScalarProperty Name="UNIDAD_TEMP" ColumnName="UNIDAD_TEMP" />
+                <ScalarProperty Name="persona_moral" ColumnName="persona_moral" />
+                <ScalarProperty Name="apellido_materno" ColumnName="apellido_materno" />
+                <ScalarProperty Name="apellido_paterno" ColumnName="apellido_paterno" />
+                <ScalarProperty Name="rfc" ColumnName="rfc" />
+                <ScalarProperty Name="tipo_retencion" ColumnName="tipo_retencion" />
+                <ScalarProperty Name="funcionario" ColumnName="funcionario" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="fecha_baja" ColumnName="fecha_baja" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="tipo_cliente" ColumnName="tipo_cliente" />
+                <ScalarProperty Name="fax_cliente" ColumnName="fax_cliente" />
+                <ScalarProperty Name="telefono_cliente" ColumnName="telefono_cliente" />
+                <ScalarProperty Name="cp_cliente" ColumnName="cp_cliente" />
+                <ScalarProperty Name="direccion_cliente" ColumnName="direccion_cliente" />
+                <ScalarProperty Name="nombre_cliente" ColumnName="nombre_cliente" />
+                <ScalarProperty Name="tratamiento" ColumnName="tratamiento" />
+                <ScalarProperty Name="cuenta_cliente" ColumnName="cuenta_cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DIRECCION_ENVIO">
+            <EntityTypeMapping TypeName="CATALOGOSModel.DIRECCION_ENVIO">
+              <MappingFragment StoreEntitySet="DIRECCION_ENVIO">
+                <ScalarProperty Name="del_o_municipio_envio" ColumnName="del_o_municipio_envio" />
+                <ScalarProperty Name="componente_envio" ColumnName="componente_envio" />
+                <ScalarProperty Name="no_int_envio" ColumnName="no_int_envio" />
+                <ScalarProperty Name="no_ext_envio" ColumnName="no_ext_envio" />
+                <ScalarProperty Name="calle_envio" ColumnName="calle_envio" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="colonia_cliente" ColumnName="colonia_cliente" />
+                <ScalarProperty Name="cp_cliente" ColumnName="cp_cliente" />
+                <ScalarProperty Name="direccion_cliente" ColumnName="direccion_cliente" />
+                <ScalarProperty Name="cuenta_cliente" ColumnName="cuenta_cliente" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -13,6 +13,14 @@
         <AssociationConnector Association="CATALOGOSModel.FK_PER_USR_HEXA__PERFIL_HEXA" ManuallyRouted="false" />
         <AssociationConnector Association="CATALOGOSModel.FK_PER_USR_HEXA__USUARIO" ManuallyRouted="false" />
         <AssociationConnector Association="CATALOGOSModel.FK_USUARIO_X_APLICACION_1__14" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CATALOGOSModel.CENTRO_REGIONAL_KAPITI" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CATALOGOSModel.CODIGO_OPERACION_EQ" Width="1.5" PointX="3.75" PointY="8.75" />
+        <EntityTypeShape EntityType="CATALOGOSModel.TIPO_CLIENTE" Width="1.5" PointX="7.75" PointY="8.125" />
+        <EntityTypeShape EntityType="CATALOGOSModel.UBICACION" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CATALOGOSModel.AGENCIA" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="CATALOGOSModel.CLIENTE" Width="1.5" PointX="10" PointY="4.25" />
+        <EntityTypeShape EntityType="CATALOGOSModel.DIRECCION_ENVIO" Width="1.5" PointX="5.75" PointY="11.75" />
+        <AssociationConnector Association="CATALOGOSModel.FK__CLIENTE__tipo_cliente1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

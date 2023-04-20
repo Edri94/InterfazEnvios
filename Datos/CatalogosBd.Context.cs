@@ -30,5 +30,12 @@ namespace Datos
         public virtual DbSet<USUARIO> USUARIO { get; set; }
         public virtual DbSet<PERMISOS_X_USUARIO_HEXA> PERMISOS_X_USUARIO_HEXA { get; set; }
         public virtual DbSet<USUARIO_X_APLICACION> USUARIO_X_APLICACION { get; set; }
+        public virtual DbSet<CENTRO_REGIONAL_KAPITI> CENTRO_REGIONAL_KAPITI { get; set; }
+        public virtual DbSet<CODIGO_OPERACION_EQ> CODIGO_OPERACION_EQ { get; set; }
+        public virtual DbSet<TIPO_CLIENTE> TIPO_CLIENTE { get; set; }
+        public virtual DbSet<UBICACION> UBICACION { get; set; }
+        public virtual DbSet<AGENCIA> AGENCIA { get; set; }
+        public virtual DbSet<CLIENTE> CLIENTE { get; set; }
+        public virtual DbSet<DIRECCION_ENVIO> DIRECCION_ENVIO { get; set; }
     }
 }

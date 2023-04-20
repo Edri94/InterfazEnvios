@@ -53,7 +53,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AGENCIA.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BITACORA_APERTURA.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="BITACORA_ENVIO_SWIFT_MT202.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BITACORA_FECHAS_EJECUCION.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BITACORA_REPORTE_SWIFT_MT198.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="CatalogosBd.Context.cs">
@@ -71,7 +83,79 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CatalogosBd.edmx</DependentUpon>
     </Compile>
+    <Compile Include="CENTRO_REGIONAL_KAPITI.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CLIENTE.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CODIGO_OPERACION_EQ.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COMPRA_CD.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COMPRA_TD_OVERNIGHT.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConexionAS400.cs" />
+    <Compile Include="CUENTA_EJE.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DEPOSITO.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DEPOSITO_CED.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DEPOSITO_PME.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DIRECCION_ENVIO.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FUNCIONARIO.cs">
+      <DependentUpon>FuncionarioBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionarioBd.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FuncionarioBd.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionarioBd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FuncionarioBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FuncionarioBd.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FuncionarioBd.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="HOLD.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HOLD_RETIRO.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="INTERFACE_KAPITI_CD.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LIGAS_CR.cs">
+      <DependentUpon>FuncionarioBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OPERACION.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OPERACION_DEFINIDA.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OPERACION_PIU.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OPERACION_SWIFT.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="PARAMETRIZACION.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
@@ -85,8 +169,29 @@
     <Compile Include="PERMISOS_X_USUARIO_HEXA.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="PRODUCTO.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PRODUCTO_CONTRATADO.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="REFERENCIAS.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTE_SWIFT.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="REPORTE_SWIFT_MT103.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="REPORTE_SWIFT_MT202.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RETIRO_CED.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RETIRO_PME.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="TicketBd.Context.cs">
@@ -104,6 +209,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TicketBd.edmx</DependentUpon>
     </Compile>
+    <Compile Include="TIPO_CLIENTE.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TIPO_CUENTA_EJE.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TIPO_DOCUMENTO.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TIPO_MANTENIMIENTO_CUENTA.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TIPO_REPORTE_SWIFT.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UBICACION.cs">
+      <DependentUpon>CatalogosBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNIDAD_ORGANIZACIONAL.cs">
+      <DependentUpon>FuncionarioBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNIDAD_ORGANIZACIONAL_RESUMEN.cs">
+      <DependentUpon>FuncionarioBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="USUARIO.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>
@@ -119,6 +248,13 @@
     </EntityDeploy>
     <None Include="CatalogosBd.edmx.diagram">
       <DependentUpon>CatalogosBd.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="FuncionarioBd.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FuncionarioBd.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="FuncionarioBd.edmx.diagram">
+      <DependentUpon>FuncionarioBd.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <EntityDeploy Include="TicketBd.edmx">
@@ -139,6 +275,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CatalogosBd.edmx</DependentUpon>
       <LastGenOutput>CatalogosBd.cs</LastGenOutput>
+    </Content>
+    <Content Include="FuncionarioBd.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FuncionarioBd.edmx</DependentUpon>
+      <LastGenOutput>FuncionarioBd.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="FuncionarioBd.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FuncionarioBd.edmx</DependentUpon>
+      <LastGenOutput>FuncionarioBd.cs</LastGenOutput>
     </Content>
     <Content Include="TicketBd.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

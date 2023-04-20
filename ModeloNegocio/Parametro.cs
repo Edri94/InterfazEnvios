@@ -36,6 +36,23 @@ namespace ModeloNegocio
                 return null;
             }
         }
+
+        /// <summary>
+        /// Obtiene la fecha del SQL Server
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime FechaServidor()
+        {
+            using (Datos.TICKETEntities context = new Datos.TICKETEntities())
+            {
+                DateTime resultado = context.Database.SqlQuery<DateTime>($@"
+                   SELECT GETDATE()").FirstOrDefault();
+
+                return resultado;
+       
+            }
+
+        }
     }
 
 }

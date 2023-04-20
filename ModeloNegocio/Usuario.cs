@@ -17,6 +17,7 @@ namespace ModeloNegocio
 
             try
             {
+
                 //using (Datos.TICKETEntities context = new Datos.TICKETEntities())
                 //{
                 //    DateTime fecha1 = DateTime.Now.AddDays(-1);
