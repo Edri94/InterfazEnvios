@@ -63,6 +63,26 @@ namespace InterfazEnvios.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cambiar {
+            get {
+                object obj = ResourceManager.GetObject("cambiar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap comprobado {
+            get {
+                object obj = ResourceManager.GetObject("comprobado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap engranaje {
             get {
                 object obj = ResourceManager.GetObject("engranaje", resourceCulture);
@@ -156,6 +176,16 @@ namespace InterfazEnvios.Properties {
         internal static System.Drawing.Bitmap reset {
             get {
                 object obj = ResourceManager.GetObject("reset", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap senal_de_advertencia {
+            get {
+                object obj = ResourceManager.GetObject("senal-de-advertencia", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -14,27 +14,31 @@ namespace ModeloNegocio
         public static bool EscribeLog;
         public static string RutaLog;
         public static Exception error;
+        public static string Archivo_Actual;
+        public static string Nombre_App;
 
         public static void Escribe(string vData, string tipo = "Mensaje")
         {
             try
             {
+                if (!Directory.Exists(Log.RutaLog))
+                {
+                    Directory.CreateDirectory(Log.RutaLog);
+                }
+
                 StackTrace trace = new StackTrace(StackTrace.METHODS_TO_SKIP + 2);
                 StackFrame frame = trace.GetFrame(0);
                 MethodBase caller = frame.GetMethod();
 
-                string clase = caller.ReflectedType.Name;
-                string funcion = caller.Name;
-                //clase = "";
 
-                string nombre_archivo = DateTime.Now.ToString("ddMMyyyy") + "-" + clase + ".log";
+                Archivo_Actual = DateTime.Now.ToString("ddMMyyyy") + "_" + Nombre_App + ".log";
 
 
                 if (EscribeLog)
                 {
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(RutaLog, nombre_archivo), append: true))
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(RutaLog, Archivo_Actual), append: true))
                     {
-                        vData = $"[{DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss")}]  {tipo} desde {funcion}:  {vData}";
+                        vData = $"[{DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss")}]  {tipo}:  {vData}";
                         outputFile.WriteLine(vData);
                     }
 
@@ -51,6 +55,11 @@ namespace ModeloNegocio
         {
             try
             {
+                if (!Directory.Exists(Log.RutaLog))
+                {
+                    Directory.CreateDirectory(Log.RutaLog);
+                }
+
                 StackTrace trace = new StackTrace(StackTrace.METHODS_TO_SKIP + 2);
                 StackFrame frame = trace.GetFrame(0);
                 MethodBase caller = frame.GetMethod();
@@ -60,11 +69,12 @@ namespace ModeloNegocio
                 string vData = "";
                 //clase = "";
 
-                string nombre_archivo = DateTime.Now.ToString("ddMMyyyy") + "-" + clase + ".log";
+                Archivo_Actual = DateTime.Now.ToString("ddMMyyyy") + "_" + Nombre_App + ".log";
+
 
                 if (EscribeLog)
                 {
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(RutaLog, nombre_archivo), append: true))
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(RutaLog, Archivo_Actual), append: true))
                     {
                         vData = $"[{DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss")}] {(char)13}" +
                             $"*{tipo} desde {funcion}:  {ex.Message} {(char)13}" +

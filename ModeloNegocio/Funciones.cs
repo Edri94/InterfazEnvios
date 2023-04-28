@@ -36,5 +36,13 @@ namespace ModeloNegocio
 
             return fecha;
         }
+
+        public static DateTime SiguienteDiaHabil(DateTime fecha, int dias)
+        {
+            using (Datos.TICKETEntities context = new Datos.TICKETEntities())
+            {
+                return (DateTime)context.sp_obtiene_dia_habil(fecha, dias).FirstOrDefault();
+            }
+        }
     }
 }

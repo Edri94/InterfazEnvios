@@ -7,7 +7,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Odbc;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,9 +20,96 @@ namespace InterfazEnvios
     {
         ConexionAS400 as400;
         clsEncripta crpt;
-        Configuracion confg;
+        public Configuracion confg;
+        public string mensajes;
 
-        bool mbTransStatus;
+        string msSendCtes;
+        string msSendTDs;
+        string msSendDepRet;
+        string msSendDepRetAj;
+        string msSendDepRetTDD;
+        string msSendROPD;
+        string msSendTrasp;
+        string msSendMT103;
+        string msSendHOLD;
+        string msSendSwift;
+        string msSendTDOver;
+        string msSendMT202;
+
+        //Variables para el control de Operaciones Parciales
+        string gsMT103P = "0";
+        string gsMT198P = "0";
+        string gsMT202P = "0";
+        string gsClientesP = "0";
+        string gsManttoP = "0";
+        string gsDepRetP = "0";
+        string gsHOLDP = "0";
+        string gsROPUSDP = "0";
+        string gsTraspasosP = "0";
+        string gsTDsP = "0";
+        //Variables para el control Ultima Fecha de Envio
+        string gsFecMT103U = "";
+        string gsFecMT198U = "";
+        string gsFecMT202U = "";
+        string gsFecClientesU = "";
+        string gsFecManttoU = "";
+        string gsFecDepRetU = "";
+        string gsFecHOLDU = "";
+        string gsFecROPUSDU = "";
+        string gsFecTraspasosU = "";
+        string gsFecTDsU = "";
+        //Variables para el control de Operaciones Enviadas a La Fecha
+        string gsFecOp1U = "";
+        string gsFecOp2U = "";
+        string gsFecOp3U = "";
+        string gsFecOp4U = "";
+        //Variables para el monitoreo MERD, pantalla para monitoreo
+        string gsFecDepSucU2 = "";
+        string gsFecRetSucU2 = "";
+        string gsFecTraspasosMAU = "";
+        string gsFecTraspasosEAU = "";
+        string gsFecDepTDDU2 = "";
+        string gsFecRetTDDU2 = "";
+        string gsRetOpeU2 = "";
+        string gsOpeEspeU2 = "";
+        string gsFecTDsHOUU = "";
+        string gsFecTDsGCU = "";
+
+        // VARIABLES PARA EL ENVIO DE XML
+        string gsEnvioXML = "";
+        string gsRutaEXEXML = "";
+        string gsMQEscribirXML = "";
+        string gsMQLeerXML = "";
+
+        //SE USARA SÒLO CUANDO MODULO EXTRANJERO MANDE UN XML Y DEBAMOS GENERAR UN MT (HASTA QUE PAYPLUS PUEDA RECIBIR XML)
+        string gsEnvioMT = "";
+
+        public bool gbEncendido;
+        public bool gbPasswordOK;
+        public bool swith_click;
+
+
+        //Variables utilizadas para almacenar el nombre de los archivos generados por la interfaz.
+        //Estos nombres estan parametrizados y se obtienen de la base de datos.
+        Datos.Parametros  gs_Base_Swift;    
+        Datos.Parametros  gs_CL_AS400;      
+        Datos.Parametros  gs_CL_Swift;
+        Datos.Parametros gs_TD_AS400;
+        Datos.Parametros gs_TD_Swift;
+        Datos.Parametros gs_SWAG_Swift;
+        Datos.Parametros gs_TRAN_Swift;
+        Datos.Parametros gs_DEIB_AS400;
+        Datos.Parametros gs_HOLD_AS400;
+        Datos.Parametros gs_MT202_Swift;  
+        Datos.Parametros gs_XML202_AMH;  
+        Datos.Parametros gs_XMLTRAN_AMH;
+
+        Datos.Parametros ls_StatusInterfaz;
+
+        bool booNoChangeParam;
+        bool booNoChangeConf;
+
+        frmMonitoreo frm_monitor;
 
         public Pantalla_Principal()
         {
@@ -33,8 +122,8 @@ namespace InterfazEnvios
         {
             if(WindowState == FormWindowState.Maximized)
             {
-                pnlContainer.Width = (this.Width - pnlMenu.Width);
-                pnlContainer.Height = (this.Height - pnlNavBar.Height);
+                pnlContainer.Width = (this.Width - pnlMenu.Width) - 10;
+                pnlContainer.Height = (this.Height - pnlNavBar.Height) - 10;
 
                 pnlMenu.Height = (this.Height - pnlNavBar.Height);
 
@@ -51,23 +140,27 @@ namespace InterfazEnvios
         {
             try
             {
-                //*[PRUEBAS] consulta con EF***************************************************
-                List<Datos.USUARIO> usuarios = ModeloNegocio.Usuario.Get();
+                tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
+                tsLblMachineName.Text = Environment.MachineName;
+                tsLblFechaPc.Text = DateTime.Now.ToString("dd-MM-yyyy");
 
+                ls_StatusInterfaz = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
 
-                //***************************************************************************
-
-                //*[PRUEBAS] Funcionamiento ****************************************************************
-                Datos.Parametros parametros = ModeloNegocio.Parametro.GetParamnetro("TRANSSTATUS");
-
-                //***************************************************************************
-
-                mbTransStatus = true;
+                ModeloNegocio.Parametro.mbTransStatus = true;
 
                 //Inicializar las variables
                 InicializaVariables();
 
+                if(!VerificaPaths())
+                {
+                    MessageBox.Show("Hubo un error en la configuracion de directorios, Checar el LOG", "ERROR CONFIGURACION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
+                nameFiles();
+
+                frm_monitor = new frmMonitoreo(this);
+
+                tmrLog.Enabled = true;
 
             }
             catch (Exception ex)
@@ -77,19 +170,76 @@ namespace InterfazEnvios
             
         }
 
+        private void nameFiles()
+        {
+            gs_Base_Swift = ModeloNegocio.Parametro.GetParametrizacion("BASE_SWIFT");
+            gs_CL_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_CL_AS400");
+            gs_CL_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_CL_SWIFT");
+            gs_TD_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_TD_AS400");
+            gs_TD_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_TD_SWIFT");
+            gs_SWAG_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_SWAG_SWIFT");
+            gs_TRAN_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_TRAN_SWIFT");
+            gs_DEIB_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_DEIB_AS400");
+            gs_HOLD_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_HOLD_AS400");
+            gs_MT202_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_202_SWIFT");
+            gs_XML202_AMH = ModeloNegocio.Parametro.GetParametrizacion("FILE_XML202_AMH");
+            gs_XMLTRAN_AMH = ModeloNegocio.Parametro.GetParametrizacion("FILE_XMLTRAN_AMH");
+        }
+
+        private bool VerificaPaths()
+        {
+            try
+            {
+                if (!Directory.Exists(confg.pathEquation))
+                {
+                    Directory.CreateDirectory(confg.pathEquation);
+                }
+                if (!Directory.Exists(confg.pathSwift))
+                {
+                    Directory.CreateDirectory(confg.pathSwift);
+                }
+                if (!Directory.Exists(confg.pathModels))
+                {
+                    Directory.CreateDirectory(confg.pathModels);
+                }
+                if (!Directory.Exists(confg.pathFtpApp))
+                {
+                    Directory.CreateDirectory(confg.pathFtpApp);
+                }
+                if (!Directory.Exists(confg.pathSaldos))
+                {
+                    Directory.CreateDirectory(confg.pathSaldos);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Escribe(ex);
+                return false;
+            }
+            
+        }
+
         private void InicializaVariables()
         {
             try
             {
+                DateTime fecha_Servidor = ModeloNegocio.Parametro.FechaServidor();
+
                 int lnLongitud;
                 int intValorTemporal;
                 string strValorTemporal;
                 DateTime dtValorTemporal;
                 TimeSpan hrTemporal;
 
+                Log.RutaLog = Configuracion.getValueAppConfig("Ruta", "LOG");
+                Log.EscribeLog = true;
+                Log.Nombre_App = "InterfazEnvios";
+
                 confg = new Configuracion();
 
-                confg.gsAppPassword = Configuracion.getValueAppConfig("APPPWD", "PARAMETRO");
+                confg.gsAppPassword = crpt.VerificaClaves(2,Configuracion.getValueAppConfig("APPPWD", "PARAMETRO"));
                 confg.ambiente = Configuracion.getValueAppConfig("AMBIENTE", "PARAMETRO");
                 confg.pathFtpApp = Configuracion.getValueAppConfig("PATHFTPAPP", "PARAMETRO");
                 confg.sna620 = Configuracion.getValueAppConfig("SNA620", "PARAMETRO");
@@ -148,7 +298,7 @@ namespace InterfazEnvios
                 confg.periodoSaldo1 = (intValorTemporal < 1 || intValorTemporal > 24) ? 10 : intValorTemporal;
 
                 strValorTemporal =  Configuracion.getValueAppConfig("FECHACIERRE", "PARAMETRO");
-                confg.fechaCierre = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ?ModeloNegocio.Parametro.FechaServidor(): dtValorTemporal;
+                confg.fechaCierre = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? fecha_Servidor : dtValorTemporal;
 
                 strValorTemporal = Configuracion.getValueAppConfig("RESPALDO", "PARAMETRO");
                 confg.fechaRespaldo = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? Funciones.Fecha("FIN", confg.fechaCierre) : dtValorTemporal;
@@ -159,29 +309,29 @@ namespace InterfazEnvios
                 strValorTemporal = Configuracion.getValueAppConfig("SALDOFASE2", "PARAMETRO");
                 confg.fechaSV2 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? Funciones.Fecha("FIN", confg.fechaCierre) : dtValorTemporal;
 
-                if(mbTransStatus)
+                if(ModeloNegocio.Parametro.mbTransStatus)
                 {
                     strValorTemporal = Configuracion.getValueAppConfig("INTERCLOSE", "PARAMETRO");
                     confg.horaCierre = (TimeSpan.TryParse(strValorTemporal, out hrTemporal)) ? hrTemporal : new TimeSpan(23, 0, 0); 
                 }
 
-                confg.fechaCierre = Parametro.FechaServidor() + confg.horaCierre;
+                confg.fechaCierre = fecha_Servidor + confg.horaCierre;
 
                 //Hora de cierre default cuando la interfaz se carga de forma automática
                 strValorTemporal = Configuracion.getValueAppConfig("INTERCLOSEAUTO", "PARAMETRO");
-                confg.horaCierreAuto = (TimeSpan.TryParse(strValorTemporal, out hrTemporal)) ? Parametro.FechaServidor()  + hrTemporal : Parametro.FechaServidor() + new TimeSpan(17, 30, 0);
+                confg.horaCierreAuto = (TimeSpan.TryParse(strValorTemporal, out hrTemporal)) ? fecha_Servidor  + hrTemporal : fecha_Servidor + new TimeSpan(17, 30, 0);
 
                 strValorTemporal = Configuracion.getValueAppConfig("FECHATKTKPT", "PARAMETRO");
-                confg.fechaOp1 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? Parametro.FechaServidor().AddMinutes(10) : dtValorTemporal;
+                confg.fechaOp1 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? fecha_Servidor.AddMinutes(10) : dtValorTemporal;
 
                 strValorTemporal = Configuracion.getValueAppConfig("FECHAKPTTXT", "PARAMETRO");
                 confg.fechaOp2 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? confg.fechaOp1.AddMinutes(5) : dtValorTemporal;
 
                 strValorTemporal = Configuracion.getValueAppConfig("FECHATXTSQL", "PARAMETRO");
-                confg.fechaOp3 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? Parametro.FechaServidor().AddMinutes(60) : dtValorTemporal;
+                confg.fechaOp3 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? fecha_Servidor.AddMinutes(60) : dtValorTemporal;
 
                 strValorTemporal = Configuracion.getValueAppConfig("FECHASWFSQL", "PARAMETRO");
-                confg.fechaOp4 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? Parametro.FechaServidor().AddMinutes(70) : dtValorTemporal;
+                confg.fechaOp4 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? fecha_Servidor.AddMinutes(70) : dtValorTemporal;
 
 
                 confg.pathEquation = Configuracion.getValueAppConfig("PATHEQUATION", "PARAMETRO");
@@ -198,7 +348,7 @@ namespace InterfazEnvios
                 strValorTemporal = Configuracion.getValueAppConfig("FECHABANKLINK", "PARAMETRO");
                 confg.fechaBl = (DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? dtValorTemporal : DateTime.Now.AddHours(confg.periodoBl);
 
-                confg.envio = new bool[7];
+                confg.envio = new bool[17];
 
                 confg.envio[0] = (Configuracion.getValueAppConfig("CHK0", "PARAMETRO") == "1");
                 confg.envio[1] = (Configuracion.getValueAppConfig("CHK1", "PARAMETRO") == "1");
@@ -222,7 +372,12 @@ namespace InterfazEnvios
 
                 RevisaExclusiones();
 
-
+                gsEnvioXML = Configuracion.getValueAppConfig("ENVIOXML", "PARAMETRO");
+                gsRutaEXEXML = Configuracion.getValueAppConfig("RutaExeXML", "PARAMETRO");
+                gsMQEscribirXML = Configuracion.getValueAppConfig("MQESCRIBIRXML", "PARAMETRO");
+                gsMQLeerXML = Configuracion.getValueAppConfig("MQLEERXML", "PARAMETRO");
+                
+                gsEnvioMT = Configuracion.getValueAppConfig("ENVIOMT", "PARAMETRO");
             }
             catch (Exception ex)
             {
@@ -232,7 +387,314 @@ namespace InterfazEnvios
 
         private void RevisaExclusiones()
         {
-            throw new NotImplementedException();
+            try
+            {
+                byte lnAgencia, lnValue, lnBit;
+
+                msSendCtes = "";
+                msSendTDs = "";
+                msSendDepRet = "";
+                msSendDepRetAj = "";
+                msSendROPD = "";
+                msSendTrasp = "";
+                msSendMT103 = "";
+                msSendHOLD = "";
+                msSendSwift = "";
+                msSendTDOver = "";
+
+                lnAgencia = 1;
+                
+
+                for(lnBit = 0; lnBit <= (confg.sendLaops.Length - 1); lnBit++)
+                {
+                    lnValue = byte.Parse(confg.sendLaops.Substring(lnBit, 1));
+
+                    switch (lnBit)
+                    {
+                        //Reportes MT103
+                        case 1:
+                            if(lnValue == 1)
+                            {
+                                if (msSendMT103 == "")
+                                {
+                                    msSendMT103 = $" and PC.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendMT103 += $", {lnAgencia}";
+                                }
+                            }
+                            
+                        break;
+                        //Reportes Swift
+                        case 2:
+                            if (lnValue == 1)
+                            {
+                                if (msSendSwift == "")
+                                {
+                                    msSendSwift = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendSwift += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Reportes MT202
+                        case 3:
+                            if (lnValue == 1)
+                            {
+                                if (msSendMT202 == "")
+                                {
+                                    msSendMT202 = $" and agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendMT202 += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Clientes
+                        case 4:
+                            if (lnValue == 1)
+                            {
+                                if (msSendCtes == "")
+                                {
+                                    msSendCtes = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendCtes += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Depositos y Retiros
+                        case 5:
+                            if (lnValue == 1)
+                            {
+                                if (msSendDepRet == "")
+                                {
+                                    msSendDepRet = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendDepRet += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Depositos y Retiros por Ajuste
+                        case 6:
+                            if (lnValue == 1)
+                            {
+                                if (msSendDepRetAj == "")
+                                {
+                                    msSendDepRetAj = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendDepRetAj += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Depositos y Retiros TDD
+                        case 7:
+                            if (lnValue == 1)
+                            {
+                                if (msSendDepRetTDD == "")
+                                {
+                                    msSendDepRetTDD = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendDepRetTDD += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Órdenes de Pago en USD
+                        case 8:
+                            if (lnValue == 1)
+                            {
+                                if (msSendROPD == "")
+                                {
+                                    msSendROPD = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendROPD += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Traspasos
+                        case 9:
+                            if (lnValue == 1)
+                            {
+                                if (msSendTrasp == "")
+                                {
+                                    msSendTrasp = $" and AG.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendTrasp += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Time Deposit's
+                        case 10:
+                            if (lnValue == 1)
+                            {
+                                if (msSendTDs == "")
+                                {
+                                    msSendTDs = $" and PC.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendTDs += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //Time Deposit's Overnight
+                        case 11:
+                            if (lnValue == 1)
+                            {
+                                if (msSendTDOver == "")
+                                {
+                                    msSendTDOver = $" and PC.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendTDOver += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                        //HOLDS
+                        case 12:
+                            if (lnValue == 1)
+                            {
+                                if (msSendHOLD == "")
+                                {
+                                    msSendHOLD = $" and PC.agencia in ({lnAgencia})";
+                                }
+                                else
+                                {
+                                    msSendHOLD += $", {lnAgencia}";
+                                }
+                            }
+                            break;
+                    }                   
+                }
+
+                if(msSendCtes != "")
+                {
+                    msSendCtes += ") ";
+                }
+                else
+                {
+                    msSendCtes = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if(msSendTDs != "")
+                {
+                    msSendTDs += ") ";
+                }
+                else
+                {
+                    msSendTDs = " and PC.agencia not in (1,2,3) ";
+                }
+
+                if (msSendDepRet != "")
+                {
+                    msSendDepRet += ") ";
+                }
+                else
+                {
+                    msSendDepRet = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if (msSendDepRet != "")
+                {
+                    msSendDepRet += ") ";
+                }
+                else
+                {
+                    msSendDepRet = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if (msSendDepRetAj != "")
+                {
+                    msSendDepRetAj += ") ";
+                }
+                else
+                {
+                    msSendDepRetAj = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if (msSendTrasp != "")
+                {
+                    msSendTrasp += ") ";
+                }
+                else
+                {
+                    msSendTrasp = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if (msSendMT103 != "")
+                {
+                    msSendMT103 += ") ";
+                }
+                else
+                {
+                    msSendMT103 = " and PC.agencia not in (1,2,3) ";
+                }
+
+                if (msSendSwift != "")
+                {
+                    msSendSwift += ") ";
+                }
+                else
+                {
+                    msSendSwift = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if (msSendTDOver != "")
+                {
+                    msSendTDOver += ") ";
+                }
+                else
+                {
+                    msSendTDOver = " and PC.agencia not in (1,2,3) ";
+                }
+
+                if (msSendROPD != "")
+                {
+                    msSendROPD += ") ";
+                }
+                else
+                {
+                    msSendROPD = " and AG.agencia not in (1,2,3) ";
+                }
+
+                if (msSendMT202 != "")
+                {
+                    msSendMT202 += ") ";
+                }
+                else
+                {
+                    msSendMT202 = " and agencia not in (1,2,3) ";
+                }
+
+                if (msSendHOLD != "")
+                {
+                    msSendHOLD += ") ";
+                }
+                else
+                {
+                    msSendHOLD = " and agencia not in (1,2,3) ";
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Escribe(ex);
+            }
         }
 
         private void ConectarAS400()
@@ -255,21 +717,183 @@ namespace InterfazEnvios
 
         }
 
-        private void switchButton1_CheckedChanged(object sender, EventArgs e)
+        private void PararInterface()
+        {           
+            //2,3,4,9,10
+            btnTransferencia.Enabled = false;
+            btnCargas.Enabled = false;
+            btnPendientes.Enabled = false;
+            btnCierreEnv.Enabled = false;
+            btnMonitoreo.Enabled = false;
+            Log.Escribe("Interfaz Apagada");
+            StopTimers();
+            EncenderLed(3);
+            
+
+        }
+
+        private void StopTimers()
         {
-            if(switchButton1.Checked)
-            {
+            tmrEnvio.Enabled = false;
+        }
 
+        private void EncenderLed(int led)
+        {
+            switch (led)
+            {
+                case 1:
+                    ledVerde.Visible = true;
+                    ledAmarillo.Visible = false;
+                    ledRojo.Visible = false;                                 
+                    break;
+                case 2:
+                    ledVerde.Visible = false;
+                    ledAmarillo.Visible = true;
+                    ledRojo.Visible = false;
+                    break;
+                case 3:
+                    ledVerde.Visible = false;
+                    ledAmarillo.Visible = false;
+                    ledRojo.Visible = true;
+                    break;
+                default:
+                    ledVerde.Visible = false;
+                    ledAmarillo.Visible = false;
+                    ledRojo.Visible = false;
+                    break;
             }
-            else
-            {
+           
+        }
 
+        private void ResetTimers()
+        {
+            if(!booNoChangeParam && !booNoChangeConf)
+            {
+                tmrEnvio.Enabled = true;
+            }          
+        }
+
+        private void btnTransferencia_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+     
+
+        private void switchButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {             
+                if (switchButton1.Checked)
+                {
+                    gbEncendido = true;
+                }
+                else
+                {
+                    gbEncendido = false;
+                }
+
+                if (gbEncendido)
+                {
+                    gbPasswordOK = false;
+
+                    frmSolicPassword frm = new frmSolicPassword(this);
+                    frm.ShowDialog();
+
+
+                    if (!gbPasswordOK)
+                    {
+                        switchButton1.Checked = false;
+                        swith_click = false;
+                        return;
+                    }
+
+                    tsLblMensajes.Text = "Cargando Sistema Por Favor Espere....";
+
+                    if (ModeloNegocio.Transferencias.LlenarColeccion())
+                    {
+                        ModeloNegocio.Parametro.confg = confg;
+
+                        if (ModeloNegocio.Parametro.DespliegaDatos())
+                        {
+                            if (ModeloNegocio.Parametro.mbTransStatus)
+                            {
+                                frm_monitor.tmrMonitor.Enabled = false;
+                                frm_monitor.Visible = false;
+                                frm_monitor.Hide();
+
+
+                                btnTransferencia.Enabled = true;
+                                btnCargas.Enabled = true;
+                                btnPendientes.Enabled = true;
+                                btnCierreEnv.Enabled = true;
+                                btnMonitoreo.Enabled = true;
+
+                                ledVerde.Visible = true;
+
+                                ResetTimers();
+                            }
+                            else
+                            {
+                                tsLblMensajes.Text = "La transferencia de Archivos ya esta cerrada";
+                                btnCargas.Enabled = true;
+
+                                ledVerde.Visible = true;
+                                ResetTimers();
+                            }
+
+                        }
+                        else
+                        {
+                            tsLblMensajes.Text = "Verifique el servidor y su conexión a la red local o si el sistema ya cerró.";
+                        }
+                    }
+                }
+                else
+                {
+                    gbPasswordOK = false;
+
+                    frmSolicPassword frm = new frmSolicPassword(this);
+                    frm.ShowDialog();
+
+                    frm_monitor.Visible = false;
+
+                    if (gbPasswordOK)
+                    {
+                        PararInterface();
+                    }
+
+
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Log.Escribe(ex);
             }
         }
 
-        private void lblEncender_Click(object sender, EventArgs e)
+        private void tmrLog_Tick(object sender, EventArgs e)
         {
+            string archivo_path = Log.RutaLog + "\\" + Log.Archivo_Actual;
+            string texto = "";
 
+            if (File.Exists(archivo_path))
+            {
+                StreamReader sr = new StreamReader(archivo_path);
+
+                String linea = sr.ReadLine();
+
+                while (linea != null)
+                {
+                    texto += linea + Environment.NewLine;
+                    linea = sr.ReadLine();
+                }
+                sr.Close();
+
+                txtLog.Text = texto;
+
+            }
         }
     }
 }

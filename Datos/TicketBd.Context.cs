@@ -74,5 +74,18 @@ namespace Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_i_InfoMT202", fechaoperacion1Parameter, agencia1Parameter, agencia3Parameter);
         }
+    
+        public virtual ObjectResult<Nullable<System.DateTime>> sp_obtiene_dia_habil(Nullable<System.DateTime> fecha, Nullable<int> dias)
+        {
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var diasParameter = dias.HasValue ?
+                new ObjectParameter("Dias", dias) :
+                new ObjectParameter("Dias", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.DateTime>>("sp_obtiene_dia_habil", fechaParameter, diasParameter);
+        }
     }
 }

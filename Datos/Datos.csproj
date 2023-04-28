@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -99,6 +100,7 @@
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="ConexionAS400.cs" />
+    <Compile Include="Configuracion.cs" />
     <Compile Include="CUENTA_EJE.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
@@ -160,6 +162,7 @@
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="Parametros.cs" />
+    <Compile Include="ParametrosEjecucion.cs" />
     <Compile Include="PERFIL_HEXA.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>

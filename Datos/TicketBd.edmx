@@ -34,15 +34,6 @@
           <Property Name="fecha" Type="smalldatetime" Nullable="false" />
           <Property Name="no_reg_proces" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'TICKET.dbo.BITACORA_IE_TRANSACCIONES' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="BITACORA_IE_TRANSACCIONES">
-          <Property Name="ID_TRANSACCION" Type="int" />
-          <Property Name="NOM_TRANSACCION" Type="char" MaxLength="50" />
-          <Property Name="FEC_HOR_ULT_ENVIO" Type="smalldatetime" />
-          <Property Name="FEC_HOR_PROX_ENVIO" Type="smalldatetime" />
-          <Property Name="FECHA_TRAN" Type="smalldatetime" />
-        </EntityType>-->
         <EntityType Name="BITACORA_REPORTE_SWIFT_MT198">
           <Key>
             <PropertyRef Name="no_rep_swift" />
@@ -708,6 +699,10 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
           <Parameter Name="agencia1" Type="int" Mode="In" />
           <Parameter Name="agencia3" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_obtiene_dia_habil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Fecha" Type="smalldatetime" Mode="In" />
+          <Parameter Name="Dias" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="TICKETModelStoreContainer">
           <EntitySet Name="BITACORA_APERTURA" EntityType="Self.BITACORA_APERTURA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="Self.BITACORA_ENVIO_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
@@ -979,6 +974,10 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
             <End Role="TIPO_DOCUMENTO" EntitySet="TIPO_DOCUMENTO" />
             <End Role="RETIRO_PME" EntitySet="RETIRO_PME" />
           </AssociationSet>
+          <FunctionImport Name="sp_obtiene_dia_habil" ReturnType="Collection(DateTime)">
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Dias" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -2149,6 +2148,7 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_obtiene_dia_habil" FunctionName="TICKETModel.Store.sp_obtiene_dia_habil" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
