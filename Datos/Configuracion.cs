@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,7 @@ namespace Datos
         public bool execStoredSaldos { get; set; }
         public bool[] envio { get; set; }
         public int noIntentos { get; set; }
+        public string AppName { get; set; }
 
 
 
@@ -76,7 +78,7 @@ namespace Datos
         /// <param name="key">Parametro a buscar dentro de un grupo</param>
         /// <param name="section">Grupo de parametros  de un parametro a buscar</param>
         /// <returns></returns>
-        public static string getValueAppConfig(string key, string section = "")
+        public string getValueAppConfig(string key, string section = "")
         {
             if (section.Length >= 1)
             {
@@ -85,6 +87,47 @@ namespace Datos
             else
             {
                 return ConfigurationManager.AppSettings[$"{key}"];
+            }
+
+        }
+
+        public bool SetParameterAppSettings(string key, string value, string section = "")
+        {
+
+            string nombre_appconfig = $"{AppName}.exe.config";
+
+            try
+            {
+                string appPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                string[] appPath_arr = appPath.Split('\\');
+
+
+                if (File.Exists(System.IO.Path.Combine(appPath, nombre_appconfig)))
+                {
+                    string configFile = System.IO.Path.Combine(appPath, nombre_appconfig);
+                    ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
+                    configFileMap.ExeConfigFilename = configFile;
+                    System.Configuration.Configuration config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
+                    if (section.Length > 0)
+                    {
+                        config.AppSettings.Settings[$"{section}.{key}"].Value = value;
+                    }
+                    else
+                    {
+                        config.AppSettings.Settings[key].Value = value;
+                    }
+                    config.Save();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
 
         }

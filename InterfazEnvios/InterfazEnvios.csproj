@@ -160,6 +160,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\minimizar.png" />
     <None Include="Resources\senal-de-advertencia.png" />
     <None Include="Resources\pendiente.png" />
     <None Include="Resources\spyware.png" />
