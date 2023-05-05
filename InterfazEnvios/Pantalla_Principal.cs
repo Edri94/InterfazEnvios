@@ -239,10 +239,11 @@ namespace InterfazEnvios
                 Log.EscribeLog = true;
                 Log.Nombre_App = "InterfazEnvios";
 
-                
 
+                Log.Escribe("Inicia configuración de variables");
                 confg.AppName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
+                
                 confg.gsAppPassword = crpt.VerificaClaves(2,confg.getValueAppConfig("APPPWD", "PARAMETRO"));
                 confg.ambiente = confg.getValueAppConfig("AMBIENTE", "PARAMETRO");
                 confg.pathFtpApp = confg.getValueAppConfig("PATHFTPAPP", "PARAMETRO");
