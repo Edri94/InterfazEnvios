@@ -250,6 +250,13 @@ namespace InterfazEnvios
                 confg.libSwift = confg.getValueAppConfig("LIBSWIFT", "PARAMETRO");
                 confg.libSaldos = confg.getValueAppConfig("LIBSALDOS", "PARAMETRO");
                 confg.libDefault = confg.getValueAppConfig("LIBDEFAULT", "PARAMETRO");
+
+                confg.mqManager = confg.getValueAppConfig("MQMANAGER", "PARAMETRO");
+                confg.mqEscribir = confg.getValueAppConfig("MQESCRIBIR", "PARAMETRO");
+                confg.mqLeer = confg.getValueAppConfig("MQLEER", "PARAMETRO");
+                confg.mqReporte = confg.getValueAppConfig("MQREPORTE", "PARAMETRO");
+
+
                 confg.sendLaops = confg.getValueAppConfig("SENDLAOPS", "PARAMETRO");
                 
                 if(confg.sendLaops.Length < 12)
@@ -908,6 +915,11 @@ namespace InterfazEnvios
         private void btnMinimizar_Click(object sender, EventArgs e)
         {
             this.Hide();
+        }
+
+        private void switchButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

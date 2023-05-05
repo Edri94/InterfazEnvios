@@ -36,26 +36,40 @@ namespace InterfazEnvios
             this.switchButton1 = new InterfazEnvios.Controles.SwitchButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnTransferencia = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnCargas = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnPendientes = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnConfg = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnParams = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnInfo = new System.Windows.Forms.Button();
             this.panel9 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.btnErrores = new System.Windows.Forms.Button();
             this.panel10 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
+            this.btnCierreEnv = new System.Windows.Forms.Button();
             this.panel11 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
+            this.btnMonitoreo = new System.Windows.Forms.Button();
             this.panel12 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.panel13 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.btnMinimizar = new System.Windows.Forms.Button();
             this.pnlContainer = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsLblMachineName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -66,25 +80,11 @@ namespace InterfazEnvios
             this.txtLog = new System.Windows.Forms.TextBox();
             this.pnlNavBar = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tmrLog = new System.Windows.Forms.Timer(this.components);
-            this.label12 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.ledRojo = new System.Windows.Forms.PictureBox();
             this.ledAmarillo = new System.Windows.Forms.PictureBox();
             this.ledVerde = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnTransferencia = new System.Windows.Forms.Button();
-            this.btnCargas = new System.Windows.Forms.Button();
-            this.btnPendientes = new System.Windows.Forms.Button();
-            this.btnConfg = new System.Windows.Forms.Button();
-            this.btnParams = new System.Windows.Forms.Button();
-            this.btnInfo = new System.Windows.Forms.Button();
-            this.btnErrores = new System.Windows.Forms.Button();
-            this.btnCierreEnv = new System.Windows.Forms.Button();
-            this.btnMonitoreo = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.btnSalir = new System.Windows.Forms.Button();
-            this.btnMinimizar = new System.Windows.Forms.Button();
+            this.tmrLog = new System.Windows.Forms.Timer(this.components);
             this.pnlMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -98,11 +98,11 @@ namespace InterfazEnvios
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel13.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.pnlContainer.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.pnlNavBar.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ledRojo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ledAmarillo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ledVerde)).BeginInit();
@@ -165,6 +165,7 @@ namespace InterfazEnvios
             this.switchButton1.Size = new System.Drawing.Size(75, 32);
             this.switchButton1.TabIndex = 0;
             this.switchButton1.UseVisualStyleBackColor = true;
+            this.switchButton1.CheckedChanged += new System.EventHandler(this.switchButton1_CheckedChanged);
             this.switchButton1.Click += new System.EventHandler(this.switchButton1_Click);
             // 
             // panel2
@@ -188,6 +189,20 @@ namespace InterfazEnvios
             this.label1.TabIndex = 1;
             this.label1.Text = "Transferencia";
             // 
+            // btnTransferencia
+            // 
+            this.btnTransferencia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnTransferencia.BackgroundImage = global::InterfazEnvios.Properties.Resources.ftp;
+            this.btnTransferencia.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnTransferencia.FlatAppearance.BorderSize = 0;
+            this.btnTransferencia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTransferencia.Location = new System.Drawing.Point(18, 6);
+            this.btnTransferencia.Name = "btnTransferencia";
+            this.btnTransferencia.Size = new System.Drawing.Size(40, 40);
+            this.btnTransferencia.TabIndex = 8;
+            this.btnTransferencia.UseVisualStyleBackColor = false;
+            this.btnTransferencia.Click += new System.EventHandler(this.btnTransferencia_Click);
+            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -208,6 +223,19 @@ namespace InterfazEnvios
             this.label2.Size = new System.Drawing.Size(65, 22);
             this.label2.TabIndex = 1;
             this.label2.Text = "Cargas";
+            // 
+            // btnCargas
+            // 
+            this.btnCargas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnCargas.BackgroundImage = global::InterfazEnvios.Properties.Resources.file;
+            this.btnCargas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCargas.FlatAppearance.BorderSize = 0;
+            this.btnCargas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCargas.Location = new System.Drawing.Point(18, 6);
+            this.btnCargas.Name = "btnCargas";
+            this.btnCargas.Size = new System.Drawing.Size(40, 40);
+            this.btnCargas.TabIndex = 8;
+            this.btnCargas.UseVisualStyleBackColor = false;
             // 
             // panel5
             // 
@@ -230,6 +258,19 @@ namespace InterfazEnvios
             this.label3.TabIndex = 1;
             this.label3.Text = "Pendientes";
             // 
+            // btnPendientes
+            // 
+            this.btnPendientes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnPendientes.BackgroundImage = global::InterfazEnvios.Properties.Resources.pendiente;
+            this.btnPendientes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPendientes.FlatAppearance.BorderSize = 0;
+            this.btnPendientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPendientes.Location = new System.Drawing.Point(18, 6);
+            this.btnPendientes.Name = "btnPendientes";
+            this.btnPendientes.Size = new System.Drawing.Size(40, 40);
+            this.btnPendientes.TabIndex = 8;
+            this.btnPendientes.UseVisualStyleBackColor = false;
+            // 
             // panel6
             // 
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -250,6 +291,19 @@ namespace InterfazEnvios
             this.label4.Size = new System.Drawing.Size(124, 22);
             this.label4.TabIndex = 1;
             this.label4.Text = "Configuracion";
+            // 
+            // btnConfg
+            // 
+            this.btnConfg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnConfg.BackgroundImage = global::InterfazEnvios.Properties.Resources.engranaje;
+            this.btnConfg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnConfg.FlatAppearance.BorderSize = 0;
+            this.btnConfg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfg.Location = new System.Drawing.Point(18, 6);
+            this.btnConfg.Name = "btnConfg";
+            this.btnConfg.Size = new System.Drawing.Size(40, 40);
+            this.btnConfg.TabIndex = 8;
+            this.btnConfg.UseVisualStyleBackColor = false;
             // 
             // panel7
             // 
@@ -272,6 +326,19 @@ namespace InterfazEnvios
             this.label5.TabIndex = 1;
             this.label5.Text = "Parametros";
             // 
+            // btnParams
+            // 
+            this.btnParams.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnParams.BackgroundImage = global::InterfazEnvios.Properties.Resources.parameter;
+            this.btnParams.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnParams.FlatAppearance.BorderSize = 0;
+            this.btnParams.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnParams.Location = new System.Drawing.Point(18, 6);
+            this.btnParams.Name = "btnParams";
+            this.btnParams.Size = new System.Drawing.Size(40, 40);
+            this.btnParams.TabIndex = 8;
+            this.btnParams.UseVisualStyleBackColor = false;
+            // 
             // panel8
             // 
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -292,6 +359,19 @@ namespace InterfazEnvios
             this.label6.Size = new System.Drawing.Size(108, 22);
             this.label6.TabIndex = 1;
             this.label6.Text = "Informacion";
+            // 
+            // btnInfo
+            // 
+            this.btnInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnInfo.BackgroundImage = global::InterfazEnvios.Properties.Resources.info;
+            this.btnInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnInfo.FlatAppearance.BorderSize = 0;
+            this.btnInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInfo.Location = new System.Drawing.Point(18, 6);
+            this.btnInfo.Name = "btnInfo";
+            this.btnInfo.Size = new System.Drawing.Size(40, 40);
+            this.btnInfo.TabIndex = 8;
+            this.btnInfo.UseVisualStyleBackColor = false;
             // 
             // panel9
             // 
@@ -314,6 +394,19 @@ namespace InterfazEnvios
             this.label7.TabIndex = 1;
             this.label7.Text = "Errores";
             // 
+            // btnErrores
+            // 
+            this.btnErrores.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnErrores.BackgroundImage = global::InterfazEnvios.Properties.Resources.error;
+            this.btnErrores.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnErrores.FlatAppearance.BorderSize = 0;
+            this.btnErrores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnErrores.Location = new System.Drawing.Point(18, 6);
+            this.btnErrores.Name = "btnErrores";
+            this.btnErrores.Size = new System.Drawing.Size(40, 40);
+            this.btnErrores.TabIndex = 8;
+            this.btnErrores.UseVisualStyleBackColor = false;
+            // 
             // panel10
             // 
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -334,6 +427,19 @@ namespace InterfazEnvios
             this.label8.Size = new System.Drawing.Size(115, 22);
             this.label8.TabIndex = 1;
             this.label8.Text = "Cierre Envios";
+            // 
+            // btnCierreEnv
+            // 
+            this.btnCierreEnv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnCierreEnv.BackgroundImage = global::InterfazEnvios.Properties.Resources.send;
+            this.btnCierreEnv.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCierreEnv.FlatAppearance.BorderSize = 0;
+            this.btnCierreEnv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCierreEnv.Location = new System.Drawing.Point(18, 6);
+            this.btnCierreEnv.Name = "btnCierreEnv";
+            this.btnCierreEnv.Size = new System.Drawing.Size(40, 40);
+            this.btnCierreEnv.TabIndex = 8;
+            this.btnCierreEnv.UseVisualStyleBackColor = false;
             // 
             // panel11
             // 
@@ -356,6 +462,19 @@ namespace InterfazEnvios
             this.label9.TabIndex = 1;
             this.label9.Text = "Monitoreo";
             // 
+            // btnMonitoreo
+            // 
+            this.btnMonitoreo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnMonitoreo.BackgroundImage = global::InterfazEnvios.Properties.Resources.spyware;
+            this.btnMonitoreo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMonitoreo.FlatAppearance.BorderSize = 0;
+            this.btnMonitoreo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMonitoreo.Location = new System.Drawing.Point(18, 6);
+            this.btnMonitoreo.Name = "btnMonitoreo";
+            this.btnMonitoreo.Size = new System.Drawing.Size(40, 40);
+            this.btnMonitoreo.TabIndex = 8;
+            this.btnMonitoreo.UseVisualStyleBackColor = false;
+            // 
             // panel12
             // 
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -377,6 +496,20 @@ namespace InterfazEnvios
             this.label10.TabIndex = 1;
             this.label10.Text = "Reset IE";
             // 
+            // btnReset
+            // 
+            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnReset.BackgroundImage = global::InterfazEnvios.Properties.Resources.reset;
+            this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnReset.FlatAppearance.BorderSize = 0;
+            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReset.Location = new System.Drawing.Point(18, 6);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(40, 40);
+            this.btnReset.TabIndex = 8;
+            this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // panel13
             // 
             this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -397,6 +530,55 @@ namespace InterfazEnvios
             this.label11.Size = new System.Drawing.Size(46, 22);
             this.label11.TabIndex = 1;
             this.label11.Text = "Salir";
+            // 
+            // btnSalir
+            // 
+            this.btnSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnSalir.BackgroundImage = global::InterfazEnvios.Properties.Resources.exit;
+            this.btnSalir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSalir.FlatAppearance.BorderSize = 0;
+            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalir.Location = new System.Drawing.Point(18, 6);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(40, 40);
+            this.btnSalir.TabIndex = 8;
+            this.btnSalir.UseVisualStyleBackColor = false;
+            this.btnSalir.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label12);
+            this.panel3.Controls.Add(this.btnMinimizar);
+            this.panel3.Location = new System.Drawing.Point(3, 675);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(257, 50);
+            this.panel3.TabIndex = 10;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft YaHei", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.Black;
+            this.label12.Location = new System.Drawing.Point(104, 15);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(91, 22);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Minimizar";
+            // 
+            // btnMinimizar
+            // 
+            this.btnMinimizar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
+            this.btnMinimizar.BackgroundImage = global::InterfazEnvios.Properties.Resources.minimizar;
+            this.btnMinimizar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnMinimizar.FlatAppearance.BorderSize = 0;
+            this.btnMinimizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimizar.Location = new System.Drawing.Point(18, 6);
+            this.btnMinimizar.Name = "btnMinimizar";
+            this.btnMinimizar.Size = new System.Drawing.Size(37, 37);
+            this.btnMinimizar.TabIndex = 8;
+            this.btnMinimizar.UseVisualStyleBackColor = false;
+            this.btnMinimizar.Click += new System.EventHandler(this.btnMinimizar_Click);
             // 
             // pnlContainer
             // 
@@ -500,32 +682,6 @@ namespace InterfazEnvios
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
             // 
-            // tmrLog
-            // 
-            this.tmrLog.Interval = 2000;
-            this.tmrLog.Tick += new System.EventHandler(this.tmrLog_Tick);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft YaHei", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(104, 15);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(91, 22);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "Minimizar";
-            // 
-            // panel3
-            // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.btnMinimizar);
-            this.panel3.Location = new System.Drawing.Point(3, 675);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(257, 50);
-            this.panel3.TabIndex = 10;
-            // 
             // ledRojo
             // 
             this.ledRojo.Image = global::InterfazEnvios.Properties.Resources.cambiar;
@@ -569,165 +725,10 @@ namespace InterfazEnvios
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // btnTransferencia
+            // tmrLog
             // 
-            this.btnTransferencia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnTransferencia.BackgroundImage = global::InterfazEnvios.Properties.Resources.ftp;
-            this.btnTransferencia.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnTransferencia.FlatAppearance.BorderSize = 0;
-            this.btnTransferencia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTransferencia.Location = new System.Drawing.Point(18, 6);
-            this.btnTransferencia.Name = "btnTransferencia";
-            this.btnTransferencia.Size = new System.Drawing.Size(40, 40);
-            this.btnTransferencia.TabIndex = 8;
-            this.btnTransferencia.UseVisualStyleBackColor = false;
-            this.btnTransferencia.Click += new System.EventHandler(this.btnTransferencia_Click);
-            // 
-            // btnCargas
-            // 
-            this.btnCargas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnCargas.BackgroundImage = global::InterfazEnvios.Properties.Resources.file;
-            this.btnCargas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCargas.FlatAppearance.BorderSize = 0;
-            this.btnCargas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCargas.Location = new System.Drawing.Point(18, 6);
-            this.btnCargas.Name = "btnCargas";
-            this.btnCargas.Size = new System.Drawing.Size(40, 40);
-            this.btnCargas.TabIndex = 8;
-            this.btnCargas.UseVisualStyleBackColor = false;
-            // 
-            // btnPendientes
-            // 
-            this.btnPendientes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnPendientes.BackgroundImage = global::InterfazEnvios.Properties.Resources.pendiente;
-            this.btnPendientes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPendientes.FlatAppearance.BorderSize = 0;
-            this.btnPendientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPendientes.Location = new System.Drawing.Point(18, 6);
-            this.btnPendientes.Name = "btnPendientes";
-            this.btnPendientes.Size = new System.Drawing.Size(40, 40);
-            this.btnPendientes.TabIndex = 8;
-            this.btnPendientes.UseVisualStyleBackColor = false;
-            // 
-            // btnConfg
-            // 
-            this.btnConfg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnConfg.BackgroundImage = global::InterfazEnvios.Properties.Resources.engranaje;
-            this.btnConfg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnConfg.FlatAppearance.BorderSize = 0;
-            this.btnConfg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfg.Location = new System.Drawing.Point(18, 6);
-            this.btnConfg.Name = "btnConfg";
-            this.btnConfg.Size = new System.Drawing.Size(40, 40);
-            this.btnConfg.TabIndex = 8;
-            this.btnConfg.UseVisualStyleBackColor = false;
-            // 
-            // btnParams
-            // 
-            this.btnParams.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnParams.BackgroundImage = global::InterfazEnvios.Properties.Resources.parameter;
-            this.btnParams.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnParams.FlatAppearance.BorderSize = 0;
-            this.btnParams.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnParams.Location = new System.Drawing.Point(18, 6);
-            this.btnParams.Name = "btnParams";
-            this.btnParams.Size = new System.Drawing.Size(40, 40);
-            this.btnParams.TabIndex = 8;
-            this.btnParams.UseVisualStyleBackColor = false;
-            // 
-            // btnInfo
-            // 
-            this.btnInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnInfo.BackgroundImage = global::InterfazEnvios.Properties.Resources.info;
-            this.btnInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnInfo.FlatAppearance.BorderSize = 0;
-            this.btnInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInfo.Location = new System.Drawing.Point(18, 6);
-            this.btnInfo.Name = "btnInfo";
-            this.btnInfo.Size = new System.Drawing.Size(40, 40);
-            this.btnInfo.TabIndex = 8;
-            this.btnInfo.UseVisualStyleBackColor = false;
-            // 
-            // btnErrores
-            // 
-            this.btnErrores.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnErrores.BackgroundImage = global::InterfazEnvios.Properties.Resources.error;
-            this.btnErrores.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnErrores.FlatAppearance.BorderSize = 0;
-            this.btnErrores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnErrores.Location = new System.Drawing.Point(18, 6);
-            this.btnErrores.Name = "btnErrores";
-            this.btnErrores.Size = new System.Drawing.Size(40, 40);
-            this.btnErrores.TabIndex = 8;
-            this.btnErrores.UseVisualStyleBackColor = false;
-            // 
-            // btnCierreEnv
-            // 
-            this.btnCierreEnv.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnCierreEnv.BackgroundImage = global::InterfazEnvios.Properties.Resources.send;
-            this.btnCierreEnv.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnCierreEnv.FlatAppearance.BorderSize = 0;
-            this.btnCierreEnv.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCierreEnv.Location = new System.Drawing.Point(18, 6);
-            this.btnCierreEnv.Name = "btnCierreEnv";
-            this.btnCierreEnv.Size = new System.Drawing.Size(40, 40);
-            this.btnCierreEnv.TabIndex = 8;
-            this.btnCierreEnv.UseVisualStyleBackColor = false;
-            // 
-            // btnMonitoreo
-            // 
-            this.btnMonitoreo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnMonitoreo.BackgroundImage = global::InterfazEnvios.Properties.Resources.spyware;
-            this.btnMonitoreo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnMonitoreo.FlatAppearance.BorderSize = 0;
-            this.btnMonitoreo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMonitoreo.Location = new System.Drawing.Point(18, 6);
-            this.btnMonitoreo.Name = "btnMonitoreo";
-            this.btnMonitoreo.Size = new System.Drawing.Size(40, 40);
-            this.btnMonitoreo.TabIndex = 8;
-            this.btnMonitoreo.UseVisualStyleBackColor = false;
-            // 
-            // btnReset
-            // 
-            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnReset.BackgroundImage = global::InterfazEnvios.Properties.Resources.reset;
-            this.btnReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnReset.FlatAppearance.BorderSize = 0;
-            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReset.Location = new System.Drawing.Point(18, 6);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(40, 40);
-            this.btnReset.TabIndex = 8;
-            this.btnReset.UseVisualStyleBackColor = false;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // btnSalir
-            // 
-            this.btnSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnSalir.BackgroundImage = global::InterfazEnvios.Properties.Resources.exit;
-            this.btnSalir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSalir.FlatAppearance.BorderSize = 0;
-            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalir.Location = new System.Drawing.Point(18, 6);
-            this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(40, 40);
-            this.btnSalir.TabIndex = 8;
-            this.btnSalir.UseVisualStyleBackColor = false;
-            this.btnSalir.Click += new System.EventHandler(this.button11_Click);
-            // 
-            // btnMinimizar
-            // 
-            this.btnMinimizar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(152)))), ((int)(((byte)(223)))));
-            this.btnMinimizar.BackgroundImage = global::InterfazEnvios.Properties.Resources.minimizar;
-            this.btnMinimizar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnMinimizar.FlatAppearance.BorderSize = 0;
-            this.btnMinimizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMinimizar.Location = new System.Drawing.Point(18, 6);
-            this.btnMinimizar.Name = "btnMinimizar";
-            this.btnMinimizar.Size = new System.Drawing.Size(37, 37);
-            this.btnMinimizar.TabIndex = 8;
-            this.btnMinimizar.UseVisualStyleBackColor = false;
-            this.btnMinimizar.Click += new System.EventHandler(this.btnMinimizar_Click);
+            this.tmrLog.Interval = 2000;
+            this.tmrLog.Tick += new System.EventHandler(this.tmrLog_Tick);
             // 
             // Pantalla_Principal
             // 
@@ -772,6 +773,8 @@ namespace InterfazEnvios
             this.panel12.PerformLayout();
             this.panel13.ResumeLayout(false);
             this.panel13.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.pnlContainer.ResumeLayout(false);
             this.pnlContainer.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -779,8 +782,6 @@ namespace InterfazEnvios
             this.pnlNavBar.ResumeLayout(false);
             this.pnlNavBar.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ledRojo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ledAmarillo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ledVerde)).EndInit();
@@ -837,7 +838,6 @@ namespace InterfazEnvios
         private System.Windows.Forms.PictureBox ledVerde;
         private System.Windows.Forms.PictureBox ledRojo;
         private System.Windows.Forms.ToolStripStatusLabel tsLblMensajes;
-        private System.Windows.Forms.Timer tmrEnvio;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Panel pnlNavBar;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -845,5 +845,6 @@ namespace InterfazEnvios
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnMinimizar;
+        public System.Windows.Forms.Timer tmrEnvio;
     }
 }

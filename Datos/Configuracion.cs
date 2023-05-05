@@ -10,7 +10,6 @@ namespace Datos
 {
     public class Configuracion
     {
-
         public Configuracion()
         {
 
@@ -67,6 +66,10 @@ namespace Datos
         public bool[] envio { get; set; }
         public int noIntentos { get; set; }
         public string AppName { get; set; }
+        public string mqManager { get; set; }
+        public string mqEscribir { get; set; }
+        public string mqLeer { get; set; }
+        public string mqReporte { get; set; }
 
 
 
