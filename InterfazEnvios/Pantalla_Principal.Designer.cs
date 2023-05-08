@@ -33,7 +33,6 @@ namespace InterfazEnvios
             this.pnlMenu = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblEncender = new System.Windows.Forms.Label();
-            this.switchButton1 = new InterfazEnvios.Controles.SwitchButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.btnTransferencia = new System.Windows.Forms.Button();
@@ -85,6 +84,7 @@ namespace InterfazEnvios
             this.ledVerde = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tmrLog = new System.Windows.Forms.Timer(this.components);
+            this.switchButton1 = new InterfazEnvios.Controles.SwitchButton();
             this.pnlMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -151,22 +151,6 @@ namespace InterfazEnvios
             this.lblEncender.Size = new System.Drawing.Size(149, 22);
             this.lblEncender.TabIndex = 1;
             this.lblEncender.Text = "Encender Interfaz";
-            // 
-            // switchButton1
-            // 
-            this.switchButton1.AutoSize = true;
-            this.switchButton1.Location = new System.Drawing.Point(5, 11);
-            this.switchButton1.MinimumSize = new System.Drawing.Size(75, 32);
-            this.switchButton1.Name = "switchButton1";
-            this.switchButton1.OffBackColor = System.Drawing.Color.Gray;
-            this.switchButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.switchButton1.OnBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(77)))), ((int)(((byte)(108)))));
-            this.switchButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.switchButton1.Size = new System.Drawing.Size(75, 32);
-            this.switchButton1.TabIndex = 0;
-            this.switchButton1.UseVisualStyleBackColor = true;
-            this.switchButton1.CheckedChanged += new System.EventHandler(this.switchButton1_CheckedChanged);
-            this.switchButton1.Click += new System.EventHandler(this.switchButton1_Click);
             // 
             // panel2
             // 
@@ -338,6 +322,7 @@ namespace InterfazEnvios
             this.btnParams.Size = new System.Drawing.Size(40, 40);
             this.btnParams.TabIndex = 8;
             this.btnParams.UseVisualStyleBackColor = false;
+            this.btnParams.Click += new System.EventHandler(this.btnParams_Click);
             // 
             // panel8
             // 
@@ -729,6 +714,22 @@ namespace InterfazEnvios
             // 
             this.tmrLog.Interval = 2000;
             this.tmrLog.Tick += new System.EventHandler(this.tmrLog_Tick);
+            // 
+            // switchButton1
+            // 
+            this.switchButton1.AutoSize = true;
+            this.switchButton1.Location = new System.Drawing.Point(5, 11);
+            this.switchButton1.MinimumSize = new System.Drawing.Size(75, 32);
+            this.switchButton1.Name = "switchButton1";
+            this.switchButton1.OffBackColor = System.Drawing.Color.Gray;
+            this.switchButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.switchButton1.OnBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(77)))), ((int)(((byte)(108)))));
+            this.switchButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.switchButton1.Size = new System.Drawing.Size(75, 32);
+            this.switchButton1.TabIndex = 0;
+            this.switchButton1.UseVisualStyleBackColor = true;
+            this.switchButton1.CheckedChanged += new System.EventHandler(this.switchButton1_CheckedChanged);
+            this.switchButton1.Click += new System.EventHandler(this.switchButton1_Click);
             // 
             // Pantalla_Principal
             // 

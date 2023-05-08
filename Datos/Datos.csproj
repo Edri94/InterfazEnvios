@@ -263,7 +263,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>FuncionarioBd.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="EnviosKey.pfx" />
     <None Include="FuncionarioBd.edmx.diagram">
       <DependentUpon>FuncionarioBd.edmx</DependentUpon>
     </None>

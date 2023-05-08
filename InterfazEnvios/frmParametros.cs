@@ -53,7 +53,37 @@ namespace InterfazEnvios
             txtQueRecib.Text = frmp.confg.mqLeer;
             txtQueReprt.Text = frmp.confg.mqReporte;
 
-            
+            PrepararGrid();
+        }
+
+        private void PrepararGrid()
+        {
+            DataTable dt = new DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Operaciones", typeof(string));
+            dt.Columns.Add("Houston", typeof(bool));
+
+
+            string[] columnas = { "Swift MT103", "Swift MT198", "Swift MT202", "Clientes", "Depósitos/Retiros", "Deps/Rets por Ajuste", "Deps/Rets por TDD", "Órdenes de Pago USD", "Traspasos", "Time Deposit's", "Time Deposit's Overnight", "Holds"};
+
+            foreach (string col in columnas)
+            {
+                DataRow dr = dt.NewRow();
+                dr["Operaciones"] = col;
+                dr["Houston"] = false;
+                dt.Rows.Add(dr);
+            }
+
+
+            foreach (char c in frmp.confg.sendLaops)
+            {
+                char caracter = c;
+            }
+
+
+            dtgvInfo.DataSource = dt;
+            dtgvInfo.Refresh();
         }
 
         private void SinCambio()

@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="EnviosKey.pfx" />
     <None Include="IEnvios.pfx" />
     <None Include="packages.config" />
   </ItemGroup>

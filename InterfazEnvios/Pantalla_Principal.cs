@@ -922,5 +922,11 @@ namespace InterfazEnvios
         {
 
         }
+
+        private void btnParams_Click(object sender, EventArgs e)
+        {
+            frmParametros frm = new frmParametros(this);
+            frm.ShowDialog();
+        }
     }
 }

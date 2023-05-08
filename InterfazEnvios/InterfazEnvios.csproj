@@ -150,7 +150,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="EnviosKey.pfx" />
     <None Include="IEnvios.pfx" />
     <None Include="InterfazEnvios_TemporaryKey.pfx" />
     <None Include="packages.config" />
