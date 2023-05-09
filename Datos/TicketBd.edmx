@@ -14,6 +14,18 @@
           <Property Name="FECHA_OPERACION" Type="smalldatetime" Nullable="false" />
           <Property Name="NOMBRE_CLIENTE" Type="char" MaxLength="75" />
         </EntityType>
+        <EntityType Name="BITACORA_ENVIO_KAPITI">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="fecha_envio" Type="smalldatetime" Nullable="false" />
+          <Property Name="fecha_validado" Type="smalldatetime" />
+          <Property Name="archivo" Type="char" MaxLength="8" />
+          <Property Name="no_journal" Type="tinyint" />
+          <Property Name="no_journal_contrapartida" Type="tinyint" />
+        </EntityType>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
             <PropertyRef Name="consecutivo" />
@@ -378,6 +390,17 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
           <Property Name="otro_documento" Type="varchar" MaxLength="40" />
           <Property Name="referencia_ced" Type="int" />
         </EntityType>
+        <EntityType Name="TICKET_UETR">
+          <Key>
+            <PropertyRef Name="operacion" />
+            <PropertyRef Name="UETR" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="UETR" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="fecha_actual" Type="smalldatetime" />
+          <Property Name="usuario" Type="varchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="TIPO_CUENTA_EJE">
           <Key>
             <PropertyRef Name="tipo_cuenta_eje" />
@@ -428,6 +451,12 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
           <Property Name="descripcion_swift" Type="char" MaxLength="20" />
           <Property Name="mnemonico_swift" Type="char" MaxLength="3" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'TICKET.Transferencia.FIBIPC' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="FIBIPC">
+          <Property Name="archivo" Type="char" MaxLength="8" />
+          <Property Name="fecha" Type="smalldatetime" />
+        </EntityType>-->
         <Association Name="FK_COMPRA_CD__OPERACION">
           <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
           <End Role="COMPRA_CD" Type="Self.COMPRA_CD" Multiplicity="0..1" />
@@ -705,6 +734,7 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
         </Function>
         <EntityContainer Name="TICKETModelStoreContainer">
           <EntitySet Name="BITACORA_APERTURA" EntityType="Self.BITACORA_APERTURA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_ENVIO_KAPITI" EntityType="Self.BITACORA_ENVIO_KAPITI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="Self.BITACORA_ENVIO_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_FECHAS_EJECUCION" EntityType="Self.BITACORA_FECHAS_EJECUCION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_REPORTE_SWIFT_MT198" EntityType="Self.BITACORA_REPORTE_SWIFT_MT198" Schema="dbo" store:Type="Tables" />
@@ -729,6 +759,7 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
           <EntitySet Name="REPORTE_SWIFT_MT202" EntityType="Self.REPORTE_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RETIRO_CED" EntityType="Self.RETIRO_CED" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RETIRO_PME" EntityType="Self.RETIRO_PME" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TICKET_UETR" EntityType="Self.TICKET_UETR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_CUENTA_EJE" EntityType="Self.TIPO_CUENTA_EJE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_DOCUMENTO" EntityType="Self.TIPO_DOCUMENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_MANTENIMIENTO_CUENTA" EntityType="Self.TIPO_MANTENIMIENTO_CUENTA" Schema="dbo" store:Type="Tables" />
@@ -978,6 +1009,8 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
             <Parameter Name="Dias" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="BITACORA_ENVIO_KAPITI" EntityType="TICKETModel.BITACORA_ENVIO_KAPITI" />
+          <EntitySet Name="TICKET_UETR" EntityType="TICKETModel.TICKET_UETR" />
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -1699,6 +1732,29 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BITACORA_ENVIO_KAPITI">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="fecha_envio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_validado" Type="DateTime" Precision="0" />
+          <Property Name="archivo" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="no_journal" Type="Byte" />
+          <Property Name="no_journal_contrapartida" Type="Byte" />
+        </EntityType>
+        <EntityType Name="TICKET_UETR">
+          <Key>
+            <PropertyRef Name="operacion" />
+            <PropertyRef Name="UETR" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="UETR" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_actual" Type="DateTime" Precision="0" />
+          <Property Name="usuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2149,6 +2205,30 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_obtiene_dia_habil" FunctionName="TICKETModel.Store.sp_obtiene_dia_habil" />
+          <EntitySetMapping Name="BITACORA_ENVIO_KAPITI">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_ENVIO_KAPITI">
+              <MappingFragment StoreEntitySet="BITACORA_ENVIO_KAPITI">
+                <ScalarProperty Name="no_journal_contrapartida" ColumnName="no_journal_contrapartida" />
+                <ScalarProperty Name="no_journal" ColumnName="no_journal" />
+                <ScalarProperty Name="archivo" ColumnName="archivo" />
+                <ScalarProperty Name="fecha_validado" ColumnName="fecha_validado" />
+                <ScalarProperty Name="fecha_envio" ColumnName="fecha_envio" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+                <ScalarProperty Name="consecutivo" ColumnName="consecutivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICKET_UETR">
+            <EntityTypeMapping TypeName="TICKETModel.TICKET_UETR">
+              <MappingFragment StoreEntitySet="TICKET_UETR">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="fecha_actual" ColumnName="fecha_actual" />
+                <ScalarProperty Name="UETR" ColumnName="UETR" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

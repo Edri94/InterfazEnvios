@@ -174,11 +174,13 @@ namespace InterfazEnvios
             // 
             // cmbBic
             // 
+            this.cmbBic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBic.FormattingEnabled = true;
             this.cmbBic.Location = new System.Drawing.Point(566, 181);
             this.cmbBic.Name = "cmbBic";
             this.cmbBic.Size = new System.Drawing.Size(284, 28);
             this.cmbBic.TabIndex = 2;
+            this.cmbBic.SelectedIndexChanged += new System.EventHandler(this.cmbBic_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -208,6 +210,7 @@ namespace InterfazEnvios
             // 
             this.txtOrigenDestino.Location = new System.Drawing.Point(566, 312);
             this.txtOrigenDestino.Name = "txtOrigenDestino";
+            this.txtOrigenDestino.ReadOnly = true;
             this.txtOrigenDestino.Size = new System.Drawing.Size(284, 26);
             this.txtOrigenDestino.TabIndex = 0;
             // 
@@ -215,6 +218,7 @@ namespace InterfazEnvios
             // 
             this.txtBicOrigen.Location = new System.Drawing.Point(566, 252);
             this.txtBicOrigen.Name = "txtBicOrigen";
+            this.txtBicOrigen.ReadOnly = true;
             this.txtBicOrigen.Size = new System.Drawing.Size(284, 26);
             this.txtBicOrigen.TabIndex = 0;
             // 
@@ -234,7 +238,7 @@ namespace InterfazEnvios
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(16, 227);
+            this.label5.Location = new System.Drawing.Point(17, 227);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(119, 45);
             this.label5.TabIndex = 1;
@@ -242,7 +246,7 @@ namespace InterfazEnvios
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(16, 165);
+            this.label4.Location = new System.Drawing.Point(17, 165);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(119, 45);
             this.label4.TabIndex = 1;
@@ -250,14 +254,14 @@ namespace InterfazEnvios
             // 
             // txtBdGestores
             // 
-            this.txtBdGestores.Location = new System.Drawing.Point(141, 236);
+            this.txtBdGestores.Location = new System.Drawing.Point(142, 236);
             this.txtBdGestores.Name = "txtBdGestores";
             this.txtBdGestores.Size = new System.Drawing.Size(269, 26);
             this.txtBdGestores.TabIndex = 0;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(16, 103);
+            this.label3.Location = new System.Drawing.Point(17, 103);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(119, 45);
             this.label3.TabIndex = 1;
@@ -265,14 +269,14 @@ namespace InterfazEnvios
             // 
             // txtBdCatalogos
             // 
-            this.txtBdCatalogos.Location = new System.Drawing.Point(141, 174);
+            this.txtBdCatalogos.Location = new System.Drawing.Point(142, 174);
             this.txtBdCatalogos.Name = "txtBdCatalogos";
             this.txtBdCatalogos.Size = new System.Drawing.Size(269, 26);
             this.txtBdCatalogos.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(16, 41);
+            this.label1.Location = new System.Drawing.Point(17, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 45);
             this.label1.TabIndex = 1;
@@ -280,14 +284,14 @@ namespace InterfazEnvios
             // 
             // txtBdDesarrollo
             // 
-            this.txtBdDesarrollo.Location = new System.Drawing.Point(141, 112);
+            this.txtBdDesarrollo.Location = new System.Drawing.Point(142, 112);
             this.txtBdDesarrollo.Name = "txtBdDesarrollo";
             this.txtBdDesarrollo.Size = new System.Drawing.Size(269, 26);
             this.txtBdDesarrollo.TabIndex = 0;
             // 
             // txtNombreServidor
             // 
-            this.txtNombreServidor.Location = new System.Drawing.Point(126, 50);
+            this.txtNombreServidor.Location = new System.Drawing.Point(127, 50);
             this.txtNombreServidor.Name = "txtNombreServidor";
             this.txtNombreServidor.Size = new System.Drawing.Size(284, 26);
             this.txtNombreServidor.TabIndex = 0;
@@ -611,6 +615,7 @@ namespace InterfazEnvios
             this.btnSalir.TabIndex = 0;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // btnCambiar
             // 
@@ -620,6 +625,7 @@ namespace InterfazEnvios
             this.btnCambiar.TabIndex = 0;
             this.btnCambiar.Text = "Cambiar";
             this.btnCambiar.UseVisualStyleBackColor = true;
+            this.btnCambiar.Click += new System.EventHandler(this.btnCambiar_Click);
             // 
             // btnTest
             // 
@@ -629,6 +635,7 @@ namespace InterfazEnvios
             this.btnTest.TabIndex = 0;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // btnGuardar
             // 
@@ -638,6 +645,7 @@ namespace InterfazEnvios
             this.btnGuardar.TabIndex = 0;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // frmParametros
             // 
@@ -646,6 +654,7 @@ namespace InterfazEnvios
             this.ClientSize = new System.Drawing.Size(1179, 484);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmParametros";
             this.Text = "Parametros";
             this.Activated += new System.EventHandler(this.frmParametros_Activated);

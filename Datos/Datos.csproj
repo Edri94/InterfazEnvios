@@ -67,6 +67,9 @@
     <Compile Include="BITACORA_APERTURA.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="BITACORA_ENVIO_KAPITI.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="BITACORA_ENVIO_SWIFT_MT202.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
@@ -218,6 +221,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TicketBd.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="TICKET_UETR.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="TIPO_CLIENTE.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>

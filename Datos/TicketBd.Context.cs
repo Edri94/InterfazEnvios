@@ -57,6 +57,8 @@ namespace Datos
         public virtual DbSet<TIPO_MANTENIMIENTO_CUENTA> TIPO_MANTENIMIENTO_CUENTA { get; set; }
         public virtual DbSet<TIPO_REPORTE_SWIFT> TIPO_REPORTE_SWIFT { get; set; }
         public virtual DbSet<HOLD> HOLD { get; set; }
+        public virtual DbSet<BITACORA_ENVIO_KAPITI> BITACORA_ENVIO_KAPITI { get; set; }
+        public virtual DbSet<TICKET_UETR> TICKET_UETR { get; set; }
     
         public virtual int sp_i_InfoMT202(string fechaoperacion1, Nullable<int> agencia1, Nullable<int> agencia3)
         {

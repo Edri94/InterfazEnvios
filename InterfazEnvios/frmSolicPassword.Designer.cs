@@ -50,6 +50,7 @@ namespace InterfazEnvios
             this.txtPswd.Font = new System.Drawing.Font("Microsoft YaHei", 8F, System.Drawing.FontStyle.Bold);
             this.txtPswd.Location = new System.Drawing.Point(20, 54);
             this.txtPswd.Name = "txtPswd";
+            this.txtPswd.PasswordChar = '*';
             this.txtPswd.Size = new System.Drawing.Size(428, 29);
             this.txtPswd.TabIndex = 1;
             // 

@@ -28,7 +28,7 @@ namespace InterfazEnvios
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if(frmp.confg.gsAppPassword == txtPswd.Text)
+            if(frmp.confg.gsAppPassword.ToLower() == txtPswd.Text.ToLower())
             {
                 frmp.gbPasswordOK = true;
                 this.Close();

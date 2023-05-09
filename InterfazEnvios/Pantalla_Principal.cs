@@ -141,8 +141,24 @@ namespace InterfazEnvios
             try
             {
                 tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
-                tsLblMachineName.Text = Environment.MachineName;
-                tsLblFechaPc.Text = DateTime.Now.ToString("dd-MM-yyyy");
+                tsLblMachineName.Text = "Maquina: " + Environment.MachineName;
+                tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");
+
+                Datos.TICKETEntities bdTicket = new TICKETEntities();
+                Datos.CATALOGOSEntities bdCatalogos = new CATALOGOSEntities();
+                string db1 = bdTicket.Database.Connection.DataSource;
+                string db2 = bdCatalogos.Database.Connection.DataSource;
+
+                if(db1 == db2)
+                {
+                    tsLblServer.Text = "Servidor:" + db1;
+                }
+                else
+                {
+                    tsLblServer.Text = "Servidor: No todas la configuraciones apuntan al mismo servidor.";
+                }
+
+                
 
                 ls_StatusInterfaz = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
 
@@ -247,15 +263,15 @@ namespace InterfazEnvios
                 confg.gsAppPassword = crpt.VerificaClaves(2,confg.getValueAppConfig("APPPWD", "PARAMETRO"));
                 confg.ambiente = confg.getValueAppConfig("AMBIENTE", "PARAMETRO");
                 confg.pathFtpApp = confg.getValueAppConfig("PATHFTPAPP", "PARAMETRO");
-                confg.sna620 = confg.getValueAppConfig("SNA620", "PARAMETRO");
-                confg.libSwift = confg.getValueAppConfig("LIBSWIFT", "PARAMETRO");
-                confg.libSaldos = confg.getValueAppConfig("LIBSALDOS", "PARAMETRO");
-                confg.libDefault = confg.getValueAppConfig("LIBDEFAULT", "PARAMETRO");
+                confg.sna620 = crpt.VerificaClaves(2, confg.getValueAppConfig("SNA620", "PARAMETRO"));
+                confg.libSwift = crpt.VerificaClaves(2, confg.getValueAppConfig("LIBSWIFT", "PARAMETRO"));
+                confg.libSaldos = crpt.VerificaClaves(2, confg.getValueAppConfig("LIBSALDOS", "PARAMETRO"));
+                confg.libDefault = crpt.VerificaClaves(2, confg.getValueAppConfig("LIBDEFAULT", "PARAMETRO"));
 
-                confg.mqManager = confg.getValueAppConfig("MQMANAGER", "PARAMETRO");
-                confg.mqEscribir = confg.getValueAppConfig("MQESCRIBIR", "PARAMETRO");
-                confg.mqLeer = confg.getValueAppConfig("MQLEER", "PARAMETRO");
-                confg.mqReporte = confg.getValueAppConfig("MQREPORTE", "PARAMETRO");
+                confg.mqManager = crpt.VerificaClaves(2, confg.getValueAppConfig("MQMANAGER", "PARAMETRO"));
+                confg.mqEscribir = crpt.VerificaClaves(2, confg.getValueAppConfig("MQESCRIBIR", "PARAMETRO"));
+                confg.mqLeer = crpt.VerificaClaves(2, confg.getValueAppConfig("MQLEER", "PARAMETRO"));
+                confg.mqReporte = crpt.VerificaClaves(2, confg.getValueAppConfig("MQREPORTE", "PARAMETRO"));
 
 
                 confg.sendLaops = confg.getValueAppConfig("SENDLAOPS", "PARAMETRO");
@@ -820,7 +836,7 @@ namespace InterfazEnvios
                         return;
                     }
 
-                    tsLblMensajes.Text = "Cargando Sistema Por Favor Espere....";
+                    tsLblServer.Text = "Cargando Sistema Por Favor Espere....";
 
                     if (ModeloNegocio.Transferencias.LlenarColeccion())
                     {
@@ -847,7 +863,7 @@ namespace InterfazEnvios
                             }
                             else
                             {
-                                tsLblMensajes.Text = "La transferencia de Archivos ya esta cerrada";
+                                tsLblServer.Text = "La transferencia de Archivos ya esta cerrada";
                                 btnCargas.Enabled = true;
 
                                 ledVerde.Visible = true;
@@ -857,7 +873,7 @@ namespace InterfazEnvios
                         }
                         else
                         {
-                            tsLblMensajes.Text = "Verifique el servidor y su conexión a la red local o si el sistema ya cerró.";
+                            tsLblServer.Text = "Verifique el servidor y su conexión a la red local o si el sistema ya cerró.";
                         }
                     }
                 }

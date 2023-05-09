@@ -74,7 +74,7 @@ namespace InterfazEnvios
             this.tsLblMachineName = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLblFechaPc = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsLblMensajes = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsLblServer = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmrEnvio = new System.Windows.Forms.Timer(this.components);
             this.txtLog = new System.Windows.Forms.TextBox();
             this.pnlNavBar = new System.Windows.Forms.Panel();
@@ -582,7 +582,7 @@ namespace InterfazEnvios
             this.tsLblMachineName,
             this.tsLblVersion,
             this.tsLblFechaPc,
-            this.tsLblMensajes});
+            this.tsLblServer});
             this.statusStrip1.Location = new System.Drawing.Point(0, 695);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1044, 36);
@@ -622,16 +622,16 @@ namespace InterfazEnvios
             this.tsLblFechaPc.Size = new System.Drawing.Size(115, 29);
             this.tsLblFechaPc.Text = "tsLblFechaPc";
             // 
-            // tsLblMensajes
+            // tsLblServer
             // 
-            this.tsLblMensajes.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tsLblMensajes.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            this.tsLblServer.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tsLblServer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.tsLblMensajes.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
-            this.tsLblMensajes.Name = "tsLblMensajes";
-            this.tsLblMensajes.Size = new System.Drawing.Size(126, 29);
-            this.tsLblMensajes.Text = "tsLblMensajes";
+            this.tsLblServer.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
+            this.tsLblServer.Name = "tsLblServer";
+            this.tsLblServer.Size = new System.Drawing.Size(102, 29);
+            this.tsLblServer.Text = "tsLblServer";
             // 
             // txtLog
             // 
@@ -838,7 +838,7 @@ namespace InterfazEnvios
         private System.Windows.Forms.PictureBox ledAmarillo;
         private System.Windows.Forms.PictureBox ledVerde;
         private System.Windows.Forms.PictureBox ledRojo;
-        private System.Windows.Forms.ToolStripStatusLabel tsLblMensajes;
+        private System.Windows.Forms.ToolStripStatusLabel tsLblServer;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Panel pnlNavBar;
         private System.Windows.Forms.GroupBox groupBox1;
