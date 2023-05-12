@@ -71,7 +71,12 @@ namespace Datos
         public string mqLeer { get; set; }
         public string mqReporte { get; set; }
 
-
+        public string usr400 { get; set; }
+        public string pswd400 { get; set; }
+        public string dsn400 { get; set; }
+        public string usrSql { get; set; }
+        public string pswdSql { get; set; }
+        public string dataSource { get; set; }
 
 
 

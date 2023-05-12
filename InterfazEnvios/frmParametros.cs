@@ -1,4 +1,6 @@
-﻿using MNICript;
+﻿using Datos;
+using IBM.WMQ;
+using MNICript;
 using ModeloNegocio;
 using System;
 using System.Collections.Generic;
@@ -45,6 +47,20 @@ namespace InterfazEnvios
 
         private void CargaParametros()
         {
+            //SQL
+            txtNombreServidor.Text = frmp.confg.dataSource;
+            txtLoginUsr.Text = frmp.confg.usrSql;
+            txtPswdUsr.Text = frmp.confg.usrSql;
+
+            List<Datos.DataSourceCmb> ambientes = new List<Datos.DataSourceCmb>();
+            ambientes.Add(new DataSourceCmb { Display = "Produccion", Valor = "150.100.234.145\\INSSQL18" });
+            ambientes.Add(new DataSourceCmb { Display = "Desarrollo", Valor = "100.234.142\\INSSQL002" });
+            cmbBic.DataSource = ambientes;
+            cmbBic.DisplayMember = "Display";
+            cmbBic.ValueMember = "Valor";
+
+            cmbBic.SelectedItem = ambientes.Where(w => w.Display == frmp.confg.ambiente);
+
             //AS400
             txtNombreSna.Text =  frmp.confg.sna620;
             txtBibliotecaEq.Text = frmp.confg.libSwift;
@@ -122,29 +138,10 @@ namespace InterfazEnvios
         {
             crpt = new clsEncripta();
 
-            booNoChangeParam = false;
-
-            List<string> ambientes = new List<string>();
-            ambientes.Add("Produccion");
-            ambientes.Add("Desarrollo");
-            cmbBic.DataSource = ambientes;
+            booNoChangeParam = false;         
         }
 
-        private void cmbBic_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selected = cmbBic.SelectedValue.ToString();
-
-            if (selected == "Produccion")
-            {
-                txtBicOrigen.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1").valor;
-                txtOrigenDestino.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1").valor;
-            }
-            else if(selected == "Desarrollo")
-            {
-                txtBicOrigen.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1P").valor;
-                txtOrigenDestino.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1P").valor;
-            }    
-        }
+ 
 
         private void btnCambiar_Click(object sender, EventArgs e)
         {
@@ -264,12 +261,224 @@ namespace InterfazEnvios
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            bool blnConectado, blnVerificarEscribir, blnVerificarLeer;
-            string strError;
+            try
+            {
+                bool blnVerificarEscribir = false, blnVerificarLeer = false;
 
-            Log.Escribe("Test de conexion MQSeries");
+
+                Log.Escribe("Test de conexion MQSeries");
+
+                if (frmp.gbMQConectado) 
+                {
+                    if (txtQueManager.Text != frmp.confg.mqManager)
+                    {
+                        frmp.confg.mqManager = txtQueManager.Text;
 
 
+                        if (MqSeries.PruebaConexion(frmp.confg.mqManager))
+                        {
+                            frmp.gbMQConectado = true;
+                        }
+                        else
+                        {
+                            frmp.gbMQConectado = false;
+                        }
+                    }
+
+                    if(frmp.gbMQConectado)
+                    {                       
+                        if (MqSeries.MQVerificar(frmp.confg.mqManager, txtQueEnv.Text))
+                        {
+                            blnVerificarLeer = true;
+                        }
+                        else
+                        {
+                            blnVerificarLeer = false;
+                            Log.Escribe($"Queue: {txtQueEnv.Text}");
+                        }
+                        if (MqSeries.MQVerificar(frmp.confg.mqManager, txtQueRecib.Text))
+                        {
+                            blnVerificarLeer = true;
+                        }
+                        else
+                        {
+                            blnVerificarLeer = false;
+                            Log.Escribe($"Queue: {txtQueRecib.Text}");
+                        }
+
+                    }
+                }
+                else
+                {
+                    frmp.confg.mqManager = txtQueManager.Text;
+
+                    if (MqSeries.PruebaConexion(frmp.confg.mqManager))
+                    {
+                        frmp.gbMQConectado = true;
+
+                        if(MqSeries.MQVerificar(frmp.confg.mqManager, txtQueEnv.Text))
+                        {
+                            blnVerificarEscribir = true;
+                        }
+                        else
+                        {
+                            blnVerificarEscribir = false;
+                            Log.Escribe($"Queue: {txtQueEnv.Text}");
+                        }
+
+                        if (MqSeries.MQVerificar(frmp.confg.mqManager, txtQueRecib.Text))
+                        {
+                            blnVerificarEscribir = true;
+                        }
+                        else
+                        {
+                            blnVerificarEscribir = false;
+                            Log.Escribe($"Queue: {txtQueRecib.Text}");
+                        }
+
+                    }
+                    else
+                    {
+                        frmp.gbMQConectado = false;
+                    }
+                }
+
+                if(!blnVerificarEscribir && !blnVerificarLeer)
+                {
+                    Log.Escribe("Prueba  MQ No satisfactoria");
+                    MessageBox.Show("Prueba  MQ No satisfactoria");
+                }
+                else
+                {
+                    Log.Escribe("Prueba MQ Satisfactoria");
+                    MessageBox.Show("Prueba MQ Satisfactoria");
+                }
+
+
+            }
+            catch(MQException mqex)
+            {
+                Log.Escribe(mqex);
+                MessageBox.Show("Error " + mqex.ReasonCode + " , " + mqex.Message);
+            }
+            catch (Exception ex)
+            {
+                Log.Escribe("Fallo conexion a MQ");
+                Log.Escribe(ex);
+            }
+            
+        }
+
+        private void chkEnvArchivos_Click(object sender, EventArgs e)
+        {
+            HayCambio();
+        }
+
+        private void chkEnvMsj_Click(object sender, EventArgs e)
+        {
+            HayCambio();
+        }
+
+        private void frmParametros_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(!booNoChangeParam)
+            {
+                booActivate = false;
+                booNoChangeParam = false;           
+            }
+            else
+            {
+                DialogResult dg = MessageBox.Show("¿Desea Salir sin Guardar los Cambios?", "Cambios Pendientes", MessageBoxButtons.YesNo);
+
+                if(dg == DialogResult.Yes)
+                {
+                    booActivate = false;
+                    booNoChangeParam = false;
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+           
+        }
+
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            btnTest.Visible = false;
+            btnCambiar.Visible = false;
+            btnGuardar.Visible = true;
+
+            switch (e.TabPage.Name)
+            {
+                case "tbTicket":
+                break;
+
+                case "tbAs400":
+                break;
+
+                case "tbMqSeries":
+                    btnTest.Visible = true;
+                break;
+
+                case "tbInfo":
+                break;
+
+                case "tbPassword":
+                    btnGuardar.Visible = false;
+                    btnCambiar.Visible = true;
+                break;
+            }
+        }
+
+        private void txtQueManager_TextChanged(object sender, EventArgs e)
+        {
+            HayCambio();
+        }
+
+        private void txtQueEnv_TextChanged(object sender, EventArgs e)
+        {
+            HayCambio();
+        }
+
+        private void txtQueRecib_TextChanged(object sender, EventArgs e)
+        {
+            HayCambio();
+        }
+
+        private void txtQueReprt_TextChanged(object sender, EventArgs e)
+        {
+            HayCambio();
+        }
+
+        private void txtPswdAct_Leave(object sender, EventArgs e)
+        {
+            if(frmp.confg.gsAppPassword != txtPswdAct.Text)
+            {
+                MessageBox.Show("El password actual no es correcto");
+                txtPswdAct.Enabled = false;
+                txtPswdAct.Focus();
+            }
+        }
+
+        private void cmbBic_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            Datos.DataSourceCmb selected = (Datos.DataSourceCmb)cmbBic.SelectedItem;
+
+            if (selected.Display == "Produccion")
+            {
+                txtBicOrigen.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1").valor;
+                txtOrigenDestino.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1").valor;
+
+                txtNombreServidor.Text = selected.Valor.ToString();
+            }
+            else if (selected.Display == "Desarrollo")
+            {
+                txtBicOrigen.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1P").valor;
+                txtOrigenDestino.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1P").valor;
+
+                txtNombreServidor.Text = selected.Valor.ToString();
+            }
         }
     }
 }

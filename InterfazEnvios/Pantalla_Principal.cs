@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Data.Odbc;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,10 +20,12 @@ namespace InterfazEnvios
 {
     public partial class Pantalla_Principal : Form
     {
-        ConexionAS400 as400;
         clsEncripta crpt;
+
+        public ConexionAS400 as400;      
         public Configuracion confg;
         public string mensajes;
+        public bool gbMQConectado;
 
         string msSendCtes;
         string msSendTDs;
@@ -143,22 +147,7 @@ namespace InterfazEnvios
                 tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
                 tsLblMachineName.Text = "Maquina: " + Environment.MachineName;
                 tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");
-
-                Datos.TICKETEntities bdTicket = new TICKETEntities();
-                Datos.CATALOGOSEntities bdCatalogos = new CATALOGOSEntities();
-                string db1 = bdTicket.Database.Connection.DataSource;
-                string db2 = bdCatalogos.Database.Connection.DataSource;
-
-                if(db1 == db2)
-                {
-                    tsLblServer.Text = "Servidor:" + db1;
-                }
-                else
-                {
-                    tsLblServer.Text = "Servidor: No todas la configuraciones apuntan al mismo servidor.";
-                }
-
-                
+                          
 
                 ls_StatusInterfaz = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
 
@@ -257,6 +246,37 @@ namespace InterfazEnvios
 
 
                 Log.Escribe("Inicia configuración de variables");
+
+                Datos.TICKETEntities bdTicket = new TICKETEntities();
+                Datos.CATALOGOSEntities bdCatalogos = new CATALOGOSEntities();
+                Datos.FUNCIONARIOSEntities bdFuncionario = new FUNCIONARIOSEntities();
+                string ds1 = bdTicket.Database.Connection.DataSource;
+                string ds2 = bdCatalogos.Database.Connection.DataSource;
+                string ds3 = bdFuncionario.Database.Connection.DataSource;
+                
+           
+
+                if (ds1 == ds2 && ds2 == ds3)
+                {
+                    DbConnection cnn = bdFuncionario.Database.Connection;
+                    confg.usrSql = GetCredential(cnn, "id=");
+                    confg.pswdSql = GetCredential(cnn, "password=");
+                    confg.dataSource = ds3;
+
+                    tsLblServer.Text = "Servidor:" + ds1;
+                }
+                else
+                {
+
+                    confg.usrSql = "";
+                    confg.pswdSql = "";
+                    confg.dataSource = ds1;
+
+                    tsLblServer.Text = "Servidor: No todas la configuraciones apuntan al mismo servidor.";
+                }
+
+
+
                 confg.AppName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
                 
@@ -398,6 +418,11 @@ namespace InterfazEnvios
 
                 confg.noIntentos = Int32.Parse(confg.getValueAppConfig("INTENTOSKAPITITXT", "PARAMETRO"));
 
+                confg.usr400 = crpt.VerificaClaves(2, confg.getValueAppConfig("Usuario", "AS400"));
+                confg.pswd400 = crpt.VerificaClaves(2, confg.getValueAppConfig("Password", "AS400"));
+                confg.dsn400 = crpt.VerificaClaves(2, confg.getValueAppConfig("DSN", "AS400"));
+
+            
                 RevisaExclusiones();
 
                 gsEnvioXML = confg.getValueAppConfig("ENVIOXML", "PARAMETRO");
@@ -406,11 +431,34 @@ namespace InterfazEnvios
                 gsMQLeerXML = confg.getValueAppConfig("MQLEERXML", "PARAMETRO");
                 
                 gsEnvioMT = confg.getValueAppConfig("ENVIOMT", "PARAMETRO");
+
             }
             catch (Exception ex)
             {
                 Log.Escribe(ex);
             }
+        }
+
+
+        private string GetCredential(DbConnection cnn, string busqueda)
+        {
+            string conexion = cnn.ConnectionString;
+
+            int idx = conexion.IndexOf(busqueda) + busqueda.Length;
+            int i = 0;
+            string usuario = "";
+
+            foreach (char c in conexion)
+            {
+                if(i >= idx)
+                {
+                    if (c == ';') break;
+                    usuario += c;                  
+                }
+                i++;
+            }
+
+            return usuario;
         }
 
         private void RevisaExclusiones()
@@ -727,14 +775,10 @@ namespace InterfazEnvios
 
         private void ConectarAS400()
         {
-            string usuario = crpt.VerificaClaves(2, confg.getValueAppConfig("Usuario", "AS400"));
-            string password = crpt.VerificaClaves(2, confg.getValueAppConfig("Password", "AS400"));
-            string dsn = crpt.VerificaClaves(2, confg.getValueAppConfig("DSN", "AS400"));
-
-            as400 = new ConexionAS400(usuario, password, dsn);
+            as400 = new ConexionAS400(confg.usr400, confg.pswd400, confg.dsn400);
 
             //[PRUEBAS] consulta a AS400***************************************************
-            DataTable dt = as400.EjecutaSelect("SELECT * FROM TKTLIB.DEIB5406");
+            DataTable dt = as400.EjecutaSelect("SELECT getdate() FROM TKTLIB.DEIB5406");
 
             foreach (DataRow row in dt.Rows)
             {
@@ -943,6 +987,11 @@ namespace InterfazEnvios
         {
             frmParametros frm = new frmParametros(this);
             frm.ShowDialog();
+        }
+
+        private void Pantalla_Principal_Activated(object sender, EventArgs e)
+        {
+
         }
     }
 }

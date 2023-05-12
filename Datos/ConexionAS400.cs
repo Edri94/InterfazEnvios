@@ -26,6 +26,23 @@ namespace Datos
 
         }
 
+        public bool PruebaConexion()
+        {
+            try
+            {
+                using (OdbcConnection cnn = new OdbcConnection(this.connection_str))
+                {
+                    cnn.Open();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
+        }
+
         /// <summary>
         /// Ejecuta consulta a ODBC
         /// </summary>
@@ -111,5 +128,6 @@ namespace Datos
                 return afectados;
             }
         }
+
     }
 }

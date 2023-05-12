@@ -41,6 +41,10 @@
     <AssemblyOriginatorKeyFile>IEnvios.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="amqmdnet, Version=9.1.0.7, Culture=neutral, PublicKeyToken=dd3cb1c9aae9ec97, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\IBM MQ Series\amqmdnet.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -110,10 +114,12 @@
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="ConexionAS400.cs" />
+    <Compile Include="ConexionMQ.cs" />
     <Compile Include="Configuracion.cs" />
     <Compile Include="CUENTA_EJE.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataSourceCmb.cs" />
     <Compile Include="DEPOSITO.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
@@ -156,6 +162,7 @@
     <Compile Include="LIGAS_CR.cs">
       <DependentUpon>FuncionarioBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="MqSeries.cs" />
     <Compile Include="OPERACION.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>

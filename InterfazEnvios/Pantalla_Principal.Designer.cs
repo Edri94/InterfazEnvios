@@ -747,6 +747,7 @@ namespace InterfazEnvios
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pantalla_Principal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.Pantalla_Principal_Activated);
             this.Load += new System.EventHandler(this.Pantalla_Principal_Load);
             this.Resize += new System.EventHandler(this.Pantalla_Principal_Resize);
             this.pnlMenu.ResumeLayout(false);

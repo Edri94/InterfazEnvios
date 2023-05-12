@@ -42,13 +42,7 @@ namespace InterfazEnvios
             this.txtBicOrigen = new System.Windows.Forms.TextBox();
             this.txtPswdUsr = new System.Windows.Forms.TextBox();
             this.txtLoginUsr = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtBdGestores = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtBdCatalogos = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtBdDesarrollo = new System.Windows.Forms.TextBox();
             this.txtNombreServidor = new System.Windows.Forms.TextBox();
             this.tbAs400 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -115,6 +109,7 @@ namespace InterfazEnvios
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(938, 460);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             // 
             // tbTicket
             // 
@@ -139,13 +134,7 @@ namespace InterfazEnvios
             this.groupBox1.Controls.Add(this.txtBicOrigen);
             this.groupBox1.Controls.Add(this.txtPswdUsr);
             this.groupBox1.Controls.Add(this.txtLoginUsr);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtBdGestores);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtBdCatalogos);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtBdDesarrollo);
             this.groupBox1.Controls.Add(this.txtNombreServidor);
             this.groupBox1.Location = new System.Drawing.Point(17, 21);
             this.groupBox1.Name = "groupBox1";
@@ -157,7 +146,7 @@ namespace InterfazEnvios
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(460, 315);
+            this.label9.Location = new System.Drawing.Point(467, 217);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(99, 20);
             this.label9.TabIndex = 3;
@@ -166,7 +155,7 @@ namespace InterfazEnvios
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(460, 255);
+            this.label8.Location = new System.Drawing.Point(463, 153);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(91, 20);
             this.label8.TabIndex = 3;
@@ -176,15 +165,15 @@ namespace InterfazEnvios
             // 
             this.cmbBic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBic.FormattingEnabled = true;
-            this.cmbBic.Location = new System.Drawing.Point(566, 181);
+            this.cmbBic.Location = new System.Drawing.Point(573, 84);
             this.cmbBic.Name = "cmbBic";
             this.cmbBic.Size = new System.Drawing.Size(284, 28);
             this.cmbBic.TabIndex = 2;
-            this.cmbBic.SelectedIndexChanged += new System.EventHandler(this.cmbBic_SelectedIndexChanged);
+            this.cmbBic.SelectedIndexChanged += new System.EventHandler(this.cmbBic_SelectedIndexChanged_1);
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(456, 183);
+            this.label7.Location = new System.Drawing.Point(463, 86);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 25);
             this.label7.TabIndex = 1;
@@ -192,7 +181,7 @@ namespace InterfazEnvios
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(456, 106);
+            this.label6.Location = new System.Drawing.Point(26, 205);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(104, 45);
             this.label6.TabIndex = 1;
@@ -200,7 +189,7 @@ namespace InterfazEnvios
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(456, 41);
+            this.label2.Location = new System.Drawing.Point(26, 141);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 45);
             this.label2.TabIndex = 1;
@@ -208,7 +197,7 @@ namespace InterfazEnvios
             // 
             // txtOrigenDestino
             // 
-            this.txtOrigenDestino.Location = new System.Drawing.Point(566, 312);
+            this.txtOrigenDestino.Location = new System.Drawing.Point(573, 214);
             this.txtOrigenDestino.Name = "txtOrigenDestino";
             this.txtOrigenDestino.ReadOnly = true;
             this.txtOrigenDestino.Size = new System.Drawing.Size(284, 26);
@@ -216,7 +205,7 @@ namespace InterfazEnvios
             // 
             // txtBicOrigen
             // 
-            this.txtBicOrigen.Location = new System.Drawing.Point(566, 252);
+            this.txtBicOrigen.Location = new System.Drawing.Point(573, 150);
             this.txtBicOrigen.Name = "txtBicOrigen";
             this.txtBicOrigen.ReadOnly = true;
             this.txtBicOrigen.Size = new System.Drawing.Size(284, 26);
@@ -224,75 +213,31 @@ namespace InterfazEnvios
             // 
             // txtPswdUsr
             // 
-            this.txtPswdUsr.Location = new System.Drawing.Point(566, 115);
+            this.txtPswdUsr.Location = new System.Drawing.Point(136, 214);
             this.txtPswdUsr.Name = "txtPswdUsr";
             this.txtPswdUsr.Size = new System.Drawing.Size(284, 26);
             this.txtPswdUsr.TabIndex = 0;
             // 
             // txtLoginUsr
             // 
-            this.txtLoginUsr.Location = new System.Drawing.Point(566, 50);
+            this.txtLoginUsr.Location = new System.Drawing.Point(136, 150);
             this.txtLoginUsr.Name = "txtLoginUsr";
             this.txtLoginUsr.Size = new System.Drawing.Size(284, 26);
             this.txtLoginUsr.TabIndex = 0;
             // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(17, 227);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 45);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Base de Datos de Gestores:";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(17, 165);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 45);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Base de Datos de Catalogos:";
-            // 
-            // txtBdGestores
-            // 
-            this.txtBdGestores.Location = new System.Drawing.Point(142, 236);
-            this.txtBdGestores.Name = "txtBdGestores";
-            this.txtBdGestores.Size = new System.Drawing.Size(269, 26);
-            this.txtBdGestores.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(17, 103);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(119, 45);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Base de Datos de desarrollo:";
-            // 
-            // txtBdCatalogos
-            // 
-            this.txtBdCatalogos.Location = new System.Drawing.Point(142, 174);
-            this.txtBdCatalogos.Name = "txtBdCatalogos";
-            this.txtBdCatalogos.Size = new System.Drawing.Size(269, 26);
-            this.txtBdCatalogos.TabIndex = 0;
-            // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(17, 41);
+            this.label1.Location = new System.Drawing.Point(26, 76);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 45);
             this.label1.TabIndex = 1;
             this.label1.Text = "Nombre del Servidor:";
             // 
-            // txtBdDesarrollo
-            // 
-            this.txtBdDesarrollo.Location = new System.Drawing.Point(142, 112);
-            this.txtBdDesarrollo.Name = "txtBdDesarrollo";
-            this.txtBdDesarrollo.Size = new System.Drawing.Size(269, 26);
-            this.txtBdDesarrollo.TabIndex = 0;
-            // 
             // txtNombreServidor
             // 
-            this.txtNombreServidor.Location = new System.Drawing.Point(127, 50);
+            this.txtNombreServidor.Location = new System.Drawing.Point(136, 85);
             this.txtNombreServidor.Name = "txtNombreServidor";
+            this.txtNombreServidor.ReadOnly = true;
             this.txtNombreServidor.Size = new System.Drawing.Size(284, 26);
             this.txtNombreServidor.TabIndex = 0;
             // 
@@ -326,7 +271,7 @@ namespace InterfazEnvios
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(455, 220);
+            this.label10.Location = new System.Drawing.Point(26, 270);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(99, 47);
             this.label10.TabIndex = 3;
@@ -334,7 +279,7 @@ namespace InterfazEnvios
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(455, 146);
+            this.label13.Location = new System.Drawing.Point(26, 196);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(104, 45);
             this.label13.TabIndex = 1;
@@ -342,7 +287,7 @@ namespace InterfazEnvios
             // 
             // label14
             // 
-            this.label14.Location = new System.Drawing.Point(455, 81);
+            this.label14.Location = new System.Drawing.Point(26, 131);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(104, 45);
             this.label14.TabIndex = 1;
@@ -350,28 +295,28 @@ namespace InterfazEnvios
             // 
             // txtBibliotecaEnv
             // 
-            this.txtBibliotecaEnv.Location = new System.Drawing.Point(565, 230);
+            this.txtBibliotecaEnv.Location = new System.Drawing.Point(136, 280);
             this.txtBibliotecaEnv.Name = "txtBibliotecaEnv";
             this.txtBibliotecaEnv.Size = new System.Drawing.Size(284, 26);
             this.txtBibliotecaEnv.TabIndex = 0;
             // 
             // txtBibliotecaSaldos
             // 
-            this.txtBibliotecaSaldos.Location = new System.Drawing.Point(565, 155);
+            this.txtBibliotecaSaldos.Location = new System.Drawing.Point(136, 205);
             this.txtBibliotecaSaldos.Name = "txtBibliotecaSaldos";
             this.txtBibliotecaSaldos.Size = new System.Drawing.Size(284, 26);
             this.txtBibliotecaSaldos.TabIndex = 0;
             // 
             // txtBibliotecaEq
             // 
-            this.txtBibliotecaEq.Location = new System.Drawing.Point(565, 90);
+            this.txtBibliotecaEq.Location = new System.Drawing.Point(136, 140);
             this.txtBibliotecaEq.Name = "txtBibliotecaEq";
             this.txtBibliotecaEq.Size = new System.Drawing.Size(284, 26);
             this.txtBibliotecaEq.TabIndex = 0;
             // 
             // label18
             // 
-            this.label18.Location = new System.Drawing.Point(15, 81);
+            this.label18.Location = new System.Drawing.Point(26, 69);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(104, 45);
             this.label18.TabIndex = 1;
@@ -379,7 +324,7 @@ namespace InterfazEnvios
             // 
             // txtNombreSna
             // 
-            this.txtNombreSna.Location = new System.Drawing.Point(125, 90);
+            this.txtNombreSna.Location = new System.Drawing.Point(136, 78);
             this.txtNombreSna.Name = "txtNombreSna";
             this.txtNombreSna.Size = new System.Drawing.Size(284, 26);
             this.txtNombreSna.TabIndex = 0;
@@ -442,6 +387,7 @@ namespace InterfazEnvios
             this.txtQueReprt.Name = "txtQueReprt";
             this.txtQueReprt.Size = new System.Drawing.Size(284, 26);
             this.txtQueReprt.TabIndex = 0;
+            this.txtQueReprt.TextChanged += new System.EventHandler(this.txtQueReprt_TextChanged);
             // 
             // txtQueRecib
             // 
@@ -449,6 +395,7 @@ namespace InterfazEnvios
             this.txtQueRecib.Name = "txtQueRecib";
             this.txtQueRecib.Size = new System.Drawing.Size(284, 26);
             this.txtQueRecib.TabIndex = 0;
+            this.txtQueRecib.TextChanged += new System.EventHandler(this.txtQueRecib_TextChanged);
             // 
             // txtQueEnv
             // 
@@ -456,6 +403,7 @@ namespace InterfazEnvios
             this.txtQueEnv.Name = "txtQueEnv";
             this.txtQueEnv.Size = new System.Drawing.Size(284, 26);
             this.txtQueEnv.TabIndex = 0;
+            this.txtQueEnv.TextChanged += new System.EventHandler(this.txtQueEnv_TextChanged);
             // 
             // label16
             // 
@@ -471,6 +419,7 @@ namespace InterfazEnvios
             this.txtQueManager.Name = "txtQueManager";
             this.txtQueManager.Size = new System.Drawing.Size(284, 26);
             this.txtQueManager.TabIndex = 0;
+            this.txtQueManager.TextChanged += new System.EventHandler(this.txtQueManager_TextChanged);
             // 
             // tbInfo
             // 
@@ -504,6 +453,7 @@ namespace InterfazEnvios
             this.chkEnvMsj.TabIndex = 1;
             this.chkEnvMsj.Text = "Enviar mensajes Swift MT103 con slash de verificacion";
             this.chkEnvMsj.UseVisualStyleBackColor = true;
+            this.chkEnvMsj.Click += new System.EventHandler(this.chkEnvMsj_Click);
             // 
             // chkEnvArchivos
             // 
@@ -514,6 +464,7 @@ namespace InterfazEnvios
             this.chkEnvArchivos.TabIndex = 1;
             this.chkEnvArchivos.Text = "Enviar archivos generados al AS/400";
             this.chkEnvArchivos.UseVisualStyleBackColor = true;
+            this.chkEnvArchivos.Click += new System.EventHandler(this.chkEnvArchivos_Click);
             // 
             // dtgvInfo
             // 
@@ -553,7 +504,7 @@ namespace InterfazEnvios
             // 
             // label17
             // 
-            this.label17.Location = new System.Drawing.Point(190, 209);
+            this.label17.Location = new System.Drawing.Point(142, 204);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(161, 45);
             this.label17.TabIndex = 5;
@@ -561,7 +512,7 @@ namespace InterfazEnvios
             // 
             // label19
             // 
-            this.label19.Location = new System.Drawing.Point(190, 147);
+            this.label19.Location = new System.Drawing.Point(142, 142);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(161, 45);
             this.label19.TabIndex = 6;
@@ -569,14 +520,14 @@ namespace InterfazEnvios
             // 
             // txtConfirmPswd
             // 
-            this.txtConfirmPswd.Location = new System.Drawing.Point(388, 206);
+            this.txtConfirmPswd.Location = new System.Drawing.Point(340, 201);
             this.txtConfirmPswd.Name = "txtConfirmPswd";
             this.txtConfirmPswd.Size = new System.Drawing.Size(284, 26);
             this.txtConfirmPswd.TabIndex = 2;
             // 
             // label20
             // 
-            this.label20.Location = new System.Drawing.Point(190, 85);
+            this.label20.Location = new System.Drawing.Point(142, 80);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(161, 45);
             this.label20.TabIndex = 7;
@@ -584,17 +535,18 @@ namespace InterfazEnvios
             // 
             // txtNwPswd
             // 
-            this.txtNwPswd.Location = new System.Drawing.Point(388, 144);
+            this.txtNwPswd.Location = new System.Drawing.Point(340, 139);
             this.txtNwPswd.Name = "txtNwPswd";
             this.txtNwPswd.Size = new System.Drawing.Size(284, 26);
             this.txtNwPswd.TabIndex = 3;
             // 
             // txtPswdAct
             // 
-            this.txtPswdAct.Location = new System.Drawing.Point(388, 82);
+            this.txtPswdAct.Location = new System.Drawing.Point(340, 77);
             this.txtPswdAct.Name = "txtPswdAct";
             this.txtPswdAct.Size = new System.Drawing.Size(284, 26);
             this.txtPswdAct.TabIndex = 4;
+            this.txtPswdAct.Leave += new System.EventHandler(this.txtPswdAct_Leave);
             // 
             // panel1
             // 
@@ -656,8 +608,10 @@ namespace InterfazEnvios
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmParametros";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Parametros";
             this.Activated += new System.EventHandler(this.frmParametros_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmParametros_FormClosing);
             this.Load += new System.EventHandler(this.frmParametros_Load);
             this.tabControl1.ResumeLayout(false);
             this.tbTicket.ResumeLayout(false);
@@ -705,13 +659,7 @@ namespace InterfazEnvios
         private System.Windows.Forms.TextBox txtBicOrigen;
         private System.Windows.Forms.TextBox txtPswdUsr;
         private System.Windows.Forms.TextBox txtLoginUsr;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtBdGestores;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtBdCatalogos;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtBdDesarrollo;
         private System.Windows.Forms.TextBox txtNombreServidor;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label10;
