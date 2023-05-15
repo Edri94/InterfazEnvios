@@ -137,7 +137,30 @@ namespace InterfazEnvios
 
         private void button11_Click(object sender, EventArgs e)
         {
-            this.Close();
+
+            DialogResult dg = MessageBox.Show("Desea Salir de la Interfaz?", "Saliendo de IE", MessageBoxButtons.YesNo);
+
+            if (dg == DialogResult.Yes)
+            {
+                gbPasswordOK = false;
+
+                frmSolicPassword frm = new frmSolicPassword(this);
+                frm.ShowDialog();
+
+
+                if (!gbPasswordOK)
+                {
+                    return;
+                }
+                else
+                {
+                    this.Close();
+                }               
+            }
+            else
+            {
+                return;
+            } 
         }
 
         private void Pantalla_Principal_Load(object sender, EventArgs e)
@@ -253,8 +276,15 @@ namespace InterfazEnvios
                 string ds1 = bdTicket.Database.Connection.DataSource;
                 string ds2 = bdCatalogos.Database.Connection.DataSource;
                 string ds3 = bdFuncionario.Database.Connection.DataSource;
+
+
                 
-           
+                ////[SQL CONEXION]
+                //SqlConnection sql_cnn = bdFuncionario.Database.Connection as SqlConnection;
+                //sql_cnn.Open();
+
+
+
 
                 if (ds1 == ds2 && ds2 == ds3)
                 {
@@ -975,7 +1005,7 @@ namespace InterfazEnvios
 
         private void btnMinimizar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void switchButton1_CheckedChanged(object sender, EventArgs e)

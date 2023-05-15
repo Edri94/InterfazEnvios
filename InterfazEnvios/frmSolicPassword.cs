@@ -45,5 +45,13 @@ namespace InterfazEnvios
         {
 
         }
+
+        private void txtPswd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                btnOk.PerformClick();
+            }
+        }
     }
 }

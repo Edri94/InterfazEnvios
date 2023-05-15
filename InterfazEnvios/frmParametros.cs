@@ -31,8 +31,8 @@ namespace InterfazEnvios
         }
 
         private void frmParametros_Activated(object sender, EventArgs e)
-        {
-            if(!booActivate)
+        {                 
+            if (!booActivate)
             {
                 Log.Escribe("Password de Confirmación.");
                 booNoChangeParam = false;
@@ -40,9 +40,6 @@ namespace InterfazEnvios
             }
 
             CargaParametros();
-
-            
-
         }
 
         private void CargaParametros()
@@ -136,9 +133,23 @@ namespace InterfazEnvios
 
         private void frmParametros_Load(object sender, EventArgs e)
         {
-            crpt = new clsEncripta();
+            frmp.gbPasswordOK = false;
 
-            booNoChangeParam = false;         
+            frmSolicPassword frm = new frmSolicPassword(frmp);
+            frm.ShowDialog();
+
+
+            if (!frmp.gbPasswordOK)
+            {
+                this.Close();
+            }
+            else
+            {
+                crpt = new clsEncripta();
+
+                booNoChangeParam = false;
+            }
+                  
         }
 
  

@@ -53,6 +53,7 @@ namespace InterfazEnvios
             this.txtPswd.PasswordChar = '*';
             this.txtPswd.Size = new System.Drawing.Size(428, 29);
             this.txtPswd.TabIndex = 1;
+            this.txtPswd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPswd_KeyPress);
             // 
             // btnOk
             // 
