@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Datos
 {
-    public class FIBIC
+    public class FIBIPC
     {
         public string archivo { get; set; }
         public DateTime  fecha { get; set; }

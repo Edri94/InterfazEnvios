@@ -132,7 +132,7 @@
     <Compile Include="DIRECCION_ENVIO.cs">
       <DependentUpon>CatalogosBd.tt</DependentUpon>
     </Compile>
-    <Compile Include="FIBIC.cs" />
+    <Compile Include="FIBIPC.cs" />
     <Compile Include="FUNCIONARIO.cs">
       <DependentUpon>FuncionarioBd.tt</DependentUpon>
     </Compile>

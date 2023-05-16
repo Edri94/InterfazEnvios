@@ -168,7 +168,6 @@ namespace InterfazEnvios
         {           
             try
             {
-                
                 tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
                 tsLblMachineName.Text = "Maquina: " + Environment.MachineName;
                 tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");
