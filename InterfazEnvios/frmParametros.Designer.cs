@@ -215,6 +215,7 @@ namespace InterfazEnvios
             // 
             this.txtPswdUsr.Location = new System.Drawing.Point(136, 214);
             this.txtPswdUsr.Name = "txtPswdUsr";
+            this.txtPswdUsr.ReadOnly = true;
             this.txtPswdUsr.Size = new System.Drawing.Size(284, 26);
             this.txtPswdUsr.TabIndex = 0;
             // 
@@ -222,6 +223,7 @@ namespace InterfazEnvios
             // 
             this.txtLoginUsr.Location = new System.Drawing.Point(136, 150);
             this.txtLoginUsr.Name = "txtLoginUsr";
+            this.txtLoginUsr.ReadOnly = true;
             this.txtLoginUsr.Size = new System.Drawing.Size(284, 26);
             this.txtLoginUsr.TabIndex = 0;
             // 

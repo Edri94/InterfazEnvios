@@ -478,17 +478,25 @@ namespace InterfazEnvios
 
             if (selected.Display == "Produccion")
             {
-                txtBicOrigen.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1").valor;
-                txtOrigenDestino.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1").valor;
+                string bic1 = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1").valor;
+                int bic1_idx = bic1.IndexOf(',') + 1;
 
-                txtNombreServidor.Text = selected.Valor.ToString();
+                string bic2 = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1").valor;
+                int bic2_idx = bic2.IndexOf(',') + 1;
+                
+                txtBicOrigen.Text = bic1.Substring(bic1_idx, (bic1.Length - bic1_idx));
+                txtOrigenDestino.Text = bic2.Substring(bic2_idx, (bic2.Length - bic2_idx));
             }
             else if (selected.Display == "Desarrollo")
             {
-                txtBicOrigen.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1P").valor;
-                txtOrigenDestino.Text = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1P").valor;
+                string bic1 = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFR1P").valor;
+                int bic1_idx = bic1.IndexOf(',') + 1;
 
-                txtNombreServidor.Text = selected.Valor.ToString();
+                string bic2 = ModeloNegocio.Parametro.GetParametrizacion("BCOBENEFD1P").valor;
+                int bic2_idx = bic2.IndexOf(',') + 1;
+
+                txtBicOrigen.Text = bic1.Substring(bic1_idx, (bic1.Length - bic1_idx));
+                txtOrigenDestino.Text = bic2.Substring(bic2_idx, (bic2.Length - bic2_idx));
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Datos;
+using IBM.WMQ;
 using MNICript;
 using ModeloNegocio;
 using System;
@@ -164,9 +165,10 @@ namespace InterfazEnvios
         }
 
         private void Pantalla_Principal_Load(object sender, EventArgs e)
-        {
+        {           
             try
             {
+                
                 tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
                 tsLblMachineName.Text = "Maquina: " + Environment.MachineName;
                 tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");
@@ -177,19 +179,46 @@ namespace InterfazEnvios
                 ModeloNegocio.Parametro.mbTransStatus = true;
 
                 //Inicializar las variables
-                InicializaVariables();
-
-                if(!VerificaPaths())
+                if(InicializaVariables())
                 {
-                    MessageBox.Show("Hubo un error en la configuracion de directorios, Checar el LOG", "ERROR CONFIGURACION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (VerificaPaths())
+                    {                     
+                        if (((Datos.MqSeries.PruebaConexion(confg.mqManager))))
+                        {
+                            if(nameFiles())
+                            {
+                                frm_monitor = new frmMonitoreo(this);
+                                tmrLog.Enabled = true;
+
+                                EncenderInterfaz(true);
+                                switchButton1.Checked = true;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Hubo un error en la configuracion de variables de nombre de archivos, Checar el LOG", "ERROR CONFIGURACION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Hubo un error en la conexion al MQ {confg.mqManager}, Checar el LOG", "ERROR CONFIGURACION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hubo un error en la configuracion de directorios, Checar el LOG", "ERROR CONFIGURACION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Hubo un error en la configuracion de variables, Checar el LOG", "ERROR CONFIGURACION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
                 }
 
-                nameFiles();
-
-                frm_monitor = new frmMonitoreo(this);
-
-                tmrLog.Enabled = true;
-
+            }
+            catch(MQException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception ex)
             {
@@ -198,20 +227,32 @@ namespace InterfazEnvios
             
         }
 
-        private void nameFiles()
+       
+
+        private bool nameFiles()
         {
-            gs_Base_Swift = ModeloNegocio.Parametro.GetParametrizacion("BASE_SWIFT");
-            gs_CL_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_CL_AS400");
-            gs_CL_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_CL_SWIFT");
-            gs_TD_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_TD_AS400");
-            gs_TD_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_TD_SWIFT");
-            gs_SWAG_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_SWAG_SWIFT");
-            gs_TRAN_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_TRAN_SWIFT");
-            gs_DEIB_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_DEIB_AS400");
-            gs_HOLD_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_HOLD_AS400");
-            gs_MT202_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_202_SWIFT");
-            gs_XML202_AMH = ModeloNegocio.Parametro.GetParametrizacion("FILE_XML202_AMH");
-            gs_XMLTRAN_AMH = ModeloNegocio.Parametro.GetParametrizacion("FILE_XMLTRAN_AMH");
+            try
+            {
+                gs_Base_Swift = ModeloNegocio.Parametro.GetParametrizacion("BASE_SWIFT");
+                gs_CL_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_CL_AS400");
+                gs_CL_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_CL_SWIFT");
+                gs_TD_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_TD_AS400");
+                gs_TD_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_TD_SWIFT");
+                gs_SWAG_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_SWAG_SWIFT");
+                gs_TRAN_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_TRAN_SWIFT");
+                gs_DEIB_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_DEIB_AS400");
+                gs_HOLD_AS400 = ModeloNegocio.Parametro.GetParametrizacion("FILE_HOLD_AS400");
+                gs_MT202_Swift = ModeloNegocio.Parametro.GetParametrizacion("FILE_202_SWIFT");
+                gs_XML202_AMH = ModeloNegocio.Parametro.GetParametrizacion("FILE_XML202_AMH");
+                gs_XMLTRAN_AMH = ModeloNegocio.Parametro.GetParametrizacion("FILE_XMLTRAN_AMH");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Escribe(ex);
+                return false;
+            }          
         }
 
         private bool VerificaPaths()
@@ -249,7 +290,7 @@ namespace InterfazEnvios
             
         }
 
-        private void InicializaVariables()
+        private bool InicializaVariables()
         {
             try
             {
@@ -262,6 +303,8 @@ namespace InterfazEnvios
                 TimeSpan hrTemporal;
 
                 confg = new Configuracion();
+
+                confg.EncryptConnectionString();
 
                 Log.RutaLog = confg.getValueAppConfig("Ruta", "LOG");
                 Log.EscribeLog = true;
@@ -462,10 +505,14 @@ namespace InterfazEnvios
                 
                 gsEnvioMT = confg.getValueAppConfig("ENVIOMT", "PARAMETRO");
 
+                return true;
+
             }
             catch (Exception ex)
             {
                 Log.Escribe(ex);
+
+                return false;
             }
         }
 
@@ -839,6 +886,10 @@ namespace InterfazEnvios
             tmrEnvio.Enabled = false;
         }
 
+        /// <summary>
+        /// Enciende el led indicado y apaga los demas
+        /// </summary>
+        /// <param name="led">1: Verde, 2: Amarillo, 3: Rojo</param>
         private void EncenderLed(int led)
         {
             switch (led)
@@ -895,83 +946,85 @@ namespace InterfazEnvios
                     gbEncendido = false;
                 }
 
-                if (gbEncendido)
-                {
-                    gbPasswordOK = false;
-
-                    frmSolicPassword frm = new frmSolicPassword(this);
-                    frm.ShowDialog();
-
-
-                    if (!gbPasswordOK)
-                    {
-                        switchButton1.Checked = false;
-                        swith_click = false;
-                        return;
-                    }
-
-                    tsLblServer.Text = "Cargando Sistema Por Favor Espere....";
-
-                    if (ModeloNegocio.Transferencias.LlenarColeccion())
-                    {
-                        ModeloNegocio.Parametro.confg = confg;
-
-                        if (ModeloNegocio.Parametro.DespliegaDatos())
-                        {
-                            if (ModeloNegocio.Parametro.mbTransStatus)
-                            {
-                                frm_monitor.tmrMonitor.Enabled = false;
-                                frm_monitor.Visible = false;
-                                frm_monitor.Hide();
-
-
-                                btnTransferencia.Enabled = true;
-                                btnCargas.Enabled = true;
-                                btnPendientes.Enabled = true;
-                                btnCierreEnv.Enabled = true;
-                                btnMonitoreo.Enabled = true;
-
-                                ledVerde.Visible = true;
-
-                                ResetTimers();
-                            }
-                            else
-                            {
-                                tsLblServer.Text = "La transferencia de Archivos ya esta cerrada";
-                                btnCargas.Enabled = true;
-
-                                ledVerde.Visible = true;
-                                ResetTimers();
-                            }
-
-                        }
-                        else
-                        {
-                            tsLblServer.Text = "Verifique el servidor y su conexión a la red local o si el sistema ya cerró.";
-                        }
-                    }
-                }
-                else
-                {
-                    gbPasswordOK = false;
-
-                    frmSolicPassword frm = new frmSolicPassword(this);
-                    frm.ShowDialog();
-
-                    frm_monitor.Visible = false;
-
-                    if (gbPasswordOK)
-                    {
-                        PararInterface();
-                    }
-
-
-                }
+                EncenderInterfaz(gbEncendido);
                 
             }
             catch (Exception ex)
             {
                 Log.Escribe(ex);
+            }
+        }
+
+        private void EncenderInterfaz(bool gbEncendido)
+        {
+            if (gbEncendido)
+            {
+                gbPasswordOK = false;
+
+                frmSolicPassword frm = new frmSolicPassword(this);
+                frm.ShowDialog();
+
+
+                if (!gbPasswordOK)
+                {
+                    switchButton1.Checked = false;
+                    swith_click = false;
+                    return;
+                }
+
+                if (ModeloNegocio.Transferencias.LlenarColeccion())
+                {
+                    ModeloNegocio.Parametro.confg = confg;
+
+                    if (ModeloNegocio.Parametro.DespliegaDatos())
+                    {
+                        if (ModeloNegocio.Parametro.mbTransStatus)
+                        {
+                            frm_monitor.tmrMonitor.Enabled = false;
+                            frm_monitor.Visible = false;
+                            frm_monitor.Hide();
+
+
+                            btnTransferencia.Enabled = true;
+                            btnCargas.Enabled = true;
+                            btnPendientes.Enabled = true;
+                            btnCierreEnv.Enabled = true;
+                            btnMonitoreo.Enabled = true;
+
+                            EncenderLed(1);
+                            ResetTimers();
+                        }
+                        else
+                        {
+                            tsLblServer.Text = "La transferencia de Archivos ya esta cerrada";
+                            btnCargas.Enabled = true;
+
+                            EncenderLed(1);
+                            ResetTimers();
+                        }
+
+                    }
+                    else
+                    {
+                        tsLblServer.Text = "Verifique el servidor y su conexión a la red local o si el sistema ya cerró.";
+                    }
+                }
+            }
+            else
+            {
+                gbPasswordOK = false;
+
+                frmSolicPassword frm = new frmSolicPassword(this);
+                frm.ShowDialog();
+
+                frm_monitor.Visible = false;
+
+                if (gbPasswordOK)
+                {
+                    PararInterface();
+                }
+
+
             }
         }
 
@@ -994,6 +1047,8 @@ namespace InterfazEnvios
                 sr.Close();
 
                 txtLog.Text = texto;
+                txtLog.SelectionStart = txtLog.Text.Length - 1;
+                txtLog.ScrollToCaret();
 
             }
         }

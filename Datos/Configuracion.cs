@@ -139,5 +139,44 @@ namespace Datos
             }
 
         }
+
+        /// <summary>
+        /// Encriptacion de la seccion de connectionStrings en el app.config
+        /// </summary>
+        public void EncryptConnectionString()
+        {
+            // Abre el archivo de configuración de la aplicación
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            // Obtiene la sección de conexión
+            ConnectionStringsSection connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
+
+            //foreach (ConnectionStringSettings cnn in connectionStringsSection.ConnectionStrings)
+            //{
+            //    string cnn_get = cnn.ToString();
+            //}
+
+            // Encripta la sección de conexión si no está encriptada
+            if (!connectionStringsSection.SectionInformation.IsProtected)
+            {
+                connectionStringsSection.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+                config.Save();
+            }
+        }
+
+        /// <summary>
+        /// Desencriptacion de la seccion de connectionStrings en el app.config
+        /// </summary>
+        public void DecryptConnectionString()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionStringsSection connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
+
+            if (connectionStringsSection.SectionInformation.IsProtected)
+            {
+                connectionStringsSection.SectionInformation.UnprotectSection();
+                config.Save();
+            }
+        }
     }
 }
