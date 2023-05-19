@@ -77,6 +77,9 @@
     <Compile Include="BITACORA_ENVIO_SWIFT_MT202.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="BITACORA_ERRORES_MAPEO.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="BITACORA_FECHAS_EJECUCION.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>

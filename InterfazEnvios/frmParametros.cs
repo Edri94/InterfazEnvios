@@ -214,24 +214,24 @@ namespace InterfazEnvios
         private void UpdateRegistro()
         {
             //AS400
-            frmp.confg.SetParameterAppSettings("SNA620", crpt.VerificaClaves(1, frmp.confg.sna620), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("LIBSWIFT", crpt.VerificaClaves(1, frmp.confg.libSwift), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("LIBSALDOS", crpt.VerificaClaves(1, frmp.confg.libSaldos), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("LIBDEFAULT", crpt.VerificaClaves(1, frmp.confg.libDefault), "PARAMETROS");
+            frmp.confg.SetParameterAppSettings("SNA620", crpt.VerificaClaves(1, frmp.confg.sna620), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("LIBSWIFT", crpt.VerificaClaves(1, frmp.confg.libSwift), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("LIBSALDOS", crpt.VerificaClaves(1, frmp.confg.libSaldos), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("LIBDEFAULT", crpt.VerificaClaves(1, frmp.confg.libDefault), "PARAMETRO");
 
             //Para mapeo y envio de archivos
-            frmp.confg.SetParameterAppSettings("MQMANAGER", crpt.VerificaClaves(1, frmp.confg.mqManager), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("MQESCRIBIR", crpt.VerificaClaves(1, frmp.confg.mqEscribir), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("MQLEER", crpt.VerificaClaves(1, frmp.confg.mqLeer), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("MQREPORTE", crpt.VerificaClaves(1, frmp.confg.mqReporte), "PARAMETROS");
+            frmp.confg.SetParameterAppSettings("MQMANAGER", crpt.VerificaClaves(1, frmp.confg.mqManager), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("MQESCRIBIR", crpt.VerificaClaves(1, frmp.confg.mqEscribir), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("MQLEER", crpt.VerificaClaves(1, frmp.confg.mqLeer), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("MQREPORTE", crpt.VerificaClaves(1, frmp.confg.mqReporte), "PARAMETRO");
 
             //Generacion de Informacion
-            frmp.confg.SetParameterAppSettings("SENDLAOPS", crpt.VerificaClaves(1, frmp.confg.sendLaops), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("SENDAS400", crpt.VerificaClaves(1, frmp.confg.sendAS400), "PARAMETROS");
-            frmp.confg.SetParameterAppSettings("SLASHMT103", crpt.VerificaClaves(1, frmp.confg.slashMT103), "PARAMETROS");
+            frmp.confg.SetParameterAppSettings("SENDLAOPS", crpt.VerificaClaves(1, frmp.confg.sendLaops), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("SENDAS400", crpt.VerificaClaves(1, frmp.confg.sendAS400), "PARAMETRO");
+            frmp.confg.SetParameterAppSettings("SLASHMT103", crpt.VerificaClaves(1, frmp.confg.slashMT103), "PARAMETRO");
 
             //Password de configuración de parámetros
-            frmp.confg.SetParameterAppSettings("APPPWD", crpt.VerificaClaves(1, frmp.confg.mqReporte), "PARAMETROS");
+            frmp.confg.SetParameterAppSettings("APPPWD", crpt.VerificaClaves(1, frmp.confg.mqReporte), "PARAMETRO");
         }
 
         private void AsignaValores()
@@ -255,10 +255,12 @@ namespace InterfazEnvios
             //Generacion de Informacion 
             foreach (DataGridViewRow dr in dtgvInfo.Rows)
             {
-
-                bool check = ((bool)dr.Cells["Houston"].Value == true);
-
-                frmp.confg.sendLaops += (check)? "1":"0";
+                if(dr.Cells["Operaciones"].Value != null)
+                {
+                    bool check = ((bool)dr.Cells["Houston"].Value == true);
+                    frmp.confg.sendLaops += (check) ? "1" : "0";
+                }
+               
             }
 
             frmp.confg.sendAS400 = (chkEnvArchivos.Checked)? "1": "0";

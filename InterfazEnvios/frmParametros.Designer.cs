@@ -473,6 +473,7 @@ namespace InterfazEnvios
             this.dtgvInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvInfo.Location = new System.Drawing.Point(19, 37);
             this.dtgvInfo.Name = "dtgvInfo";
+            this.dtgvInfo.ReadOnly = true;
             this.dtgvInfo.RowHeadersWidth = 62;
             this.dtgvInfo.RowTemplate.Height = 28;
             this.dtgvInfo.Size = new System.Drawing.Size(844, 251);

@@ -61,7 +61,22 @@ namespace Datos
             MQOO_FAIL_IF_QUIESCING = 0x2000
         }
 
+        public enum TipoAccion
+        {
+            eMQConectar = 0,
+            eMQDesconectar = 1,
+            eMQAbrirCola = 2,
+            eMQCerrarCola = 3,
+            eMQLeerCola = 4,
+            eMQEscribirCola = 5,
+            eMQOtro = 6,
+        }
 
+        /// <summary>
+        /// Prueba que se peuda conectar al MQ
+        /// </summary>
+        /// <param name="strQueueManagerName">Nombre Queue</param>
+        /// <returns></returns>
         public static bool PruebaConexion(string strQueueManagerName)
         {
             using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
@@ -73,10 +88,10 @@ namespace Datos
 
         public static bool MQEscrituraCola(string strQueueManagerName , string strInputMsg, string QueueName, MQOPEN lngOpciones, long lnglMQExpira)
         {
-            using(MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+            try
             {
-                try
-                {
+                using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+                {               
                     queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
                     message = strInputMsg;
                     queueMessage = new MQMessage();
@@ -96,12 +111,11 @@ namespace Datos
                     queue.Put(queueMessage, queuePutMessageOptions);
                     return true;
                 }
-                catch (MQException MQexp)
-                {
-                    strCadenaLogMQ = "error escritura " + MQexp.ReasonCode + " , " + MQexp.Message;
-                    return false;
-                }
-                
+            }
+            catch (MQException MQexp)
+            {
+                strCadenaLogMQ = "error escritura " + MQexp.ReasonCode + " , " + MQexp.Message;
+                return false;
             }
         }
 
@@ -109,27 +123,29 @@ namespace Datos
 
         public static string MQAbrirCola(string strQueueManagerName, string QueueName,  MQOPEN lngOpciones)
         {
-            using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
-            {
+            
                 string resultado = String.Empty;
                 try
                 {
-                    queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
-                    queueMessage = new MQMessage();
-                    queueMessage.Format = MQC.MQFMT_STRING;
-                    //Se accesan a la opciones de lectura por default
-                    queueGetMessageOptions = new MQGetMessageOptions();
-                    queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
-                    queue.Get(queueMessage, queueGetMessageOptions);
+                    using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+                    {
+                        queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
+                        queueMessage = new MQMessage();
+                        queueMessage.Format = MQC.MQFMT_STRING;
+                        //Se accesan a la opciones de lectura por default
+                        queueGetMessageOptions = new MQGetMessageOptions();
+                        queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
+                        queue.Get(queueMessage, queueGetMessageOptions);
 
 
 
-                    //Obtener el Id del mensage para el regreso
-                    msgID = queueMessage.MessageId;
-                    strMessageId = Encoding.ASCII.GetString(msgID);
-                    strCorrelId = queueMessage.CorrelationId.ToString();
+                        //Obtener el Id del mensage para el regreso
+                        msgID = queueMessage.MessageId;
+                        strMessageId = Encoding.ASCII.GetString(msgID);
+                        strCorrelId = queueMessage.CorrelationId.ToString();
 
-                    resultado = queueMessage.ReadString(queueMessage.MessageLength);
+                        resultado = queueMessage.ReadString(queueMessage.MessageLength);
+                    }
                 }
                 catch (MQException MQexp)
                 {
@@ -147,7 +163,7 @@ namespace Datos
                 }
 
                 return resultado;
-            }
+            
         }
 
         public static bool MQVerificar(string strQueueManagerName, string strCola)
@@ -163,5 +179,7 @@ namespace Datos
                 return false;
             }
         }
+      
+
     }
 }

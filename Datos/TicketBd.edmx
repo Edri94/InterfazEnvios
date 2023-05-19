@@ -37,6 +37,17 @@
           <Property Name="archivo" Type="varchar" MaxLength="15" />
           <Property Name="status_envio" Type="tinyint" Nullable="false" />
         </EntityType>
+        <EntityType Name="BITACORA_ERRORES_MAPEO">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha_hora" Type="smalldatetime" Nullable="false" />
+          <Property Name="error_numero" Type="numeric" Precision="16" Scale="0" Nullable="false" />
+          <Property Name="error_descripcion" Type="varchar" MaxLength="255" />
+          <Property Name="archivo_destino" Type="varchar" MaxLength="50" />
+          <Property Name="tipo_error" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
         <EntityType Name="BITACORA_FECHAS_EJECUCION">
           <Key>
             <PropertyRef Name="consecutivo" />
@@ -451,12 +462,6 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
           <Property Name="descripcion_swift" Type="char" MaxLength="20" />
           <Property Name="mnemonico_swift" Type="char" MaxLength="3" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'TICKET.Transferencia.FIBIPC' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="FIBIPC">
-          <Property Name="archivo" Type="char" MaxLength="8" />
-          <Property Name="fecha" Type="smalldatetime" />
-        </EntityType>-->
         <Association Name="FK_COMPRA_CD__OPERACION">
           <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="1" />
           <End Role="COMPRA_CD" Type="Self.COMPRA_CD" Multiplicity="0..1" />
@@ -736,6 +741,7 @@ advertencia 6013: La tabla o vista 'TICKET.Transferencia.FIBIPC' no tiene defini
           <EntitySet Name="BITACORA_APERTURA" EntityType="Self.BITACORA_APERTURA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_KAPITI" EntityType="Self.BITACORA_ENVIO_KAPITI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="Self.BITACORA_ENVIO_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_ERRORES_MAPEO" EntityType="Self.BITACORA_ERRORES_MAPEO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_FECHAS_EJECUCION" EntityType="Self.BITACORA_FECHAS_EJECUCION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_REPORTE_SWIFT_MT198" EntityType="Self.BITACORA_REPORTE_SWIFT_MT198" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMPRA_CD" EntityType="Self.COMPRA_CD" Schema="dbo" store:Type="Tables" />
@@ -1011,6 +1017,7 @@ advertencia 6013: La tabla o vista 'TICKET.Transferencia.FIBIPC' no tiene defini
           </FunctionImport>
           <EntitySet Name="BITACORA_ENVIO_KAPITI" EntityType="TICKETModel.BITACORA_ENVIO_KAPITI" />
           <EntitySet Name="TICKET_UETR" EntityType="TICKETModel.TICKET_UETR" />
+          <EntitySet Name="BITACORA_ERRORES_MAPEO" EntityType="TICKETModel.BITACORA_ERRORES_MAPEO" />
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -1755,6 +1762,17 @@ advertencia 6013: La tabla o vista 'TICKET.Transferencia.FIBIPC' no tiene defini
           <Property Name="fecha_actual" Type="DateTime" Precision="0" />
           <Property Name="usuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="BITACORA_ERRORES_MAPEO">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha_hora" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="error_numero" Type="Decimal" Nullable="false" Precision="16" Scale="0" />
+          <Property Name="error_descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="archivo_destino" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipo_error" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2226,6 +2244,18 @@ advertencia 6013: La tabla o vista 'TICKET.Transferencia.FIBIPC' no tiene defini
                 <ScalarProperty Name="UETR" ColumnName="UETR" />
                 <ScalarProperty Name="operacion" ColumnName="operacion" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_ERRORES_MAPEO">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_ERRORES_MAPEO">
+              <MappingFragment StoreEntitySet="BITACORA_ERRORES_MAPEO">
+                <ScalarProperty Name="tipo_error" ColumnName="tipo_error" />
+                <ScalarProperty Name="archivo_destino" ColumnName="archivo_destino" />
+                <ScalarProperty Name="error_descripcion" ColumnName="error_descripcion" />
+                <ScalarProperty Name="error_numero" ColumnName="error_numero" />
+                <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+                <ScalarProperty Name="consecutivo" ColumnName="consecutivo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

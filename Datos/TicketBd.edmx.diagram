@@ -59,6 +59,7 @@
         <AssociationConnector Association="TICKETModel.FK_RETIRO__TIPO_DOCUMENTO" />
         <EntityTypeShape EntityType="TICKETModel.BITACORA_ENVIO_KAPITI" Width="1.5" PointX="7.375" PointY="6.75" />
         <EntityTypeShape EntityType="TICKETModel.TICKET_UETR" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TICKETModel.BITACORA_ERRORES_MAPEO" Width="1.5" PointX="9.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

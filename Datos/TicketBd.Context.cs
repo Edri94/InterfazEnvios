@@ -59,6 +59,7 @@ namespace Datos
         public virtual DbSet<HOLD> HOLD { get; set; }
         public virtual DbSet<BITACORA_ENVIO_KAPITI> BITACORA_ENVIO_KAPITI { get; set; }
         public virtual DbSet<TICKET_UETR> TICKET_UETR { get; set; }
+        public virtual DbSet<BITACORA_ERRORES_MAPEO> BITACORA_ERRORES_MAPEO { get; set; }
     
         public virtual int sp_i_InfoMT202(string fechaoperacion1, Nullable<int> agencia1, Nullable<int> agencia3)
         {
