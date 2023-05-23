@@ -62,9 +62,13 @@
     <Compile Include="Funciones.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Mt202.cs" />
     <Compile Include="Parametro.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tdib.cs" />
     <Compile Include="Ticket.cs" />
+    <Compile Include="Tran.cs" />
+    <Compile Include="TranMT.cs" />
     <Compile Include="Transferencias.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>
