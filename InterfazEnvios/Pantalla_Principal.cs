@@ -239,10 +239,12 @@ namespace InterfazEnvios
             catch(MQException ex)
             {
                 Log.Escribe(ex);
+                MessageBox.Show("Hubo un error al Conectarse al MQ", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
                 Log.Escribe(ex);
+                MessageBox.Show(ex.Message, "Hubo un error" , MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }
