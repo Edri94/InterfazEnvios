@@ -135,9 +135,12 @@ namespace InterfazEnvios
         {
             frmp.gbPasswordOK = false;
 
+
             frmSolicPassword frm = new frmSolicPassword(frmp);
             frm.ShowDialog();
 
+            btnCambiar.Visible = false;
+            btnTest.Visible = false;
 
             if (!frmp.gbPasswordOK)
             {

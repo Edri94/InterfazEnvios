@@ -10,6 +10,7 @@ using System.Data.Common;
 using System.Data.Odbc;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -40,6 +41,31 @@ namespace InterfazEnvios
         string msSendSwift;
         string msSendTDOver;
         string msSendMT202;
+
+        public DateTime gsFecOp1;
+        public DateTime gsFecOp2;
+        public DateTime gsFecOp3;
+        public DateTime gsFecOp4;
+
+        public DateTime gsFecResp;
+        public DateTime gsFecSV1;
+        public DateTime gsFecSV2;
+
+        public bool mbTransStatus;
+
+        public Datos.Parametros gsTotMT103;
+        public Datos.Parametros gsTotMT202;
+        public Datos.Parametros gsTotMT198;
+        public Datos.Parametros gsTotClientes;
+        public Datos.Parametros gsTotMantto;
+        public Datos.Parametros gsTotDepRet;
+        public Datos.Parametros gsTotHOLDRet;
+        public Datos.Parametros gsTotROPUSD;
+        public Datos.Parametros gsTotTraspasos;
+        public Datos.Parametros gsTotTDs;
+
+        public static Int16 gsPaso;
+        public static Int16 gsBackup;
 
         //Variables para el control de Operaciones Parciales
         string gsMT103P = "0";
@@ -170,14 +196,14 @@ namespace InterfazEnvios
             {
                 tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
                 tsLblMachineName.Text = "Maquina: " + Environment.MachineName;
-                tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");
-                          
+                tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");                       
 
                 ls_StatusInterfaz = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
 
-                ModeloNegocio.Parametro.mbTransStatus = true;
+                mbTransStatus = true;
 
-                //Inicializar las variables
+                switchButton1.Enabled = false;
+
                 if(InicializaVariables())
                 {
                     if (VerificaPaths())
@@ -186,9 +212,7 @@ namespace InterfazEnvios
                         {
                             if(nameFiles())
                             {
-                                frm_monitor = new frmMonitoreo(this);
-                                tmrLog.Enabled = true;
-
+                                switchButton1.Enabled = true;
                                 EncenderInterfaz(true);
                                 switchButton1.Checked = true;
                             }
@@ -429,7 +453,7 @@ namespace InterfazEnvios
                 strValorTemporal = confg.getValueAppConfig("SALDOFASE2", "PARAMETRO");
                 confg.fechaSV2 = (!DateTime.TryParse(strValorTemporal, out dtValorTemporal)) ? Funciones.Fecha("FIN", confg.fechaCierre) : dtValorTemporal;
 
-                if(ModeloNegocio.Parametro.mbTransStatus)
+                if(mbTransStatus)
                 {
                     strValorTemporal = confg.getValueAppConfig("INTERCLOSE", "PARAMETRO");
                     confg.horaCierre = (TimeSpan.TryParse(strValorTemporal, out hrTemporal)) ? hrTemporal : new TimeSpan(23, 0, 0); 
@@ -973,12 +997,13 @@ namespace InterfazEnvios
 
                 if (ModeloNegocio.Transferencias.LlenarColeccion())
                 {
-                    ModeloNegocio.Parametro.confg = confg;
-
-                    if (ModeloNegocio.Parametro.DespliegaDatos())
+                    if (DespliegaDatos())
                     {
-                        if (ModeloNegocio.Parametro.mbTransStatus)
+                        if (mbTransStatus)
                         {
+                            frm_monitor = new frmMonitoreo(this);
+                            tmrLog.Enabled = true;
+
                             frm_monitor.tmrMonitor.Enabled = false;
                             frm_monitor.Visible = false;
                             frm_monitor.Hide();
@@ -1024,6 +1049,129 @@ namespace InterfazEnvios
                 }
 
 
+            }
+        }
+
+        public bool DespliegaDatos()
+        {
+            DateTime fecha_Servidor = ModeloNegocio.Parametro.FechaServidor();
+
+            Datos.ParametrosEjecucion resultado = ModeloNegocio.Parametro.GetParametrosEjecucion();
+
+            if (resultado != null)
+            {
+                if (fecha_Servidor.ToString("dd-MM-yyyy") != resultado.Fecha_Sistema.ToString("dd-MM-yyyy"))
+                {
+                    Log.Escribe("La fecha en parámetros no es la misma que la fecha del servidor!");
+                }
+                if (fecha_Servidor.ToString("dd-MM-yyyy") != DateTime.Now.ToString("dd-MM-yyyy"))
+                {
+                    Log.Escribe("La fecha de la PC no es la misma que la fecha del servidor!");
+                }
+            }
+            else
+            {
+                Log.Escribe("No existen datos en la tabla de PARAMETROS", "Error");
+                return false;
+            }
+
+            Datos.Parametros to_tregs_fecha = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSFECHA");
+            Datos.Parametros trans_status = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
+
+            //Si la fecha de transferencia es hoy
+
+            DateTime tregs_fecha = Convert.ToDateTime(DateTime.ParseExact(to_tregs_fecha.valor.Trim(), "MM-dd-yyyy", CultureInfo.InvariantCulture));
+            if ((tregs_fecha - resultado.Fecha_Servidor).Days == 0)
+            {
+
+                if (trans_status.valor.Trim() == "CLOSED")
+                {
+                    mbTransStatus = false;
+                    Log.Escribe("Transferencia Cerrada!");
+                }
+                else
+                {
+                    mbTransStatus = true;
+                }
+            }
+            else
+            {
+                if (trans_status.valor.Trim() == "CLOSED")
+                {
+                    //Inicializa los parámetros de ejecucion
+                    ModeloNegocio.Parametro.ActualizaParametro("TOTREGSFECHA", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSFECHA", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TRANSSTATUS", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSMT103", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSMT202", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSSWIFT", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                    ModeloNegocio.Parametro.ActualizaParametro("TOTREGSCTES", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+
+                    //DGI (EDS) MANTENIMIENTO
+                    ModeloNegocio.Parametro.ActualizaParametro("TOTREGSMANT", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSDEPRET", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSHOLDS", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSROPD", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSTRASP", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+                     ModeloNegocio.Parametro.ActualizaParametro("TOTREGSTDS", resultado.Fecha_Servidor.ToString("yyyy-MM-dd hh:mm:ss"));
+
+                    //EPH020305                      
+                    gsFecOp1 = fecha_Servidor.AddMinutes(10);
+                    gsFecOp2 = gsFecOp1.AddMinutes(5);
+                    gsFecOp3 = gsFecOp2.AddMinutes(5);
+                    gsFecOp4 = gsFecOp3.AddMinutes(5);
+
+                    gsFecResp = Funciones.Fecha("FIN", confg.fechaCierre);
+                    gsFecSV1 = Funciones.Fecha("FIN", confg.fechaCierre);
+                    gsFecSV2 = Funciones.Fecha("FIN", confg.fechaCierre);
+                    confg.fechaCierre = new DateTime(fecha_Servidor.Year, fecha_Servidor.Month, fecha_Servidor.Day) + confg.horaCierre;
+                }
+            }
+
+            //Lee el numero de operaciones procesadas
+            gsTotMT103 = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSMT103");
+            gsTotMT202 = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSMT202");
+            gsTotMT198 = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSSWIFT");
+            gsTotClientes = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSCTES");
+            //DGI (EDS) Mantenimiento
+            gsTotMantto = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSMANT");
+
+            gsTotDepRet = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSDEPRET");
+            gsTotHOLDRet = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSHOLDS");
+            gsTotROPUSD = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSROPD");
+            gsTotTraspasos = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSTRASP");
+            gsTotTDs = ModeloNegocio.Parametro.GetParametrizacion("TOTREGSTDS");
+
+            CargaSalVen.CalcDiaSig();
+
+            VerificaRespaldo();
+
+            return true;
+
+
+        }
+
+        private static bool VerificaRespaldo()
+        {
+            gsPaso = ModeloNegocio.Parametro.GetParametro("error_saldos_diarios");
+
+            if (gsPaso != -1)
+            {
+                gsBackup = ModeloNegocio.Parametro.GetParametro("backup_saldos_diarios");
+
+                if (gsBackup == -1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -1076,6 +1224,12 @@ namespace InterfazEnvios
         private void Pantalla_Principal_Activated(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnInfo_Click(object sender, EventArgs e)
+        {
+            frmInformacion frm = new frmInformacion(this);
+            frm.ShowDialog();
         }
     }
 }

@@ -372,6 +372,7 @@ namespace InterfazEnvios
             this.btnInfo.Size = new System.Drawing.Size(40, 40);
             this.btnInfo.TabIndex = 8;
             this.btnInfo.UseVisualStyleBackColor = false;
+            this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
             // 
             // panel9
             // 
