@@ -25,32 +25,9 @@ namespace InterfazEnvios
         private void frmInformacion_Load(object sender, EventArgs e)
         {
             CargaInformacionList();
-
-            if(!CargaArchivosEnviados())
-            {
-               
-
-            }
-           
         }
 
-        private bool CargaArchivosEnviados()
-        {
-            try
-            {
-                
-
-
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.Escribe(ex);
-                return false;
-            }
-            
-        }
+       
 
         private void CargaInformacionList()
         {

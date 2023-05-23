@@ -197,9 +197,6 @@ namespace InterfazEnvios
                 tsLblVersion.Text = "Interfaz Envios Version: " + Application.ProductVersion.ToString();
                 tsLblMachineName.Text = "Maquina: " + Environment.MachineName;
                 tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");                       
-
-                ls_StatusInterfaz = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
-
                 mbTransStatus = true;
 
                 switchButton1.Enabled = false;
@@ -241,11 +238,11 @@ namespace InterfazEnvios
             }
             catch(MQException ex)
             {
-                MessageBox.Show(ex.Message);
+                Log.Escribe(ex);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Log.Escribe(ex);
             }
             
         }
@@ -316,9 +313,7 @@ namespace InterfazEnvios
         private bool InicializaVariables()
         {
             try
-            {
-                DateTime fecha_Servidor = ModeloNegocio.Parametro.FechaServidor();
-
+            {             
                 int lnLongitud;
                 int intValorTemporal;
                 string strValorTemporal;
@@ -326,8 +321,10 @@ namespace InterfazEnvios
                 TimeSpan hrTemporal;
 
                 confg = new Configuracion();
-
                 confg.EncryptConnectionString();
+
+                confg.AppName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                confg.gsAppPassword = crpt.VerificaClaves(2, confg.getValueAppConfig("APPPWD", "PARAMETRO"));
 
                 Log.RutaLog = confg.getValueAppConfig("Ruta", "LOG");
                 Log.EscribeLog = true;
@@ -336,19 +333,15 @@ namespace InterfazEnvios
 
                 Log.Escribe("Inicia configuración de variables");
 
+                DateTime fecha_Servidor = ModeloNegocio.Parametro.FechaServidor();
+                ls_StatusInterfaz = ModeloNegocio.Parametro.GetParametrizacion("TRANSSTATUS");
+
                 Datos.TICKETEntities bdTicket = new TICKETEntities();
                 Datos.CATALOGOSEntities bdCatalogos = new CATALOGOSEntities();
                 Datos.FUNCIONARIOSEntities bdFuncionario = new FUNCIONARIOSEntities();
                 string ds1 = bdTicket.Database.Connection.DataSource;
                 string ds2 = bdCatalogos.Database.Connection.DataSource;
                 string ds3 = bdFuncionario.Database.Connection.DataSource;
-
-
-                
-                ////[SQL CONEXION]
-                //SqlConnection sql_cnn = bdFuncionario.Database.Connection as SqlConnection;
-                //sql_cnn.Open();
-
 
 
 
@@ -371,12 +364,7 @@ namespace InterfazEnvios
                     tsLblServer.Text = "Servidor: No todas la configuraciones apuntan al mismo servidor.";
                 }
 
-
-
-                confg.AppName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-
-                
-                confg.gsAppPassword = crpt.VerificaClaves(2,confg.getValueAppConfig("APPPWD", "PARAMETRO"));
+              
                 confg.ambiente = confg.getValueAppConfig("AMBIENTE", "PARAMETRO");
                 confg.pathFtpApp = confg.getValueAppConfig("PATHFTPAPP", "PARAMETRO");
                 confg.sna620 = crpt.VerificaClaves(2, confg.getValueAppConfig("SNA620", "PARAMETRO"));
