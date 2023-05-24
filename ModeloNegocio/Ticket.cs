@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,25 @@ namespace ModeloNegocio
             {
                 Log.Escribe(ex);
                 return -1;
+            }
+        }
+
+        public static List<Datos.REPORTE_SWIFT_MT202> GetReporteSwiftMT202(DateTime fecha, int agencia1, int agencia3)
+        {
+            using (TICKETEntities contexto = new TICKETEntities())
+            {
+                
+                List<REPORTE_SWIFT_MT202> rstMT202 = (List<REPORTE_SWIFT_MT202>)(
+                    from R in contexto.REPORTE_SWIFT_MT202
+                    join B in contexto.BITACORA_ENVIO_SWIFT_MT202 on R.num_rep equals B.num_rep
+                    where R.fecha_reporte >= fecha
+                    && R.fecha_reporte <= fecha
+                    && R.agencia == agencia1 || R.agencia == agencia3
+                    && B.status_envio == 0
+                    orderby R.fecha_reporte
+                    select new List<REPORTE_SWIFT_MT202>()
+                );
+                return rstMT202;
             }
         }
     }

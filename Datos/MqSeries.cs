@@ -79,10 +79,19 @@ namespace Datos
         /// <returns></returns>
         public static bool PruebaConexion(string strQueueManagerName)
         {
-            using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+            try
             {
-                return true;
+                using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+                {
+                    return true;
+                }
             }
+            catch (MQException MQexp)
+            {
+                BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQConectar);
+                return false;
+            }
+            
 
         }
 
@@ -115,6 +124,7 @@ namespace Datos
             catch (MQException MQexp)
             {
                 strCadenaLogMQ = "error escritura " + MQexp.ReasonCode + " , " + MQexp.Message;
+                BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQEscribirCola);
                 return false;
             }
         }
@@ -154,6 +164,9 @@ namespace Datos
                         MQexp.InnerException + " , " + MQexp.TargetSite + " , " + MQexp.Data +
                         +MQexp.ReasonCode + ", mensaje " + MQexp.Source + "  Error " + MQexp.Message;
                     queueManager.Close();
+
+                    BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "" , TipoAccion.eMQAbrirCola);    
+
                     return String.Empty;
 
                 }
@@ -179,7 +192,26 @@ namespace Datos
                 return false;
             }
         }
-      
 
+        public static int BitacoraErrorMapeoSave(int lngErrorNum, string errorDesc, string archivoDest, TipoAccion eTipoAccion)
+        {
+            using (Datos.TICKETEntities context = new Datos.TICKETEntities())
+            {
+
+                Datos.BITACORA_ERRORES_MAPEO error = new Datos.BITACORA_ERRORES_MAPEO
+                {
+                    fecha_hora = DateTime.Now,
+                    error_numero = lngErrorNum,
+                    error_descripcion = errorDesc,
+                    archivo_destino = archivoDest,
+                    tipo_error = eTipoAccion.ToString()
+                };
+
+                context.BITACORA_ERRORES_MAPEO.Add(error);
+                int resultado = context.SaveChanges();
+                return resultado;
+            }
+        }
+         
     }
-}
+ }

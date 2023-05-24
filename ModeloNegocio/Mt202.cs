@@ -143,17 +143,9 @@ namespace ModeloNegocio
                 //Abre Recordset ejecutando el stored procedure
                 //que regresa dos recordsets
                 intLineaErrror = 6;
-                using (TICKETEntities contexto = new TICKETEntities())
-                {
-                    rstMT202 = (List<REPORTE_SWIFT_MT202>)(from R in contexto.REPORTE_SWIFT_MT202
-                                                           join B in contexto.BITACORA_ENVIO_SWIFT_MT202 on R.num_rep equals B.num_rep
-                                                           where R.fecha_reporte >= DateTime.ParseExact(strFecha, "mm/dd/yyyy", CultureInfo.InvariantCulture)
-                                                           && R.fecha_reporte <= DateTime.ParseExact(strFecha, "mm/dd/yyyy", CultureInfo.InvariantCulture)
-                                                           && R.agencia == intAgencia1 || R.agencia == intAgencia3
-                                                           && B.status_envio == 0
-                                                           orderby R.fecha_reporte
-                                                           select new List<REPORTE_SWIFT_MT202>());
-                }
+
+                rstMT202 = ModeloNegocio.Ticket.GetReporteSwiftMT202(DateTime.ParseExact(strFecha, "mm/dd/yyyy", CultureInfo.InvariantCulture), intAgencia1, intAgencia3);
+        
                 //Verificamos que existan registros
                 intLineaErrror = 7;
                 intRegsMT202 = rstMT202.Count();
