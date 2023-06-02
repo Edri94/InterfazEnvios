@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Datos.MqSeries;
+using static ModeloNegocio.MqSeries;
 
 namespace ModeloNegocio
 {
@@ -23,8 +23,10 @@ namespace ModeloNegocio
                         error_numero = lngErrorNum,
                         error_descripcion = errorDesc,
                         archivo_destino = archivoDest,
-                        tipo_error = eTipoAccion.ToString()
+                        tipo_error = ((int)eTipoAccion).ToString()
                     };
+
+                    Log.Escribe($"Codigo: {lngErrorNum} Desc: {errorDesc} Tipo:" + eTipoAccion.ToString(), "Error");
 
                     context.BITACORA_ERRORES_MAPEO.Add(error);
                     int resultado = context.SaveChanges();
