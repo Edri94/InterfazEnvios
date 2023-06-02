@@ -62,6 +62,7 @@
     <Compile Include="Funciones.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Mapeo.cs" />
     <Compile Include="Mt202.cs" />
     <Compile Include="Parametro.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
