@@ -205,7 +205,7 @@ namespace InterfazEnvios
                 {
                     if (VerificaPaths())
                     {                     
-                        if (((Datos.MqSeries.PruebaConexion(confg.mqManager))))
+                        if (((ModeloNegocio.MqSeries.PruebaConexion(confg.mqManager))))
                         {
                             if(nameFiles())
                             {
