@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static ModeloNegocio.MqSeries;
 
 namespace InterfazEnvios
 {
@@ -373,11 +372,10 @@ namespace InterfazEnvios
 
 
             }
-            catch(MQException MQexp)
+            catch(MQException mqex)
             {
-                Log.Escribe(MQexp);
-                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQConectar);
-                MessageBox.Show("Error " + MQexp.ReasonCode + " , " + MQexp.Message);
+                Log.Escribe(mqex);
+                MessageBox.Show("Error " + mqex.ReasonCode + " , " + mqex.Message);
             }
             catch (Exception ex)
             {

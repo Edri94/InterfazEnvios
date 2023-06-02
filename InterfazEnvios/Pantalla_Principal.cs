@@ -17,7 +17,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static ModeloNegocio.MqSeries;
 
 namespace InterfazEnvios
 {
@@ -204,9 +203,9 @@ namespace InterfazEnvios
 
                 if(InicializaVariables())
                 {
-                    if(VerificaPaths())
+                    if (VerificaPaths())
                     {                     
-                        if (((ModeloNegocio.MqSeries.PruebaConexion(confg.mqManager))))
+                        if (((Datos.MqSeries.PruebaConexion(confg.mqManager))))
                         {
                             if(nameFiles())
                             {
@@ -237,11 +236,10 @@ namespace InterfazEnvios
                 }
 
             }
-            catch(MQException MQexp)
+            catch(MQException ex)
             {
-                Log.Escribe(MQexp);
-                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQConectar);
-                MessageBox.Show("Hubo un error al Conectarse al MQ", MQexp.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Escribe(ex);
+                MessageBox.Show("Hubo un error al Conectarse al MQ", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
