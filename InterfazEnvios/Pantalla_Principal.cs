@@ -199,10 +199,16 @@ namespace InterfazEnvios
                 tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");                       
                 mbTransStatus = true;
 
-                switchButton1.Enabled = false;
+                switchButton1.Enabled = false;              
 
                 if(InicializaVariables())
                 {
+                    long longOpen = (long)MqSeries.MQOPEN.MQOO_INPUT_AS_Q_DEF;
+                    ModeloNegocio.MqSeries.MQLecturaCola(confg.mqManager, confg.mqLeer, (MqSeries.MQOPEN)longOpen);
+                    this.Close();
+                    return;
+
+
                     if (VerificaPaths())
                     {                     
                         if (((ModeloNegocio.MqSeries.PruebaConexion(confg.mqManager))))

@@ -23,7 +23,7 @@ namespace ModeloNegocio
                         error_numero = lngErrorNum,
                         error_descripcion = errorDesc,
                         archivo_destino = archivoDest,
-                        tipo_error = eTipoAccion.ToString()
+                        tipo_error =  ((int)eTipoAccion).ToString()
                     };
 
                     context.BITACORA_ERRORES_MAPEO.Add(error);

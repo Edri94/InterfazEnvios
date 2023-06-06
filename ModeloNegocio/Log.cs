@@ -78,6 +78,7 @@ namespace ModeloNegocio
                     {
                         vData = $"[{DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss")}] {(char)13}" +
                             $"*{tipo} desde {funcion}:  {ex.Message} {(char)13}" +
+                            $"*Message: {ex.Message} {(char)13}" +
                             $"*InnerException: {ex.InnerException} {(char)13}" +
                             $"*Source: {ex.Source}  {(char)13}" +
                             $"*Data: {ex.Data}  {(char)13}" +

@@ -82,10 +82,8 @@ namespace ModeloNegocio
         {
             try
             {
-                Log.Escribe("conectando....");
                 using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
                 {
-                    Log.Escribe("CONECTADO");
                     return true;
                 }
             }
@@ -105,8 +103,6 @@ namespace ModeloNegocio
             {
                 foreach (string mensaje in mensajes)
                 {
-                    Log.Escribe("Escribir mensaje en la cola : " + QueueName);
-                    Log.Escribe(mensaje);
                     queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
 
                     queueMessage = new MQMessage();
@@ -118,10 +114,6 @@ namespace ModeloNegocio
                     queuePutMessageOptions = new MQPutMessageOptions();
                     queuePutMessageOptions.Options = queuePutMessageOptions.Options | MQC.MQPMO_NO_SYNCPOINT | MQC.MQPMO_DEFAULT_CONTEXT;
 
-                    //queueMessage.CorrelationId = Encoding.ASCII.GetBytes(strMessageId);
-                    //queueMessage.ReplyToQueueName = QueueName;
-                    //queueMessage.Expiry = Convert.ToInt32(lnglMQExpira);
-                    //strCorrelId = queueMessage.CorrelationId.ToString();
                     queue.Put(queueMessage, queuePutMessageOptions);
                     Log.Escribe(mensaje);
                     Log.Escribe("**********| Mensaje ponido jejeje XD XD |**********");
@@ -139,59 +131,44 @@ namespace ModeloNegocio
 
 
 
-        public static string MQLecturaCola(MQQueueManager queueManager, string strMqCola, MQOPEN lngOpciones)
+        public static string MQLecturaCola(string strQueueManagerName, string strMqCola, MQOPEN lngOpciones)
         {
-
             string resultado = String.Empty;
+
             try
             {
-                if (queueManager.IsOpen)
+                Log.Escribe($"Conectando a {strQueueManagerName}");
+                using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
                 {
-                    Log.Escribe("ABIERTO");
+                    Log.Escribe("CONECTADO");
+
+                    Log.Escribe($"Accediendo a cola {strMqCola}");
+                    queue = queueManager.AccessQueue(strMqCola, (int)lngOpciones);
+                    queueMessage = new MQMessage();
+                    queueMessage.Format = MQC.MQFMT_STRING;
+                    //Se accesan a la opciones de lectura por default
+                    queueGetMessageOptions = new MQGetMessageOptions();
+                    queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
+                    queue.Get(queueMessage, queueGetMessageOptions);
+
+                    //Obtener el Id del mensage para el regreso
+                    msgID = queueMessage.MessageId;
+                    strMessageId = Encoding.ASCII.GetString(msgID);
+                    strCorrelId = queueMessage.CorrelationId.ToString();
+
+                    resultado = queueMessage.ReadString(queueMessage.MessageLength);
+                    
+                    Log.Escribe("Mensaje:");
+                    Log.Escribe(resultado);
                 }
-                else
-                {
-                    Log.Escribe("CERRADO");
-                }
-
-                Log.Escribe("Abriendo cola...");
-
-                queue = queueManager.AccessQueue(strMqCola, (int)lngOpciones);
-                Log.Escribe("1...");
-                queueMessage = new MQMessage();
-                Log.Escribe("2...");
-                queueMessage.Format = MQC.MQFMT_STRING;
-                Log.Escribe("3...");
-                //Se accesan a la opciones de lectura por default
-                queueGetMessageOptions = new MQGetMessageOptions();
-                Log.Escribe("4...");
-                queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
-                Log.Escribe("5...");
-                queue.Get(queueMessage, queueGetMessageOptions);
-
-
-
-                //Obtener el Id del mensage para el regreso
-                msgID = queueMessage.MessageId;
-                strMessageId = Encoding.ASCII.GetString(msgID);
-                strCorrelId = queueMessage.CorrelationId.ToString();
-
-                resultado = queueMessage.ReadString(queueMessage.MessageLength);
-
             }
             catch (MQException MQexp)
             {
                 Log.Escribe(MQexp);
-                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQAbrirCola);
+                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQLeerCola);
                 return String.Empty;
             }
-            finally
-            {
-                queue.Close();
-            }
-
             return resultado;
-
         }
 
         public static bool MQVerificar(string strQueueManagerName, string strCola)
