@@ -131,44 +131,72 @@ namespace ModeloNegocio
 
 
 
-        public static string MQLecturaCola(string strQueueManagerName, string strMqCola, MQOPEN lngOpciones)
+        public static string MQLecturaCola(string strQueueManagerName, string strMqCola, MQOPEN lngOpciones, string pathArchivo)
         {
             string resultado = String.Empty;
-
+            string str_archivo = "";
             try
             {
-                Log.Escribe($"Conectando a {strQueueManagerName}");
                 using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
                 {
-                    Log.Escribe("CONECTADO");
+                    do
+                    {
+                        resultado = "";
 
-                    Log.Escribe($"Accediendo a cola {strMqCola}");
-                    queue = queueManager.AccessQueue(strMqCola, (int)lngOpciones);
-                    queueMessage = new MQMessage();
-                    queueMessage.Format = MQC.MQFMT_STRING;
-                    //Se accesan a la opciones de lectura por default
-                    queueGetMessageOptions = new MQGetMessageOptions();
-                    queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
-                    queue.Get(queueMessage, queueGetMessageOptions);
+                        queue = queueManager.AccessQueue(strMqCola, (int)lngOpciones);
+                        queueMessage = new MQMessage();
+                        queueMessage.Format = MQC.MQFMT_STRING;
+                        //Se accesan a la opciones de lectura por default
+                        queueGetMessageOptions = new MQGetMessageOptions();
+                        queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
+                        queue.Get(queueMessage, queueGetMessageOptions);
 
-                    //Obtener el Id del mensage para el regreso
-                    msgID = queueMessage.MessageId;
-                    strMessageId = Encoding.ASCII.GetString(msgID);
-                    strCorrelId = queueMessage.CorrelationId.ToString();
+                        //Obtener el Id del mensage para el regreso
+                        msgID = queueMessage.MessageId;
+                        strMessageId = Encoding.ASCII.GetString(msgID);
+                        strCorrelId = queueMessage.CorrelationId.ToString();
 
-                    resultado = queueMessage.ReadString(queueMessage.MessageLength);
+                        resultado = queueMessage.ReadString(queueMessage.MessageLength);
+
+                        Log.Escribe("Mensaje:");
+                        Log.Escribe(resultado);
+
+                        str_archivo += resultado + Environment.NewLine;
+
+                    } while (resultado != "");
+
                     
-                    Log.Escribe("Mensaje:");
-                    Log.Escribe(resultado);
+
+                    
                 }
             }
             catch (MQException MQexp)
             {
-                Log.Escribe(MQexp);
+                Log.Escribe("ReasonCode: " + MQexp.ReasonCode + " Reason: " + MQexp.Reason + " Length: " + str_archivo.Length);
+
+                if(MQexp.Reason == 2033 && str_archivo.Length > 50)
+                {
+                    EscribirArchivo(str_archivo, pathArchivo + "\\Prueba_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+                }
+                    Log.Escribe(MQexp);
                 Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQLeerCola);
                 return String.Empty;
             }
             return resultado;
+        }
+
+        private static void EscribirArchivo(string str_archivo, string ruta)
+        {
+            try
+            {
+                StreamWriter sw = new StreamWriter(ruta);
+                sw.Write(str_archivo);
+                sw.Close();
+            }
+            catch (IOException ex)
+            {
+                Log.Escribe(ex);
+            }
         }
 
         public static bool MQVerificar(string strQueueManagerName, string strCola)
@@ -197,6 +225,8 @@ namespace ModeloNegocio
                     mensajes = GetMensajes(RutaArchivo);
 
                     long longOPen = (long)MQOPEN.MQOO_OUTPUT;
+
+                    Log.Escribe(strMqCola);
                     bool resp = MQEscrituraCola(queueManager, strMqCola, (MQOPEN)longOPen, mensajes, (long)0);
                 }
 

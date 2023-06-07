@@ -203,12 +203,13 @@ namespace InterfazEnvios
 
                 if(InicializaVariables())
                 {
-                    long longOpen = (long)MqSeries.MQOPEN.MQOO_INPUT_AS_Q_DEF;
-                    ModeloNegocio.MqSeries.MQLecturaCola(confg.mqManager, confg.mqLeer, (MqSeries.MQOPEN)longOpen);
-                    this.Close();
-                    return;
-
-
+                    //confg.mqEscribir = "QLD.CEDAMH.RESP";
+                    //confg.mqLeer = "QLD.CEDAMH.RESP";
+                    //long longOpen = (long)MqSeries.MQOPEN.MQOO_INPUT_AS_Q_DEF;
+                    //ModeloNegocio.MqSeries.MQEnviar(confg.mqManager, confg.mqEscribir, @"D:\Procesos\Interfaces\InterfazAgencias\Swift\Pruebas.ITK");
+                    //ModeloNegocio.MqSeries.MQLecturaCola(confg.mqManager, confg.mqLeer, (MqSeries.MQOPEN)longOpen, confg.pathSwift);
+                    //this.Close();
+                    //return;
                     if (VerificaPaths())
                     {                     
                         if (((ModeloNegocio.MqSeries.PruebaConexion(confg.mqManager))))
