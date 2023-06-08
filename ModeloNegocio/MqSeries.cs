@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace ModeloNegocio
 {
@@ -97,40 +98,6 @@ namespace ModeloNegocio
 
         }
 
-        public static bool MQEscrituraCola(MQQueueManager queueManager, string QueueName, MQOPEN lngOpciones, List<string> mensajes, long lnglMQExpira = 0)
-        {
-            try
-            {
-                foreach (string mensaje in mensajes)
-                {
-                    queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
-
-                    queueMessage = new MQMessage();
-                    queueMessage.ClearMessage();
-                    queueMessage.Format = MQC.MQFMT_STRING;
-                    queueMessage.MessageType = MQC.MQMT_DATAGRAM;
-                    queueMessage.WriteString(mensaje.Trim());
-
-                    queuePutMessageOptions = new MQPutMessageOptions();
-                    queuePutMessageOptions.Options = queuePutMessageOptions.Options | MQC.MQPMO_NO_SYNCPOINT | MQC.MQPMO_DEFAULT_CONTEXT;
-
-                    queue.Put(queueMessage, queuePutMessageOptions);
-                    Log.Escribe(mensaje);
-                    Log.Escribe("**********| Mensaje ponido jejeje XD XD |**********");
-                }
-
-                return true;
-            }
-            catch (MQException MQexp)
-            {
-                Log.Escribe(MQexp);
-                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQEscribirCola);
-                return false;
-            }
-        }
-
-
-
         public static string MQLecturaCola(string strQueueManagerName, string strMqCola, MQOPEN lngOpciones, string pathArchivo)
         {
             string resultado = String.Empty;
@@ -185,6 +152,67 @@ namespace ModeloNegocio
             return resultado;
         }
 
+
+        public static string MQLecturaColaXML(string strQueueManagerName, string strMqCola, MQOPEN lngOpciones, string pathArchivo)
+        {
+            string resultado = String.Empty;
+            string str_archivo = "";
+            int c = 0;
+            try
+            {
+                using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+                {
+                    do
+                    {
+                        resultado = "";
+
+                        queue = queueManager.AccessQueue(strMqCola, (int)lngOpciones);
+                        queueMessage = new MQMessage();
+                        queueMessage.Format = MQC.MQFMT_STRING;
+                        //Se accesan a la opciones de lectura por default
+                        queueGetMessageOptions = new MQGetMessageOptions();
+                        queueGetMessageOptions.Options = MQGMO_NO_WAIT + MQGMO_COMPLETE_MSG;
+                        queue.Get(queueMessage, queueGetMessageOptions);
+
+                        //Obtener el Id del mensage para el regreso
+                        msgID = queueMessage.MessageId;
+                        strMessageId = Encoding.ASCII.GetString(msgID);
+                        strCorrelId = queueMessage.CorrelationId.ToString();
+
+                        resultado = queueMessage.ReadString(queueMessage.MessageLength);
+
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.LoadXml(resultado);
+
+                        Log.Escribe("Mensaje:");
+                        Log.Escribe(resultado);
+
+                        str_archivo += resultado + Environment.NewLine;
+
+                        c++;                   
+
+                        string nombre_archivo = $"{pathArchivo}\\Prueba_{DateTime.Now.ToString("yyyyMMdd")}{c.ToString("000")}.xml";
+
+                        EscribirArchivo(str_archivo, nombre_archivo );
+
+                    } while (resultado != "");
+                }
+            }
+            catch (MQException MQexp)
+            {
+                Log.Escribe("ReasonCode: " + MQexp.ReasonCode + " Reason: " + MQexp.Reason + " Length: " + str_archivo.Length);
+
+                if (MQexp.Reason == 2033)
+                {
+                    Log.Escribe("Fin De Cola");
+                }
+                Log.Escribe(MQexp);
+                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQLeerCola);
+                return String.Empty;
+            }
+            return resultado;
+        }
+
         private static void EscribirArchivo(string str_archivo, string ruta)
         {
             try
@@ -215,18 +243,18 @@ namespace ModeloNegocio
             return false;
         }
 
-        public static bool MQEnviar(string strQueueManagerName, string strMqCola, string RutaArchivo, string strMnesajeId = "")
+        public static bool MQEnviar(string strQueueManagerName, string strMqCola, string RutaArchivo)
         {
             try
             {
                 using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
                 {
                     List<string> mensajes = new List<string>();
+
                     mensajes = GetMensajes(RutaArchivo);
 
                     long longOPen = (long)MQOPEN.MQOO_OUTPUT;
 
-                    Log.Escribe(strMqCola);
                     bool resp = MQEscrituraCola(queueManager, strMqCola, (MQOPEN)longOPen, mensajes, (long)0);
                 }
 
@@ -239,6 +267,94 @@ namespace ModeloNegocio
                 return false;
             }
 
+        }
+
+        public static bool MQEnviarXML(string strQueueManagerName, string strMqCola, string RutaArchivo)
+        {
+            try
+            {
+                using (MQQueueManager queueManager = new MQQueueManager(strQueueManagerName))
+                {
+                    string mensaje = "";
+
+                    mensaje = GetMensajesXML(RutaArchivo);
+
+                    long longOPen = (long)MQOPEN.MQOO_OUTPUT;
+
+                    Log.Escribe(strMqCola);
+                    bool resp = MQEscrituraColaXML(queueManager, strMqCola, (MQOPEN)longOPen, mensaje, (long)0);
+                }
+
+                return true;
+            }
+            catch (MQException MQexp)
+            {
+                Log.Escribe(MQexp);
+                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQAbrirCola);
+                return false;
+            }
+
+        }
+
+        public static bool MQEscrituraCola(MQQueueManager queueManager, string QueueName, MQOPEN lngOpciones, List<string> mensajes, long lnglMQExpira = 0)
+        {
+            try
+            {
+                foreach (string mensaje in mensajes)
+                {
+                    queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
+
+                    queueMessage = new MQMessage();
+                    queueMessage.ClearMessage();
+                    queueMessage.Format = MQC.MQFMT_STRING;
+                    queueMessage.MessageType = MQC.MQMT_DATAGRAM;
+                    queueMessage.WriteString(mensaje.Trim());
+
+                    queuePutMessageOptions = new MQPutMessageOptions();
+                    queuePutMessageOptions.Options = queuePutMessageOptions.Options | MQC.MQPMO_NO_SYNCPOINT | MQC.MQPMO_DEFAULT_CONTEXT;
+
+                    queue.Put(queueMessage, queuePutMessageOptions);
+                    Log.Escribe(mensaje);
+                    Log.Escribe("**********| Mensaje ponido jejeje XD XD |**********");
+                }
+
+                return true;
+            }
+            catch (MQException MQexp)
+            {
+                Log.Escribe(MQexp);
+                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQEscribirCola);
+                return false;
+            }
+        }
+
+        private static bool MQEscrituraColaXML(MQQueueManager queueManager, string QueueName, MQOPEN lngOpciones, string mensaje, long lnglMQExpira = 0)
+        {
+            try
+            {
+                queue = queueManager.AccessQueue(QueueName, (int)lngOpciones);
+
+                queueMessage = new MQMessage();
+                queueMessage.ClearMessage();
+                queueMessage.Format = MQC.MQFMT_STRING;
+                queueMessage.MessageType = MQC.MQMT_DATAGRAM;
+                queueMessage.WriteString(mensaje.Trim());
+
+                queuePutMessageOptions = new MQPutMessageOptions();
+                queuePutMessageOptions.Options = queuePutMessageOptions.Options | MQC.MQPMO_NO_SYNCPOINT | MQC.MQPMO_DEFAULT_CONTEXT;
+
+                queue.Put(queueMessage, queuePutMessageOptions);
+                Log.Escribe(mensaje);
+                Log.Escribe("**********| Mensaje ponido jejeje XD XD |**********");
+
+                return true;
+            }
+            catch (MQException MQexp)
+            {
+                Log.Escribe(MQexp);
+                Ticket.BitacoraErrorMapeoSave(MQexp.ReasonCode, MQexp.Message, "", TipoAccion.eMQEscribirCola);
+                return false;
+            }
         }
 
         private static List<string> GetMensajes(string rutaArchivo)
@@ -272,5 +388,17 @@ namespace ModeloNegocio
                 return mensajes;
             }
         }
+
+        private static string GetMensajesXML(string rutaArchivo)
+        {
+            using (StreamReader reader = new StreamReader(rutaArchivo))
+            {
+                string mensaje = "";
+                mensaje = reader.ReadToEnd();
+
+                return mensaje;
+            }
+        }
+      
     }
 }

@@ -203,13 +203,24 @@ namespace InterfazEnvios
 
                 if(InicializaVariables())
                 {
+
+                    //***PRUEBAS
+                    //string ruta = @"\\150.100.195.44\Procesos2\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
+                    //string ruta = @"D:\Procesos\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //confg.mqEscribir = "QLD.CEDAMH.RESP";
                     //confg.mqLeer = "QLD.CEDAMH.RESP";
                     //long longOpen = (long)MqSeries.MQOPEN.MQOO_INPUT_AS_Q_DEF;
                     //ModeloNegocio.MqSeries.MQEnviar(confg.mqManager, confg.mqEscribir, @"D:\Procesos\Interfaces\InterfazAgencias\Swift\Pruebas.ITK");
                     //ModeloNegocio.MqSeries.MQLecturaCola(confg.mqManager, confg.mqLeer, (MqSeries.MQOPEN)longOpen, confg.pathSwift);
+                    //ModeloNegocio.MqSeries.MQEnviarXML(confg.mqManager, confg.mqEscribir, ruta);
+                    //ModeloNegocio.MqSeries.MQEnviarXML(confg.mqManager, confg.mqEscribir, ruta);
+                    //ModeloNegocio.MqSeries.MQEnviarXML(confg.mqManager, confg.mqEscribir, ruta);
+                    //ModeloNegocio.MqSeries.MQEnviarXML(confg.mqManager, confg.mqEscribir, ruta);
+                    //ModeloNegocio.MqSeries.MQLecturaColaXML(confg.mqManager, confg.mqLeer, (MqSeries.MQOPEN)longOpen, confg.pathSwift);
                     //this.Close();
                     //return;
+                    //********
+
                     if (VerificaPaths())
                     {                     
                         if (((ModeloNegocio.MqSeries.PruebaConexion(confg.mqManager))))
