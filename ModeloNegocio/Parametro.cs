@@ -54,6 +54,26 @@ namespace ModeloNegocio
             }
         }
 
+        public static Datos.StatCarSalVen status_carga_saldos_vencimientos()
+        {
+            try
+            {
+                using (Datos.TICKETEntities context = new Datos.TICKETEntities())
+                {
+                    Datos.StatCarSalVen resultado = context.Database.SqlQuery<StatCarSalVen>($@"SELECT
+                        ISNULL(error_saldos, 1000), ISNULL(error_cds_hoy, 10000), ISNULL(error_ov_hoy, 1000)
+                        FROM TICKET.dbo.PARAMETROS").FirstOrDefault();
+                    return resultado;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Escribe(ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Obtiene la fecha del SQL Server
         /// </summary>
