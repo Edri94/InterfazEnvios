@@ -63,6 +63,8 @@ namespace Datos
         public virtual DbSet<SALDOS_CD_KAPITI> SALDOS_CD_KAPITI { get; set; }
         public virtual DbSet<SALDOS_CD_KAPITI_1> SALDOS_CD_KAPITI_1 { get; set; }
         public virtual DbSet<SALDOS_KAPITI_1> SALDOS_KAPITI_1 { get; set; }
+        public virtual DbSet<BITACORA_ERRORES_TICKET> BITACORA_ERRORES_TICKET { get; set; }
+        public virtual DbSet<SALDOS_KAPITI> SALDOS_KAPITI { get; set; }
     
         public virtual int sp_i_InfoMT202(string fechaoperacion1, Nullable<int> agencia1, Nullable<int> agencia3)
         {

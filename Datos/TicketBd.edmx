@@ -48,6 +48,15 @@
           <Property Name="archivo_destino" Type="varchar" MaxLength="50" />
           <Property Name="tipo_error" Type="varchar" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="BITACORA_ERRORES_TICKET">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha" Type="smalldatetime" Nullable="false" />
+          <Property Name="mensaje" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="tipo_msg" Type="char" MaxLength="1" />
+        </EntityType>
         <EntityType Name="BITACORA_FECHAS_EJECUCION">
           <Key>
             <PropertyRef Name="consecutivo" />
@@ -507,6 +516,29 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_CD_KAPITI_1' no 
           <Property Name="fin_registro" Type="char" MaxLength="1" />
         </EntityType>
         <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="SALDOS_KAPITI">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="cuenta_cliente" />
+            <PropertyRef Name="sufijo" />
+            <PropertyRef Name="saldo" />
+            <PropertyRef Name="interes" />
+            <PropertyRef Name="cuenta_bloqueada" />
+            <PropertyRef Name="fecha_generacion" />
+            <PropertyRef Name="numero_registros" />
+          </Key>
+          <Property Name="agencia" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="cuenta_cliente" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="sufijo" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="saldo" Type="numeric" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="interes" Type="numeric" Precision="16" Scale="6" Nullable="false" />
+          <Property Name="cuenta_bloqueada" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="fecha_generacion" Type="smalldatetime" Nullable="false" />
+          <Property Name="numero_registros" Type="int" Nullable="false" />
+          <Property Name="fin_registro" Type="char" MaxLength="1" />
+        </EntityType>
+        <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="SALDOS_KAPITI_1">
           <Key>
@@ -809,6 +841,7 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySet Name="BITACORA_ENVIO_KAPITI" EntityType="Self.BITACORA_ENVIO_KAPITI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="Self.BITACORA_ENVIO_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ERRORES_MAPEO" EntityType="Self.BITACORA_ERRORES_MAPEO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_ERRORES_TICKET" EntityType="Self.BITACORA_ERRORES_TICKET" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_FECHAS_EJECUCION" EntityType="Self.BITACORA_FECHAS_EJECUCION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_REPORTE_SWIFT_MT198" EntityType="Self.BITACORA_REPORTE_SWIFT_MT198" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMPRA_CD" EntityType="Self.COMPRA_CD" Schema="dbo" store:Type="Tables" />
@@ -875,6 +908,19 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
     [SALDOS_CD_KAPITI_1].[intereses] AS [intereses], 
     [SALDOS_CD_KAPITI_1].[fin_registro] AS [fin_registro]
     FROM [Transferencia].[SALDOS_CD_KAPITI_1] AS [SALDOS_CD_KAPITI_1]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SALDOS_KAPITI" EntityType="Self.SALDOS_KAPITI" store:Type="Tables" store:Schema="Transferencia">
+            <DefiningQuery>SELECT 
+    [SALDOS_KAPITI].[agencia] AS [agencia], 
+    [SALDOS_KAPITI].[cuenta_cliente] AS [cuenta_cliente], 
+    [SALDOS_KAPITI].[sufijo] AS [sufijo], 
+    [SALDOS_KAPITI].[saldo] AS [saldo], 
+    [SALDOS_KAPITI].[interes] AS [interes], 
+    [SALDOS_KAPITI].[cuenta_bloqueada] AS [cuenta_bloqueada], 
+    [SALDOS_KAPITI].[fecha_generacion] AS [fecha_generacion], 
+    [SALDOS_KAPITI].[numero_registros] AS [numero_registros], 
+    [SALDOS_KAPITI].[fin_registro] AS [fin_registro]
+    FROM [Transferencia].[SALDOS_KAPITI] AS [SALDOS_KAPITI]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="SALDOS_KAPITI_1" EntityType="Self.SALDOS_KAPITI_1" store:Type="Tables" store:Schema="Transferencia">
             <DefiningQuery>SELECT 
@@ -1127,6 +1173,8 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySet Name="SALDOS_CD_KAPITI" EntityType="TICKETModel.SALDOS_CD_KAPITI" />
           <EntitySet Name="SALDOS_CD_KAPITI_1" EntityType="TICKETModel.SALDOS_CD_KAPITI_1" />
           <EntitySet Name="SALDOS_KAPITI_1" EntityType="TICKETModel.SALDOS_KAPITI_1" />
+          <EntitySet Name="BITACORA_ERRORES_TICKET" EntityType="TICKETModel.BITACORA_ERRORES_TICKET" />
+          <EntitySet Name="SALDOS_KAPITI" EntityType="TICKETModel.SALDOS_KAPITI" />
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -1943,6 +1991,36 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <Property Name="numero_registros" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
           <Property Name="fin_registro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
+        <EntityType Name="BITACORA_ERRORES_TICKET">
+          <Key>
+            <PropertyRef Name="consecutivo" />
+          </Key>
+          <Property Name="consecutivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="mensaje" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="tipo_msg" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SALDOS_KAPITI">
+          <Key>
+            <PropertyRef Name="agencia" />
+            <PropertyRef Name="cuenta_cliente" />
+            <PropertyRef Name="sufijo" />
+            <PropertyRef Name="saldo" />
+            <PropertyRef Name="interes" />
+            <PropertyRef Name="cuenta_bloqueada" />
+            <PropertyRef Name="fecha_generacion" />
+            <PropertyRef Name="numero_registros" />
+          </Key>
+          <Property Name="agencia" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="cuenta_cliente" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="sufijo" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="saldo" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="interes" Type="Decimal" Nullable="false" Precision="16" Scale="6" />
+          <Property Name="cuenta_bloqueada" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="fecha_generacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="numero_registros" Type="Int32" Nullable="false" />
+          <Property Name="fin_registro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2462,6 +2540,31 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySetMapping Name="SALDOS_KAPITI_1">
             <EntityTypeMapping TypeName="TICKETModel.SALDOS_KAPITI_1">
               <MappingFragment StoreEntitySet="SALDOS_KAPITI_1">
+                <ScalarProperty Name="fin_registro" ColumnName="fin_registro" />
+                <ScalarProperty Name="numero_registros" ColumnName="numero_registros" />
+                <ScalarProperty Name="fecha_generacion" ColumnName="fecha_generacion" />
+                <ScalarProperty Name="cuenta_bloqueada" ColumnName="cuenta_bloqueada" />
+                <ScalarProperty Name="interes" ColumnName="interes" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="sufijo" ColumnName="sufijo" />
+                <ScalarProperty Name="cuenta_cliente" ColumnName="cuenta_cliente" />
+                <ScalarProperty Name="agencia" ColumnName="agencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_ERRORES_TICKET">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_ERRORES_TICKET">
+              <MappingFragment StoreEntitySet="BITACORA_ERRORES_TICKET">
+                <ScalarProperty Name="tipo_msg" ColumnName="tipo_msg" />
+                <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="consecutivo" ColumnName="consecutivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SALDOS_KAPITI">
+            <EntityTypeMapping TypeName="TICKETModel.SALDOS_KAPITI">
+              <MappingFragment StoreEntitySet="SALDOS_KAPITI">
                 <ScalarProperty Name="fin_registro" ColumnName="fin_registro" />
                 <ScalarProperty Name="numero_registros" ColumnName="numero_registros" />
                 <ScalarProperty Name="fecha_generacion" ColumnName="fecha_generacion" />

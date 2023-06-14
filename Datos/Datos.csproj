@@ -80,6 +80,9 @@
     <Compile Include="BITACORA_ERRORES_MAPEO.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="BITACORA_ERRORES_TICKET.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="BITACORA_FECHAS_EJECUCION.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
@@ -221,6 +224,9 @@
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="SALDOS_CD_KAPITI_1.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SALDOS_KAPITI.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="SALDOS_KAPITI_1.cs">
