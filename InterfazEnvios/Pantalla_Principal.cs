@@ -205,9 +205,6 @@ namespace InterfazEnvios
                 {
 
                     //***PRUEBAS
-
-                    ModeloNegocio.Ticket.InsertaSaldoKapiti();
-
                     //string ruta = @"\\150.100.195.44\Procesos2\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //string ruta = @"D:\Procesos\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //confg.mqEscribir = "QLD.CEDAMH.RESP";

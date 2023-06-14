@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CargaSalVen.cs" />
+    <Compile Include="Datos\StatCarSalVen.cs" />
     <Compile Include="Funciones.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Main.cs" />
