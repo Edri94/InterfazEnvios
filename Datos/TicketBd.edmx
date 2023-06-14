@@ -26,6 +26,17 @@
           <Property Name="no_journal" Type="tinyint" />
           <Property Name="no_journal_contrapartida" Type="tinyint" />
         </EntityType>
+        <EntityType Name="BITACORA_ENVIO_SWIFT_MT103">
+          <Key>
+            <PropertyRef Name="consecutivo_reporte" />
+          </Key>
+          <Property Name="consecutivo_reporte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="operacion" Type="int" Nullable="false" />
+          <Property Name="archivo" Type="varchar" MaxLength="15" />
+          <Property Name="fecha_envio" Type="smalldatetime" Nullable="false" />
+          <Property Name="fecha_validado" Type="smalldatetime" />
+          <Property Name="status_envio" Type="tinyint" Nullable="false" />
+        </EntityType>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
             <PropertyRef Name="consecutivo" />
@@ -839,6 +850,7 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
         <EntityContainer Name="TICKETModelStoreContainer">
           <EntitySet Name="BITACORA_APERTURA" EntityType="Self.BITACORA_APERTURA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_KAPITI" EntityType="Self.BITACORA_ENVIO_KAPITI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_ENVIO_SWIFT_MT103" EntityType="Self.BITACORA_ENVIO_SWIFT_MT103" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT202" EntityType="Self.BITACORA_ENVIO_SWIFT_MT202" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ERRORES_MAPEO" EntityType="Self.BITACORA_ERRORES_MAPEO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BITACORA_ERRORES_TICKET" EntityType="Self.BITACORA_ERRORES_TICKET" Schema="dbo" store:Type="Tables" />
@@ -1175,6 +1187,7 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySet Name="SALDOS_KAPITI_1" EntityType="TICKETModel.SALDOS_KAPITI_1" />
           <EntitySet Name="BITACORA_ERRORES_TICKET" EntityType="TICKETModel.BITACORA_ERRORES_TICKET" />
           <EntitySet Name="SALDOS_KAPITI" EntityType="TICKETModel.SALDOS_KAPITI" />
+          <EntitySet Name="BITACORA_ENVIO_SWIFT_MT103" EntityType="TICKETModel.BITACORA_ENVIO_SWIFT_MT103" />
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -2021,6 +2034,17 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <Property Name="numero_registros" Type="Int32" Nullable="false" />
           <Property Name="fin_registro" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
+        <EntityType Name="BITACORA_ENVIO_SWIFT_MT103">
+          <Key>
+            <PropertyRef Name="consecutivo_reporte" />
+          </Key>
+          <Property Name="consecutivo_reporte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="operacion" Type="Int32" Nullable="false" />
+          <Property Name="archivo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_envio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_validado" Type="DateTime" Precision="0" />
+          <Property Name="status_envio" Type="Byte" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2574,6 +2598,18 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
                 <ScalarProperty Name="sufijo" ColumnName="sufijo" />
                 <ScalarProperty Name="cuenta_cliente" ColumnName="cuenta_cliente" />
                 <ScalarProperty Name="agencia" ColumnName="agencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_ENVIO_SWIFT_MT103">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_ENVIO_SWIFT_MT103">
+              <MappingFragment StoreEntitySet="BITACORA_ENVIO_SWIFT_MT103">
+                <ScalarProperty Name="status_envio" ColumnName="status_envio" />
+                <ScalarProperty Name="fecha_validado" ColumnName="fecha_validado" />
+                <ScalarProperty Name="fecha_envio" ColumnName="fecha_envio" />
+                <ScalarProperty Name="archivo" ColumnName="archivo" />
+                <ScalarProperty Name="operacion" ColumnName="operacion" />
+                <ScalarProperty Name="consecutivo_reporte" ColumnName="consecutivo_reporte" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
