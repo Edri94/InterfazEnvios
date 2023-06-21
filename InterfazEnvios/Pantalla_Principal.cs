@@ -363,6 +363,7 @@ namespace InterfazEnvios
                 string ds2 = bdCatalogos.Database.Connection.DataSource;
                 string ds3 = bdFuncionario.Database.Connection.DataSource;
 
+                USUARIO usuario = bdCatalogos.USUARIO.FirstOrDefault();
 
 
                 if (ds1 == ds2 && ds2 == ds3)
@@ -1237,6 +1238,12 @@ namespace InterfazEnvios
         private void btnInfo_Click(object sender, EventArgs e)
         {
             frmInformacion frm = new frmInformacion(this);
+            frm.ShowDialog();
+        }
+
+        private void btnMonitoreo_Click(object sender, EventArgs e)
+        {
+            frmMonitoreo frm = new frmMonitoreo(this);
             frm.ShowDialog();
         }
     }

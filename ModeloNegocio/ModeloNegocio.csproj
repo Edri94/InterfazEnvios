@@ -76,6 +76,7 @@
     <Compile Include="Ticket.cs" />
     <Compile Include="Tran.cs" />
     <Compile Include="TranMT.cs" />
+    <Compile Include="Transferencia.cs" />
     <Compile Include="Transferencias.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

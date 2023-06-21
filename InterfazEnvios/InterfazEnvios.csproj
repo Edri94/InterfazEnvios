@@ -206,6 +206,7 @@
     <Content Include="15799038.ico" />
     <None Include="Resources\cambiar.png" />
     <None Include="Resources\comprobado.png" />
+    <None Include="Resources\grayLigth.png" />
     <Content Include="Resources\logo-bbva-960x640.jpg" />
   </ItemGroup>
   <ItemGroup>

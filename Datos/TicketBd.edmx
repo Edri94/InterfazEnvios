@@ -77,6 +77,15 @@
           <Property Name="fecha" Type="smalldatetime" Nullable="false" />
           <Property Name="no_reg_proces" Type="int" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'TICKET.dbo.BITACORA_IE_TRANSACCIONES' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="BITACORA_IE_TRANSACCIONES">
+          <Property Name="ID_TRANSACCION" Type="int" />
+          <Property Name="NOM_TRANSACCION" Type="char" MaxLength="50" />
+          <Property Name="FEC_HOR_ULT_ENVIO" Type="smalldatetime" />
+          <Property Name="FEC_HOR_PROX_ENVIO" Type="smalldatetime" />
+          <Property Name="FECHA_TRAN" Type="smalldatetime" />
+        </EntityType>-->
         <EntityType Name="BITACORA_REPORTE_SWIFT_MT198">
           <Key>
             <PropertyRef Name="no_rep_swift" />
