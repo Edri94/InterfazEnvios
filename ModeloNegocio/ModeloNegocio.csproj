@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CargaSalVen.cs" />
+    <Compile Include="Catalogos.cs" />
     <Compile Include="Datos\StatCarSalVen.cs" />
     <Compile Include="Funciones.cs" />
     <Compile Include="Log.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="MqSeries.cs" />
     <Compile Include="Mt202.cs" />
     <Compile Include="Parametro.cs" />
+    <Compile Include="Pendientes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tdib.cs" />
     <Compile Include="Ticket.cs" />

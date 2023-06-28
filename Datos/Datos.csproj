@@ -89,6 +89,9 @@
     <Compile Include="BITACORA_FECHAS_EJECUCION.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="BITACORA_IE_TRANSACCIONES.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="BITACORA_REPORTE_SWIFT_MT198.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
@@ -172,6 +175,9 @@
     <Compile Include="LIGAS_CR.cs">
       <DependentUpon>FuncionarioBd.tt</DependentUpon>
     </Compile>
+    <Compile Include="NOM_TRANSACCIONES.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
     <Compile Include="NotifyConData.cs" />
     <Compile Include="OPERACION.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
@@ -234,6 +240,9 @@
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="SALDOS_KAPITI_1.cs">
+      <DependentUpon>TicketBd.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_i_Ops_Enviar_Recibir_Result.cs">
       <DependentUpon>TicketBd.tt</DependentUpon>
     </Compile>
     <Compile Include="TicketBd.Context.cs">

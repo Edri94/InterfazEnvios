@@ -78,14 +78,17 @@
           <Property Name="no_reg_proces" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'TICKET.dbo.BITACORA_IE_TRANSACCIONES' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+advertencia 6002: La tabla o vista 'TICKET.dbo.BITACORA_IE_TRANSACCIONES' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="BITACORA_IE_TRANSACCIONES">
-          <Property Name="ID_TRANSACCION" Type="int" />
+          <Key>
+            <PropertyRef Name="ID_TRANSACCION" />
+          </Key>
+          <Property Name="ID_TRANSACCION" Type="int" Nullable="false" />
           <Property Name="NOM_TRANSACCION" Type="char" MaxLength="50" />
           <Property Name="FEC_HOR_ULT_ENVIO" Type="smalldatetime" />
           <Property Name="FEC_HOR_PROX_ENVIO" Type="smalldatetime" />
           <Property Name="FECHA_TRAN" Type="smalldatetime" />
-        </EntityType>-->
+        </EntityType>
         <EntityType Name="BITACORA_REPORTE_SWIFT_MT198">
           <Key>
             <PropertyRef Name="no_rep_swift" />
@@ -221,6 +224,13 @@ advertencia 6002: La tabla o vista 'TICKET.dbo.HOLD' no tiene definida ninguna c
           </Key>
           <Property Name="subtipo_cd" Type="tinyint" Nullable="false" />
           <Property Name="ref_tipo_cd" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NOM_TRANSACCIONES">
+          <Key>
+            <PropertyRef Name="ID_TRANSACCION" />
+          </Key>
+          <Property Name="ID_TRANSACCION" Type="int" Nullable="false" />
+          <Property Name="NOM_TRANSACCION" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="OPERACION">
           <Key>
@@ -677,6 +687,18 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NomTransaccion">
+          <End Role="NOM_TRANSACCIONES" Type="Self.NOM_TRANSACCIONES" Multiplicity="1" />
+          <End Role="BITACORA_IE_TRANSACCIONES" Type="Self.BITACORA_IE_TRANSACCIONES" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NOM_TRANSACCIONES">
+              <PropertyRef Name="ID_TRANSACCION" />
+            </Principal>
+            <Dependent Role="BITACORA_IE_TRANSACCIONES">
+              <PropertyRef Name="ID_TRANSACCION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OP__OP_DEF">
           <End Role="OPERACION_DEFINIDA" Type="Self.OPERACION_DEFINIDA" Multiplicity="1" />
           <End Role="OPERACION" Type="Self.OPERACION" Multiplicity="*" />
@@ -852,6 +874,11 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <Parameter Name="agencia1" Type="int" Mode="In" />
           <Parameter Name="agencia3" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_i_Ops_Enviar_Recibir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sendReceive" Type="int" Mode="In" />
+          <Parameter Name="Seccion" Type="int" Mode="In" />
+          <Parameter Name="fecha1" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_obtiene_dia_habil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="smalldatetime" Mode="In" />
           <Parameter Name="Dias" Type="int" Mode="In" />
@@ -873,6 +900,7 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySet Name="DEPOSITO_PME" EntityType="Self.DEPOSITO_PME" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HOLD_RETIRO" EntityType="Self.HOLD_RETIRO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INTERFACE_KAPITI_CD" EntityType="Self.INTERFACE_KAPITI_CD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NOM_TRANSACCIONES" EntityType="Self.NOM_TRANSACCIONES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPERACION" EntityType="Self.OPERACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPERACION_DEFINIDA" EntityType="Self.OPERACION_DEFINIDA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPERACION_PIU" EntityType="Self.OPERACION_PIU" Schema="dbo" store:Type="Tables" />
@@ -891,6 +919,15 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySet Name="TIPO_DOCUMENTO" EntityType="Self.TIPO_DOCUMENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_MANTENIMIENTO_CUENTA" EntityType="Self.TIPO_MANTENIMIENTO_CUENTA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPO_REPORTE_SWIFT" EntityType="Self.TIPO_REPORTE_SWIFT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BITACORA_IE_TRANSACCIONES" EntityType="Self.BITACORA_IE_TRANSACCIONES" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BITACORA_IE_TRANSACCIONES].[ID_TRANSACCION] AS [ID_TRANSACCION], 
+    [BITACORA_IE_TRANSACCIONES].[NOM_TRANSACCION] AS [NOM_TRANSACCION], 
+    [BITACORA_IE_TRANSACCIONES].[FEC_HOR_ULT_ENVIO] AS [FEC_HOR_ULT_ENVIO], 
+    [BITACORA_IE_TRANSACCIONES].[FEC_HOR_PROX_ENVIO] AS [FEC_HOR_PROX_ENVIO], 
+    [BITACORA_IE_TRANSACCIONES].[FECHA_TRAN] AS [FECHA_TRAN]
+    FROM [dbo].[BITACORA_IE_TRANSACCIONES] AS [BITACORA_IE_TRANSACCIONES]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="HOLD" EntityType="Self.HOLD" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [HOLD].[producto_contratado] AS [producto_contratado], 
@@ -987,6 +1024,10 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <AssociationSet Name="FK_HOLD_RET_PC" Association="Self.FK_HOLD_RET_PC">
             <End Role="PRODUCTO_CONTRATADO" EntitySet="PRODUCTO_CONTRATADO" />
             <End Role="HOLD_RETIRO" EntitySet="HOLD_RETIRO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NomTransaccion" Association="Self.FK_NomTransaccion">
+            <End Role="NOM_TRANSACCIONES" EntitySet="NOM_TRANSACCIONES" />
+            <End Role="BITACORA_IE_TRANSACCIONES" EntitySet="BITACORA_IE_TRANSACCIONES" />
           </AssociationSet>
           <AssociationSet Name="FK_OP__OP_DEF" Association="Self.FK_OP__OP_DEF">
             <End Role="OPERACION_DEFINIDA" EntitySet="OPERACION_DEFINIDA" />
@@ -1197,6 +1238,17 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <EntitySet Name="BITACORA_ERRORES_TICKET" EntityType="TICKETModel.BITACORA_ERRORES_TICKET" />
           <EntitySet Name="SALDOS_KAPITI" EntityType="TICKETModel.SALDOS_KAPITI" />
           <EntitySet Name="BITACORA_ENVIO_SWIFT_MT103" EntityType="TICKETModel.BITACORA_ENVIO_SWIFT_MT103" />
+          <EntitySet Name="BITACORA_IE_TRANSACCIONES" EntityType="TICKETModel.BITACORA_IE_TRANSACCIONES" />
+          <EntitySet Name="NOM_TRANSACCIONES" EntityType="TICKETModel.NOM_TRANSACCIONES" />
+          <AssociationSet Name="FK_NomTransaccion" Association="TICKETModel.FK_NomTransaccion">
+            <End Role="NOM_TRANSACCIONES" EntitySet="NOM_TRANSACCIONES" />
+            <End Role="BITACORA_IE_TRANSACCIONES" EntitySet="BITACORA_IE_TRANSACCIONES" />
+          </AssociationSet>
+          <FunctionImport Name="sp_i_Ops_Enviar_Recibir" ReturnType="Collection(TICKETModel.sp_i_Ops_Enviar_Recibir_Result)">
+            <Parameter Name="sendReceive" Mode="In" Type="Int32" />
+            <Parameter Name="Seccion" Mode="In" Type="Int32" />
+            <Parameter Name="fecha1" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
           <Key>
@@ -2054,6 +2106,59 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
           <Property Name="fecha_validado" Type="DateTime" Precision="0" />
           <Property Name="status_envio" Type="Byte" Nullable="false" />
         </EntityType>
+        <EntityType Name="BITACORA_IE_TRANSACCIONES">
+          <Key>
+            <PropertyRef Name="ID_TRANSACCION" />
+          </Key>
+          <Property Name="ID_TRANSACCION" Type="Int32" Nullable="false" />
+          <Property Name="NOM_TRANSACCION" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="FEC_HOR_ULT_ENVIO" Type="DateTime" Precision="0" />
+          <Property Name="FEC_HOR_PROX_ENVIO" Type="DateTime" Precision="0" />
+          <Property Name="FECHA_TRAN" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="NOM_TRANSACCIONES" Relationship="TICKETModel.FK_NomTransaccion" FromRole="BITACORA_IE_TRANSACCIONES" ToRole="NOM_TRANSACCIONES" />
+        </EntityType>
+        <EntityType Name="NOM_TRANSACCIONES">
+          <Key>
+            <PropertyRef Name="ID_TRANSACCION" />
+          </Key>
+          <Property Name="ID_TRANSACCION" Type="Int32" Nullable="false" />
+          <Property Name="NOM_TRANSACCION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BITACORA_IE_TRANSACCIONES" Relationship="TICKETModel.FK_NomTransaccion" FromRole="NOM_TRANSACCIONES" ToRole="BITACORA_IE_TRANSACCIONES" />
+        </EntityType>
+        <Association Name="FK_NomTransaccion">
+          <End Type="TICKETModel.NOM_TRANSACCIONES" Role="NOM_TRANSACCIONES" Multiplicity="1" />
+          <End Type="TICKETModel.BITACORA_IE_TRANSACCIONES" Role="BITACORA_IE_TRANSACCIONES" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NOM_TRANSACCIONES">
+              <PropertyRef Name="ID_TRANSACCION" />
+            </Principal>
+            <Dependent Role="BITACORA_IE_TRANSACCIONES">
+              <PropertyRef Name="ID_TRANSACCION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_i_Ops_Enviar_Recibir_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+          <Property Type="Int32" Name="Column2" Nullable="true" />
+          <Property Type="Int32" Name="Column3" Nullable="true" />
+          <Property Type="Int32" Name="Column4" Nullable="true" />
+          <Property Type="Int32" Name="Column5" Nullable="true" />
+          <Property Type="Int32" Name="Column6" Nullable="true" />
+          <Property Type="Int32" Name="Column7" Nullable="true" />
+          <Property Type="Int32" Name="Column8" Nullable="true" />
+          <Property Type="Int32" Name="Column9" Nullable="true" />
+          <Property Type="Int32" Name="Column10" Nullable="true" />
+          <Property Type="Int32" Name="Column11" Nullable="true" />
+          <Property Type="Int32" Name="Column12" Nullable="true" />
+          <Property Type="Int32" Name="Column13" Nullable="true" />
+          <Property Type="Int32" Name="Column14" Nullable="true" />
+          <Property Type="Int32" Name="Column15" Nullable="true" />
+          <Property Type="Int32" Name="Column16" Nullable="true" />
+          <Property Type="Int32" Name="Column17" Nullable="true" />
+          <Property Type="Int32" Name="Column18" Nullable="true" />
+          <Property Type="Int32" Name="Column19" Nullable="true" />
+          <Property Type="Int32" Name="Column20" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2622,6 +2727,51 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BITACORA_IE_TRANSACCIONES">
+            <EntityTypeMapping TypeName="TICKETModel.BITACORA_IE_TRANSACCIONES">
+              <MappingFragment StoreEntitySet="BITACORA_IE_TRANSACCIONES">
+                <ScalarProperty Name="FECHA_TRAN" ColumnName="FECHA_TRAN" />
+                <ScalarProperty Name="FEC_HOR_PROX_ENVIO" ColumnName="FEC_HOR_PROX_ENVIO" />
+                <ScalarProperty Name="FEC_HOR_ULT_ENVIO" ColumnName="FEC_HOR_ULT_ENVIO" />
+                <ScalarProperty Name="NOM_TRANSACCION" ColumnName="NOM_TRANSACCION" />
+                <ScalarProperty Name="ID_TRANSACCION" ColumnName="ID_TRANSACCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NOM_TRANSACCIONES">
+            <EntityTypeMapping TypeName="TICKETModel.NOM_TRANSACCIONES">
+              <MappingFragment StoreEntitySet="NOM_TRANSACCIONES">
+                <ScalarProperty Name="NOM_TRANSACCION" ColumnName="NOM_TRANSACCION" />
+                <ScalarProperty Name="ID_TRANSACCION" ColumnName="ID_TRANSACCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_i_Ops_Enviar_Recibir" FunctionName="TICKETModel.Store.sp_i_Ops_Enviar_Recibir">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TICKETModel.sp_i_Ops_Enviar_Recibir_Result">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="Column2" ColumnName="Column2" />
+                <ScalarProperty Name="Column3" ColumnName="Column3" />
+                <ScalarProperty Name="Column4" ColumnName="Column4" />
+                <ScalarProperty Name="Column5" ColumnName="Column5" />
+                <ScalarProperty Name="Column6" ColumnName="Column6" />
+                <ScalarProperty Name="Column7" ColumnName="Column7" />
+                <ScalarProperty Name="Column8" ColumnName="Column8" />
+                <ScalarProperty Name="Column9" ColumnName="Column9" />
+                <ScalarProperty Name="Column10" ColumnName="Column10" />
+                <ScalarProperty Name="Column11" ColumnName="Column11" />
+                <ScalarProperty Name="Column12" ColumnName="Column12" />
+                <ScalarProperty Name="Column13" ColumnName="Column13" />
+                <ScalarProperty Name="Column14" ColumnName="Column14" />
+                <ScalarProperty Name="Column15" ColumnName="Column15" />
+                <ScalarProperty Name="Column16" ColumnName="Column16" />
+                <ScalarProperty Name="Column17" ColumnName="Column17" />
+                <ScalarProperty Name="Column18" ColumnName="Column18" />
+                <ScalarProperty Name="Column19" ColumnName="Column19" />
+                <ScalarProperty Name="Column20" ColumnName="Column20" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

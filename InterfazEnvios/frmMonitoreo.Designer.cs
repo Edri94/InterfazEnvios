@@ -32,7 +32,7 @@ namespace InterfazEnvios
             this.components = new System.ComponentModel.Container();
             this.tmrMonitor = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnGenerar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -40,7 +40,7 @@ namespace InterfazEnvios
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSalir = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -60,7 +60,7 @@ namespace InterfazEnvios
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btnGenerar);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.pictureBox3);
             this.groupBox1.Controls.Add(this.pictureBox2);
@@ -68,7 +68,7 @@ namespace InterfazEnvios
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnSalir);
             this.groupBox1.Controls.Add(this.panel2);
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -78,14 +78,15 @@ namespace InterfazEnvios
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Operaciones Pendientes por Transferir";
             // 
-            // button2
+            // btnGenerar
             // 
-            this.button2.Location = new System.Drawing.Point(756, 625);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(114, 32);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Generar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnGenerar.Location = new System.Drawing.Point(756, 625);
+            this.btnGenerar.Name = "btnGenerar";
+            this.btnGenerar.Size = new System.Drawing.Size(114, 32);
+            this.btnGenerar.TabIndex = 5;
+            this.btnGenerar.Text = "Generar";
+            this.btnGenerar.UseVisualStyleBackColor = true;
+            this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
             // label7
             // 
@@ -153,14 +154,15 @@ namespace InterfazEnvios
             this.label1.TabIndex = 2;
             this.label1.Text = "En Operacion";
             // 
-            // button1
+            // btnSalir
             // 
-            this.button1.Location = new System.Drawing.Point(1412, 571);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(131, 34);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Salir";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSalir.Location = new System.Drawing.Point(1412, 571);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(131, 34);
+            this.btnSalir.TabIndex = 1;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // panel2
             // 
@@ -209,6 +211,7 @@ namespace InterfazEnvios
             this.dtgvEnviarRecibir.RowTemplate.Height = 28;
             this.dtgvEnviarRecibir.Size = new System.Drawing.Size(968, 406);
             this.dtgvEnviarRecibir.TabIndex = 0;
+            this.dtgvEnviarRecibir.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvEnviarRecibir_CellContentDoubleClick);
             // 
             // panel1
             // 
@@ -262,14 +265,14 @@ namespace InterfazEnvios
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnGenerar;
         private System.Windows.Forms.Label label7;
     }
 }

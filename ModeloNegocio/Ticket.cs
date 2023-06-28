@@ -56,5 +56,30 @@ namespace ModeloNegocio
                 return rstMT202;
             }
         }
+
+        public static List<Datos.BITACORA_IE_TRANSACCIONES> BitacoraIeTransaccionesByFechaTran(DateTime fecha)
+        {
+            using (TICKETEntities contexto = new TICKETEntities())
+            {
+                return contexto.BITACORA_IE_TRANSACCIONES.Where(w => w.FECHA_TRAN == fecha).ToList();
+            }
+        }
+
+        public static int BitacoraIeTransaccionesDeleteByFechaTran(DateTime fecha)
+        {
+            using (TICKETEntities contexto = new TICKETEntities())
+            {
+                contexto.BITACORA_IE_TRANSACCIONES.RemoveRange(contexto.BITACORA_IE_TRANSACCIONES.Where(w => w.FECHA_TRAN == fecha));
+                return contexto.SaveChanges();
+            }
+        }
+
+        public static BITACORA_IE_TRANSACCIONES BitacoraIeTransaccionesByTran(int transaccion, DateTime fecha)
+        {
+            using (TICKETEntities contexto = new TICKETEntities())
+            {
+                return contexto.BITACORA_IE_TRANSACCIONES.Where(w => w.FECHA_TRAN == fecha && w.ID_TRANSACCION == transaccion).FirstOrDefault();
+            }
+        }
     }
 }

@@ -66,6 +66,8 @@ namespace Datos
         public virtual DbSet<BITACORA_ERRORES_TICKET> BITACORA_ERRORES_TICKET { get; set; }
         public virtual DbSet<SALDOS_KAPITI> SALDOS_KAPITI { get; set; }
         public virtual DbSet<BITACORA_ENVIO_SWIFT_MT103> BITACORA_ENVIO_SWIFT_MT103 { get; set; }
+        public virtual DbSet<BITACORA_IE_TRANSACCIONES> BITACORA_IE_TRANSACCIONES { get; set; }
+        public virtual DbSet<NOM_TRANSACCIONES> NOM_TRANSACCIONES { get; set; }
     
         public virtual int sp_i_InfoMT202(string fechaoperacion1, Nullable<int> agencia1, Nullable<int> agencia3)
         {
@@ -95,6 +97,23 @@ namespace Datos
                 new ObjectParameter("Dias", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<System.DateTime>>("sp_obtiene_dia_habil", fechaParameter, diasParameter);
+        }
+    
+        public virtual ObjectResult<sp_i_Ops_Enviar_Recibir_Result> sp_i_Ops_Enviar_Recibir(Nullable<int> sendReceive, Nullable<int> seccion, string fecha1)
+        {
+            var sendReceiveParameter = sendReceive.HasValue ?
+                new ObjectParameter("sendReceive", sendReceive) :
+                new ObjectParameter("sendReceive", typeof(int));
+    
+            var seccionParameter = seccion.HasValue ?
+                new ObjectParameter("Seccion", seccion) :
+                new ObjectParameter("Seccion", typeof(int));
+    
+            var fecha1Parameter = fecha1 != null ?
+                new ObjectParameter("fecha1", fecha1) :
+                new ObjectParameter("fecha1", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_i_Ops_Enviar_Recibir_Result>("sp_i_Ops_Enviar_Recibir", sendReceiveParameter, seccionParameter, fecha1Parameter);
         }
     }
 }

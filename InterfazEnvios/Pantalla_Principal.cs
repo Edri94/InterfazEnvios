@@ -199,12 +199,46 @@ namespace InterfazEnvios
                 tsLblFechaPc.Text = "Fecha Actual: " + DateTime.Now.ToString("dd-MM-yyyy");                       
                 mbTransStatus = true;
 
-                switchButton1.Enabled = false;              
+                switchButton1.Enabled = false;
 
-                if(InicializaVariables())
-                {
+                //********** PRUEBA EjecutaSelectConParametros() *********************
+                //as400 = new ConexionAS400("MMV0000GES", "Mbu98pas", "AS400DES");
 
-                    //***PRUEBAS
+                //OdbcParameter[] parametros = new OdbcParameter[2];
+
+                //parametros[0] = new OdbcParameter("?", 5315109);
+                //parametros[1] = new OdbcParameter("?", 523);
+
+                //DataTable dt = as400.EjecutaSelectConParametros("DEIB5406", "TKTLIB", "LLAVE = ? AND OPTRAN = ?", parametros);
+
+                //foreach (DataRow row in dt.Rows)
+                //{
+                //    string algo1 = row["LLAVE"].ToString();
+                //}
+                //**********************************************************************
+                //********** PRUEBA EjecutaInsert() *********************
+                //as400 = new ConexionAS400("MMV0000GES", "Mbu98pas", "AS400DES");
+
+                //object[] parametros = new object[] { 5315202, 1230326, 25, 4021, 8000, 733940, 690, "AAA1", "BBB1", "CCC1", "DDDD1" };
+
+                //string[] into = { "LLAVE" , "OPFVA", "OPTRAN" , "OPMNTO" , "OPBRN" , "OPCUSN" , "OPSUF" , "OPNAR1" , "OPNAR2" , "OPNAR3" , "OPNAR4"};
+
+                //int afectaciones = as400.EjecutaInsert("DEIB5406", "TKTLIB", into, parametros);
+                //**********************************************************************
+                //********** PRUEBA EjecutaUpdate() *********************
+                //as400 = new ConexionAS400("MMV0000GES", "Mbu98pas", "AS400DES");
+
+                //object[] parametros = new object[] { 5315201, 1230325, 24, 4001, 8000, 733935, 688, "AAA", "BBB", "CCC", "DDDD" };
+
+                //string set = "OPNAR1, OPNAR2";
+                //string where = "LLAVE = ? AND ";
+
+                //int afectaciones = as400.EjecutaUpdate("DEIB5406", "TKTLIB", set, where, parametros);
+                //**********************************************************************
+
+                if (InicializaVariables())
+                {                 
+                   
                     //string ruta = @"\\150.100.195.44\Procesos2\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //string ruta = @"D:\Procesos\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //confg.mqEscribir = "QLD.CEDAMH.RESP";
@@ -339,6 +373,7 @@ namespace InterfazEnvios
                 string strValorTemporal;
                 DateTime dtValorTemporal;
                 TimeSpan hrTemporal;
+
 
                 confg = new Configuracion();
                 confg.EncryptConnectionString();
@@ -523,11 +558,11 @@ namespace InterfazEnvios
 
                 confg.noIntentos = Int32.Parse(confg.getValueAppConfig("INTENTOSKAPITITXT", "PARAMETRO"));
 
+
                 confg.usr400 = crpt.VerificaClaves(2, confg.getValueAppConfig("Usuario", "AS400"));
                 confg.pswd400 = crpt.VerificaClaves(2, confg.getValueAppConfig("Password", "AS400"));
                 confg.dsn400 = crpt.VerificaClaves(2, confg.getValueAppConfig("DSN", "AS400"));
 
-            
                 RevisaExclusiones();
 
                 gsEnvioXML = confg.getValueAppConfig("ENVIOXML", "PARAMETRO");
@@ -882,21 +917,6 @@ namespace InterfazEnvios
             }
         }
 
-        private void ConectarAS400()
-        {
-            as400 = new ConexionAS400(confg.usr400, confg.pswd400, confg.dsn400);
-
-            //[PRUEBAS] consulta a AS400***************************************************
-            DataTable dt = as400.EjecutaSelect("SELECT getdate() FROM TKTLIB.DEIB5406");
-
-            foreach (DataRow row in dt.Rows)
-            {
-                string algo1 = row[0].ToString();
-                string algo2 = row[1].ToString();
-            }
-            //*****************************************************************************
-
-        }
 
         private void PararInterface()
         {           

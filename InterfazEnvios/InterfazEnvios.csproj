@@ -124,6 +124,12 @@
     <Compile Include="frmParametros.Designer.cs">
       <DependentUpon>frmParametros.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPendientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPendientes.Designer.cs">
+      <DependentUpon>frmPendientes.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSolicPassword.cs">
       <SubType>Form</SubType>
     </Compile>

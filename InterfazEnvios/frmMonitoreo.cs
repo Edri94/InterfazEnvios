@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Core.Objects;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -56,15 +57,21 @@ namespace InterfazEnvios
 
         public bool Bitacora_IE;
 
+        List<string> strCuenta;
+
 
         Pantalla_Principal frmp;
+        frmPendientes pendientes;
 
         DataTable dtMarco;
         DataTable dtEnviarRecibir;
 
+        Datos.TICKETEntities dbTicket;
+
         public frmMonitoreo(Pantalla_Principal frmp)
         {
             this.frmp = frmp;
+            dbTicket = new Datos.TICKETEntities();
 
             InitializeComponent();
         }
@@ -73,6 +80,7 @@ namespace InterfazEnvios
         {
             try
             {
+                //Suponiendo que se hizo click para validar password  
                 switch (LnSeleccion)
                 {
                     case 0:
@@ -147,6 +155,7 @@ namespace InterfazEnvios
                         break;
                 }
 
+                //Load()
                 PreparaGrid();
                 IniciaBitacoraTransf();
             }
@@ -158,7 +167,49 @@ namespace InterfazEnvios
 
         private void IniciaBitacoraTransf()
         {
-            //throw new NotImplementedException();
+            int s, registros;
+            DateTime fecha = DateTime.Now;
+
+            int bits = ModeloNegocio.Ticket.BitacoraIeTransaccionesByFechaTran(fecha).Count;
+
+            if(bits == 17)
+            {
+                Actualiza(fecha, bits);
+                return;
+            }
+            else if (bits == 0)
+            {
+
+            }
+            else if (bits > 17)
+            {
+                
+            }
+
+
+        }
+
+        private void Actualiza(DateTime fecha, int bits)
+        {
+            int s;
+
+            if (bits < 1)
+            {
+                NuevoParametro();
+                return;
+            }
+            else
+            {
+                for (int i = 0; i <= bits; i++)
+                {
+
+                }
+            }         
+        }
+
+        private void NuevoParametro()
+        {
+            throw new NotImplementedException();
         }
 
         private void PreparaGrid()
@@ -215,9 +266,38 @@ namespace InterfazEnvios
             dtgvEnviarRecibir.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvEnviarRecibir.Refresh();
 
+            DateTime fecha_param = new DateTime(2011, 08, 10);
 
-            
+            int transacciones = ModeloNegocio.Ticket.BitacoraIeTransaccionesByFechaTran(fecha_param).Count();
 
+
+            if(transacciones == 17)
+            {
+                Actualiza(transacciones, fecha_param);
+            }
+            else if(transacciones == 0)
+            {
+                return;
+            }
+            else if(transacciones > 17)
+            {
+                int borrados = ModeloNegocio.Ticket.BitacoraIeTransaccionesDeleteByFechaTran(fecha_param);
+            }
+       
+
+        }
+
+        private void Actualiza(int transacciones, DateTime fecha)
+        {
+            for (int i = 1; i <= transacciones; i++)
+            {
+                Datos.BITACORA_IE_TRANSACCIONES bit = ModeloNegocio.Ticket.BitacoraIeTransaccionesByTran(i, fecha);
+
+                if(bit.FEC_HOR_ULT_ENVIO.HasValue == true)
+                {
+                    dtEnviarRecibir.Rows[4][i] = bit.FEC_HOR_ULT_ENVIO.Value.ToString("dd-MM-yyyy");
+                }
+            }
         }
 
         private void LlenaDtgvEnviarRecibir(int columnas, int tipos)
@@ -232,6 +312,58 @@ namespace InterfazEnvios
                 }
                 dtEnviarRecibir.Rows.Add(dr);
             }
+        }
+
+        private void dtgvEnviarRecibir_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ModeloNegocio.Pendientes.CalculaInfo(e.RowIndex, e.ColumnIndex);
+        }
+
+        private void btnGenerar_Click(object sender, EventArgs e)
+        {
+            GeneraNemShort();
+        }
+
+        private void GeneraNemShort()
+        {
+            int cont;
+            string strNemonico = "", strShortName= "";
+
+            for(cont = 0; cont <= 9; cont++)
+            {
+                if(strCuenta[cont] == "")
+                {
+                    return;
+                }
+
+                //strNemonico = CTIBDLL.fgMnemonico(strNombre(cont), cnnViva, strCuenta(cont), 1)
+                //strShortname = CTIBDLL.fgShortName(strNombre(cont), cnnViva, strCuenta(cont), 1)
+
+                if(strNemonico != "")
+                {
+                    Datos.CLIENTE cliente = ModeloNegocio.Catalogos.ClienteByCuenta(strCuenta[cont]);
+                    cliente.mnemonico = strNemonico;
+                    ModeloNegocio.Catalogos.ActualizaCliente(cliente);
+                }
+
+                if(strShortName != "")
+                {
+                    Datos.CLIENTE cliente = ModeloNegocio.Catalogos.ClienteByCuenta(strCuenta[cont]);
+                    cliente.shortname = strShortName;
+                    ModeloNegocio.Catalogos.ActualizaCliente(cliente);
+                }
+
+                if(strNemonico != "" && strShortName != "")
+                {
+                    Datos.CLIENTE cliente = ModeloNegocio.Catalogos.ClienteByCuenta(strCuenta[cont]);
+                    ModeloNegocio.Catalogos.BorrarClienteByCliente(cliente);
+                }
+            }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
