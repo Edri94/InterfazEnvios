@@ -202,14 +202,14 @@ namespace InterfazEnvios
                 switchButton1.Enabled = false;
 
                 //********** PRUEBA EjecutaSelectConParametros() *********************
-                //as400 = new ConexionAS400("MMV0000GES", "Mbu98pas", "AS400DES");
+                as400 = new ConexionAS400("MI05332", "Edri0629", "AS400DES");
 
                 //OdbcParameter[] parametros = new OdbcParameter[2];
 
-                //parametros[0] = new OdbcParameter("?", 5315109);
-                //parametros[1] = new OdbcParameter("?", 523);
+                //parametros[0] = new OdbcParameter("?", 2003679);
+                //parametros[1] = new OdbcParameter("?", 522);
 
-                //DataTable dt = as400.EjecutaSelectConParametros("DEIB5406", "TKTLIB", "LLAVE = ? AND OPTRAN = ?", parametros);
+                //DataTable dt = as400.EjecutaSelectConParametros("DEIB2491", "TKTLIB", "LLAVE = ? AND OPTRAN = ?", parametros);
 
                 //foreach (DataRow row in dt.Rows)
                 //{
@@ -217,28 +217,23 @@ namespace InterfazEnvios
                 //}
                 //**********************************************************************
                 //********** PRUEBA EjecutaInsert() *********************
-                //as400 = new ConexionAS400("MMV0000GES", "Mbu98pas", "AS400DES");
-
                 //object[] parametros = new object[] { 5315202, 1230326, 25, 4021, 8000, 733940, 690, "AAA1", "BBB1", "CCC1", "DDDD1" };
 
-                //string[] into = { "LLAVE" , "OPFVA", "OPTRAN" , "OPMNTO" , "OPBRN" , "OPCUSN" , "OPSUF" , "OPNAR1" , "OPNAR2" , "OPNAR3" , "OPNAR4"};
+                //string[] into = { "LLAVE", "OPFVA", "OPTRAN", "OPMNTO", "OPBRN", "OPCUSN", "OPSUF", "OPNAR1", "OPNAR2", "OPNAR3", "OPNAR4" };
 
-                //int afectaciones = as400.EjecutaInsert("DEIB5406", "TKTLIB", into, parametros);
+                //int afectaciones = as400.EjecutaInsert("DEIB2491", "TKTLIB", into, parametros);
                 //**********************************************************************
                 //********** PRUEBA EjecutaUpdate() *********************
-                //as400 = new ConexionAS400("MMV0000GES", "Mbu98pas", "AS400DES");
+                //object[] parametros = new object[] { 522, 8001, 2003679 };
 
-                //object[] parametros = new object[] { 5315201, 1230325, 24, 4001, 8000, 733935, 688, "AAA", "BBB", "CCC", "DDDD" };
+                //string[] set = { "OPTRAN", "OPBRN" };
+                //string where = "LLAVE = ?";
 
-                //string set = "OPNAR1, OPNAR2";
-                //string where = "LLAVE = ? AND ";
-
-                //int afectaciones = as400.EjecutaUpdate("DEIB5406", "TKTLIB", set, where, parametros);
+                //int afectaciones = as400.EjecutaUpdate("DEIB2491", "TKTLIB", set, where, parametros);
                 //**********************************************************************
 
                 if (InicializaVariables())
-                {                 
-                   
+                {                                   
                     //string ruta = @"\\150.100.195.44\Procesos2\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //string ruta = @"D:\Procesos\Interfaces\InterfazAgencias\Swift\PruebaXML.ITK";
                     //confg.mqEscribir = "QLD.CEDAMH.RESP";

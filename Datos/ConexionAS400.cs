@@ -147,8 +147,16 @@ namespace Datos
             }
         }
 
-
-        public int EjecutaUpdate(string archivo, string libreria, string set, string where, object[] parametros)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="archivo">Tabla</param>
+        /// <param name="libreria">Esquema</param>
+        /// <param name="set"></param>
+        /// <param name="where"></param>
+        /// <param name="parametros"></param>
+        /// <returns></returns>
+        public int EjecutaUpdate(string archivo, string libreria, string[] set, string where, object[] parametros)
         {
 
             using (OdbcConnection cnn = new OdbcConnection(this.connection_str))
@@ -159,13 +167,13 @@ namespace Datos
 
                 string values = "";
 
-                for (int i = 0; i < parametros.Count(); i++)
+                for (int i = 0; i < set.Count(); i++)
                 {
-                    values += ",?";
+                    values += $",{set[i]} = ?";
                 }
                 values = values.Remove(0, 1);
 
-                DbCommand.CommandText = $"UPDATE {libreria}.{archivo} SET {set} WHERE {where}";
+                DbCommand.CommandText = $"UPDATE {libreria}.{archivo} SET {values} WHERE {where}";
 
                 OdbcParameter[] lista_parametros = new OdbcParameter[parametros.Count()];
 

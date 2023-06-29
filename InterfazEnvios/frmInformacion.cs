@@ -18,7 +18,7 @@ namespace InterfazEnvios
         public frmInformacion(Pantalla_Principal frmp)
         {
             this.frmp = frmp;
-
+       
             InitializeComponent();
         }
 
