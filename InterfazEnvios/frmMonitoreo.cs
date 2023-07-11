@@ -179,7 +179,7 @@ namespace InterfazEnvios
             }
             else if (bits == 0)
             {
-
+                NuevoParametro();
             }
             else if (bits > 17)
             {
@@ -191,20 +191,10 @@ namespace InterfazEnvios
 
         private void Actualiza(DateTime fecha, int bits)
         {
-            int s;
-
-            if (bits < 1)
+            for (int i = 0; i < bits; i++)
             {
-                NuevoParametro();
-                return;
-            }
-            else
-            {
-                for (int i = 0; i <= bits; i++)
-                {
 
-                }
-            }         
+            }     
         }
 
         private void NuevoParametro()

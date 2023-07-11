@@ -115,5 +115,35 @@ namespace Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_i_Ops_Enviar_Recibir_Result>("sp_i_Ops_Enviar_Recibir", sendReceiveParameter, seccionParameter, fecha1Parameter);
         }
+    
+        public virtual int sp_aplica_ops_pendientes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_aplica_ops_pendientes");
+        }
+    
+        public virtual ObjectResult<string> sp_update_saldos_contingencia(Nullable<int> agencia, Nullable<System.DateTime> fechaHoy, Nullable<System.DateTime> fechaAnterior, Nullable<short> usuario, Nullable<short> concepto)
+        {
+            var agenciaParameter = agencia.HasValue ?
+                new ObjectParameter("agencia", agencia) :
+                new ObjectParameter("agencia", typeof(int));
+    
+            var fechaHoyParameter = fechaHoy.HasValue ?
+                new ObjectParameter("fechaHoy", fechaHoy) :
+                new ObjectParameter("fechaHoy", typeof(System.DateTime));
+    
+            var fechaAnteriorParameter = fechaAnterior.HasValue ?
+                new ObjectParameter("fechaAnterior", fechaAnterior) :
+                new ObjectParameter("fechaAnterior", typeof(System.DateTime));
+    
+            var usuarioParameter = usuario.HasValue ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(short));
+    
+            var conceptoParameter = concepto.HasValue ?
+                new ObjectParameter("concepto", concepto) :
+                new ObjectParameter("concepto", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_update_saldos_contingencia", agenciaParameter, fechaHoyParameter, fechaAnteriorParameter, usuarioParameter, conceptoParameter);
+        }
     }
 }

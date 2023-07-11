@@ -869,6 +869,7 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_aplica_ops_pendientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_i_InfoMT202" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechaoperacion1" Type="varchar" Mode="In" />
           <Parameter Name="agencia1" Type="int" Mode="In" />
@@ -882,6 +883,13 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
         <Function Name="sp_obtiene_dia_habil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fecha" Type="smalldatetime" Mode="In" />
           <Parameter Name="Dias" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_update_saldos_contingencia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="agencia" Type="int" Mode="In" />
+          <Parameter Name="fechaHoy" Type="smalldatetime" Mode="In" />
+          <Parameter Name="fechaAnterior" Type="smalldatetime" Mode="In" />
+          <Parameter Name="usuario" Type="smallint" Mode="In" />
+          <Parameter Name="concepto" Type="smallint" Mode="In" />
         </Function>
         <EntityContainer Name="TICKETModelStoreContainer">
           <EntitySet Name="BITACORA_APERTURA" EntityType="Self.BITACORA_APERTURA" Schema="dbo" store:Type="Tables" />
@@ -1248,6 +1256,14 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
             <Parameter Name="sendReceive" Mode="In" Type="Int32" />
             <Parameter Name="Seccion" Mode="In" Type="Int32" />
             <Parameter Name="fecha1" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_aplica_ops_pendientes" />
+          <FunctionImport Name="sp_update_saldos_contingencia" ReturnType="Collection(String)">
+            <Parameter Name="agencia" Mode="In" Type="Int32" />
+            <Parameter Name="fechaHoy" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaAnterior" Mode="In" Type="DateTime" />
+            <Parameter Name="usuario" Mode="In" Type="Int16" />
+            <Parameter Name="concepto" Mode="In" Type="Int16" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="BITACORA_ENVIO_SWIFT_MT202">
@@ -2772,6 +2788,8 @@ advertencia 6002: La tabla o vista 'TICKET.Transferencia.SALDOS_KAPITI_1' no tie
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_aplica_ops_pendientes" FunctionName="TICKETModel.Store.sp_aplica_ops_pendientes" />
+          <FunctionImportMapping FunctionImportName="sp_update_saldos_contingencia" FunctionName="TICKETModel.Store.sp_update_saldos_contingencia" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using System.Data.Entity.Core.Objects;
 using System.Data.Odbc;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -201,8 +202,15 @@ namespace InterfazEnvios
 
                 switchButton1.Enabled = false;
 
+                //*********PRUEBA SP EJECUCION *********************************
+                //using(TICKETEntities  contexto = new TICKETEntities())
+                //{
+                //    contexto.Database.CommandTimeout = 300;
+                //    ObjectResult<string> respuesta = contexto.sp_update_saldos_contingencia(1, DateTime.Now, DateTime.Now.AddDays(-1), 1, 1);
+                //}
+                //****************************************************************
                 //********** PRUEBA EjecutaSelectConParametros() *********************
-                as400 = new ConexionAS400("MI05332", "Edri0629", "AS400DES");
+                //as400 = new ConexionAS400("MI05332", "Edri0629", "AS400DES");
 
                 //OdbcParameter[] parametros = new OdbcParameter[2];
 
